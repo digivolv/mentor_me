@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS messages CASCADE;
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY NOT NULL,
+  sender_id INTEGER REFERENCES users(id) on DELETE CASCADE,
+  recipient_id INTEGER REFERENCES users(id) on DELETE CASCADE,
+  user_message VARCHAR(255),
+  sent_at TIMESTAMP DEFAULT NOW()
+);
