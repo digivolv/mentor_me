@@ -1,4 +1,7 @@
-import React from "react";
+import { React, useState } from "react";
+import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
+import { List } from "@mui/material";
 
 const SearchBar = (props) => {
   const styles = {
@@ -9,10 +12,26 @@ const SearchBar = (props) => {
     textAlign: "left",
   };
 
+  const [inputText, setInputText] = useState("");
+  let inputHandler = (e) => {
+    //convert input text to lower case
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
+
   return (
-    <div style={styles}>
-      <h3>Search Bar</h3>
-      <button>Search</button>
+    <div className="main">
+      <h3>Find a Mentor:</h3>
+      <div className="search">
+        <TextField
+          id="outlined-basic"
+          onChange={inputHandler}
+          variant="outlined"
+          fullWidth
+          label="Search"
+        />
+      </div>
+      <List input={inputText} />
     </div>
   );
 };
