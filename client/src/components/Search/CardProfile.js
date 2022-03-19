@@ -4,7 +4,12 @@ const CardProfile = (props) => {
   const { id, email, password } = props;
 
   const styles = {
-    border: "1px solid rgba(0, 0, 0, 0.05)",
+    border: "1px solid rgba(0, 0, 0, 0.5)",
+    marginLeft: "600px",
+    marginBottom: "50px",
+    paddingLeft: "15px",
+    textAlign: "left",
+    // margin: "0px 100px",
   };
 
   return (
