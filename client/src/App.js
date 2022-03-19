@@ -6,6 +6,8 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Search from "./components/Search";
+import Session from "./components/Session/Session";
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/sessions" element={<Session />} />
       </Routes>
     </BrowserRouter>
   );
