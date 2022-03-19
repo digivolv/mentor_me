@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from "react";
-import CardProfile from "./CardProfile";
 import axios from "axios";
+import CardProfile from "./CardProfile";
+import SearchBar from "./SearchBar";
+import Filter from "./Filter";
 
 function Search() {
   const [users, setUsers] = useState([]);
@@ -23,6 +25,8 @@ function Search() {
     <div>
       <h1> Search Page Here </h1>
       <div className="App">
+        <SearchBar />
+        <Filter />
         {users.map((user) => {
           return (
             <CardProfile
