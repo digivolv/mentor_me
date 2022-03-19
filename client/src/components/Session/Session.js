@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
 import { useNavigate } from "react-router-dom";
-import { Rating } from "@mui/material";
+import { Rating, Button } from "@mui/material";
 
 import axios from "axios";
 
@@ -85,6 +85,7 @@ function Session() {
             name="message"
             type="text"
             className="form-control"
+            required
             // placeholder="Please write a brief description of how your message went with your mentor"
             value={state.message}
             onInput={(event) =>
@@ -93,7 +94,16 @@ function Session() {
           ></input>
           <label for="rating">Rating ( 0 and 5):</label>
 
-          <input
+          <Rating
+            name="half-rating"
+            defaultValue={2.5}
+            precision={0.5}
+            value={state.rating}
+            onChange={(event) =>
+              setState({ ...state, rating: event.target.value })
+            }
+          />
+          {/* <input
             type="range"
             id="rating"
             name="rating"
@@ -103,8 +113,11 @@ function Session() {
             onInput={(event) =>
               setState({ ...state, rating: event.target.value })
             }
-          ></input>
-          <button className="btn btn-success">Submit</button>
+          ></input> */}
+          {/* <button className="btn btn-success">Submit</button> */}
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
           {/* <input type="submit" value="Submit"></input> */}
         </form>
       </aside>
