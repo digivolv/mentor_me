@@ -12,6 +12,7 @@ const db = require("./configs/db.config");
 // require routes
 var indexRoutes = require("./routes/index");
 var usersRoutes = require("./routes/users");
+let mentorsRoutes = require("./routes/mentors"); // duplicate with JK
 
 var app = express();
 
@@ -26,5 +27,6 @@ app.use(express.static(path.join(__dirname, "public")));
 // routes
 app.use("/", indexRoutes);
 app.use("/users", usersRoutes(db));
+app.use("/mentors", mentorsRoutes(db)); // duplicate with JK
 
 module.exports = app;
