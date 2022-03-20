@@ -1,7 +1,7 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+let express = require("express");
+let path = require("path");
+let cookieParser = require("cookie-parser");
+let logger = require("morgan");
 require("dotenv").config();
 const cors = require("cors");
 
@@ -10,11 +10,12 @@ const cors = require("cors");
 const db = require("./configs/db.config");
 
 // require routes
-var indexRoutes = require("./routes/index");
-var usersRoutes = require("./routes/users");
-let mentorsRoutes = require("./routes/mentors"); // duplicate with JK
+let indexRoutes = require("./routes/index");
+let usersRoutes = require("./routes/users");
+let mentorsRoutes = require("./routes/mentors");
+let mentorsIdRoutes = require("./routes/mentors_id");
 
-var app = express();
+let app = express();
 
 app.use(cors({ origin: ["http://localhost:3000"] }));
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // routes
 app.use("/", indexRoutes);
 app.use("/users", usersRoutes(db));
-app.use("/mentors", mentorsRoutes(db)); // duplicate with JK
+app.use("/mentors", mentorsRoutes(db));
+app.use("/mentors", mentorsIdRoutes(db));
 
 module.exports = app;
