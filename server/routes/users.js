@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // // -- routes/users.js
 // const router = require("express").Router();
 
@@ -24,6 +25,8 @@
 //////////
 
 // -- routes/users.js
+=======
+>>>>>>> main
 const router = require("express").Router();
 
 module.exports = (db) => {
