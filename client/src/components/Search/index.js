@@ -33,6 +33,7 @@ function Search() {
               id={user.id}
               email={user.email}
               password={user.password}
+              country={user.country}
             />
           );
         })}
