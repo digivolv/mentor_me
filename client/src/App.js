@@ -6,13 +6,10 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Search from "./components/Search";
-<<<<<<< HEAD
 import Session from "./components/Session/Session";
-=======
 import Mentors from "./components/Mentors";
 import Mentor from "./components/Mentor";
 import MentorView from "./components/MentorView";
->>>>>>> main
 
 function App() {
   const [selectedUser, setSelectedUser] = useState()
@@ -24,13 +21,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
-<<<<<<< HEAD
         <Route path="/users/:id/sessions/:session_id" element={<Session />} />
-=======
         <Route path="/mentors" element={<Mentors onMentorSelect={(user) => setSelectedUser(user)}/>} />
         <Route path="/mentors/:id" element={<Mentor mentor={selectedUser}/>} />
         <Route path="/mentors/:id/view" element={<MentorView mentor={selectedUser}/>} />
->>>>>>> main
       </Routes>
     </BrowserRouter>
   );
