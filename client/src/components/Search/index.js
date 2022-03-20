@@ -1,26 +1,11 @@
-import { React, useState, useEffect } from "react";
-import axios from "axios";
-import CardProfile from "./CardProfile";
+import { React } from "react";
+import { Grid } from "@mui/material";
 import SearchBar from "./SearchBar";
 import Filter from "./Filter";
+import NavBar from "../NavBar";
+import Content from "./Content";
 
 function Search() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/users")
-      .then((response) => {
-        console.log("data!");
-        setUsers(response.data);
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log("error!");
-        console.log(err);
-      });
-  }, []);
-
   return (
     <div>
       <h1> Search Page Here </h1>
