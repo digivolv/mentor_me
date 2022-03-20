@@ -9,13 +9,21 @@ import ProfileCard from "./ProfileCard";
 function Search() {
   return (
     <div>
-      <Navbar />
+      <NavBar />
+      <SearchBar />
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+          <Filter />
+        </Grid>
+        <Grid item xs={8}>
+          <Content />
+        </Grid>
+      </Grid>
       <h1> Search Page Here </h1>
       <div className="App">
         <SearchBar />
         <Filter />
-        <Content />
-        {users.map((user) => {
+        {/* {users.map((user) => {
           return (
             <ProfileCard
               id={user.id}
@@ -24,7 +32,7 @@ function Search() {
               country={user.country}
             />
           );
-        })}
+        })} */}
       </div>
     </div>
   );
