@@ -8,16 +8,21 @@ import Content from "./Content";
 function Search() {
   return (
     <div>
-      <NavBar />
-      <SearchBar />
-      <Grid container spacing={4}>
-        <Grid item xs={4}>
-          <Filter />
-        </Grid>
-        <Grid item xs={8}>
-          <Content />
-        </Grid>
-      </Grid>
+      <h1> Search Page Here </h1>
+      <div className="App">
+        <SearchBar />
+        <Filter />
+        {users.map((user) => {
+          return (
+            <CardProfile
+              id={user.id}
+              email={user.email}
+              password={user.password}
+              country={user.country}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
