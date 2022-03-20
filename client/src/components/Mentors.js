@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from "react";
-import ReactDOM from 'react-dom';
 import Button from '@mui/material/Button';
 import axios from "axios";
 import MentorProfile from "./Search/MentorProfile";
+import { useNavigate } from "react-router-dom";
+
 function Mentors(props) {
   const [selectedUser, setSelectedUser] = useState([]);
-
   useEffect(() => {
     axios
       .get("http://localhost:8080/mentors")
@@ -20,29 +20,30 @@ function Mentors(props) {
       });
   }, []);
   
-  
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+        navigate(`/mentors/${id}`);
+    }
   return (
     <div>
       <h1>Mentors</h1>
-      
-      <p>{props.name}</p>
       <div className="App">
         {selectedUser.map((user) => {
           return (
             <div>
-            <MentorProfile
-            name={user.name}
-            email={user.email}
-              job_title={user.job_title}
-              years_of_experience={user.years_of_experience}
-            country={user.country}
-            price={user.price}
+              <MentorProfile
+                id={user.id}
+                name={user.name}
+                email={user.email}
+                job_title={user.job_title}
+                years_of_experience={user.years_of_experience}
+                country={user.country}
+                price={user.price}
             />
               <Button
                 variant="contained"
-                onClick={() =>
-                  setSelectedUser(user)}
-              >Message</Button>
+                onClick={() => { handleClick(user.id) }}
+              >View Profile</Button>
               </div>
             );
           })}

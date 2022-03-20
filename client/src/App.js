@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Search from "./components/Search";
 import Mentors from "./components/Mentors";
 import Mentor from "./components/Mentor";
+import MentorView from "./components/MentorView";
 
 function App() {
   const [selectedUser, setSelectedUser] = useState()
@@ -21,7 +22,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/mentors" element={<Mentors onMentorSelect={(user) => setSelectedUser(user)}/>} />
         <Route path="/mentors/:id" element={<Mentor mentor={selectedUser}/>} />
-
+        <Route path="/mentors/:id/view" element={<MentorView mentor={selectedUser}/>} />
       </Routes>
     </BrowserRouter>
   );
