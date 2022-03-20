@@ -12,8 +12,8 @@ import Mentor from "./components/Mentor";
 import MentorView from "./components/MentorView";
 
 function App() {
-  const [selectedUser, setSelectedUser] = useState()
-  
+  const [selectedUser, setSelectedUser] = useState();
+
   return (
     <BrowserRouter>
       <Routes>
