@@ -1,3 +1,4 @@
+// duplicate with JK
 const router = require("express").Router();
 
 module.exports = (db) => {
@@ -12,5 +13,3 @@ module.exports = (db) => {
 
   return router;
 };
-
-
