@@ -4,17 +4,20 @@ import SearchBar from "./SearchBar";
 import Filter from "./Filter";
 import NavBar from "../NavBar";
 import Content from "./Content";
+import ProfileCard from "./ProfileCard";
 
 function Search() {
   return (
     <div>
+      <Navbar />
       <h1> Search Page Here </h1>
       <div className="App">
         <SearchBar />
         <Filter />
+        <Content />
         {users.map((user) => {
           return (
-            <CardProfile
+            <ProfileCard
               id={user.id}
               email={user.email}
               password={user.password}
