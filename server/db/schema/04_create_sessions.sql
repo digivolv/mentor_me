@@ -4,6 +4,9 @@ CREATE TABLE sessions (
   id SERIAL PRIMARY KEY,
   mentor_id INTEGER REFERENCES mentors(id) on DELETE CASCADE,
   mentee_id INTEGER REFERENCES users(id) on DELETE CASCADE,
+  rating SMALLINT NOT NULL DEFAULT 0,
+  description VARCHAR(255),
   date DATE,
   duration INTEGER NOT NULL
 );
+

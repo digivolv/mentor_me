@@ -1,10 +1,12 @@
-DROP TABLE IF EXISTS mentor_reviews CASCADE;
--- CREATE URLS
-CREATE TABLE mentor_reviews (
-  id SERIAL PRIMARY KEY,
-  mentor_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  mentee_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  rating SMALLINT NOT NULL DEFAULT 0,
-  message VARCHAR(255)
-);
+-- DROP TABLE IF EXISTS mentor_reviews CASCADE;
+-- -- CREATE URLS
+-- CREATE TABLE mentor_reviews (
+--   id SERIAL PRIMARY KEY,
+--   session_id INTEGER REFERENCES sessions(id) ON DELETE CASCADE NOT NULL,
+--   rating SMALLINT NOT NULL DEFAULT 0,
+--   message VARCHAR(255)
+-- );
 
+-- //   mentor reviews 1 to 1 with sesions table
+-- // no link towards the session 
+-- //no link to the sessions

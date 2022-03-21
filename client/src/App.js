@@ -2,6 +2,7 @@ import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import MentorView
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -22,13 +23,16 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/users/:id/sessions/:session_id" element={<Session />} />
+        <Route
+          path="/users/:id/mentors/:mentor_id/sessions/:session_id"
+          element={<Session />}
+        />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
         <Route path="/mentors/:id" element={<Mentor mentor={selectedUser} />} />
-        <Route
+        {/* <Route
           path="/mentors/:id/view"
           element={<MentorView mentor={selectedUser} />}
-        />
+        /> */}
         <Route
           path="/mentors"
           element={<Mentors onMentorSelect={(user) => setSelectedUser(user)} />}
