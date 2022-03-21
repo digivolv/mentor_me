@@ -43,12 +43,11 @@ module.exports = (db) => {
   router.get("/:user_id/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name, mentor_reviews.rating as rating, mentor_reviews.message as review 
+      `SELECT sessions.*, users.name as mentor_name 
       FROM sessions 
       JOIN users ON users.id = sessions.mentor_id 
       JOIN mentors ON mentors.user_id = users.id
-      JOIN mentor_reviews ON mentor_reviews.mentor_id = users.id
-      WHERE mentor_reviews.mentee_id = $1`,
+      WHERE mentee_id = $1`,
       [user_id]
     ).then((data) => {
       res.json(data.rows);
@@ -119,8 +118,11 @@ module.exports = (db) => {
       const { rating, message } = req.body;
       console.log(req.body);
       db.query(
-        `INSERT INTO mentor_reviews (mentee_id, mentor_id, rating, message) VALUES($1, $2, $3, $4)`,
-        [user_id, mentor_id, rating, message]
+        `UPDATE sessions
+        SET mentee_id = $1, mentor_id = $2, rating = $3, description = $4
+        WHERE sessions.id = $5  
+        RETURNING *`,
+        [user_id, mentor_id, rating, message, session_id]
       ).then((data) => {
         res.json(data.rows);
       });
