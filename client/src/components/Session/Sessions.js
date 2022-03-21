@@ -40,7 +40,7 @@ function Session() {
               date={user.date}
               duration={user.duration}
               rating={user.rating}
-              review={user.review}
+              review={user.description}
             />
           </div>
         );
