@@ -1,0 +1,16 @@
+.content {
+  flex: 1;
+  display: flex;
+}
+
+.filter-pane {
+  flex-basis: 280px;
+  margin-left: 65px;
+  margin-top: 20px;
+}
+
+.list-pane {
+  flex: 1;
+  padding: 1rem;
+  margin-right: 20px;
+}

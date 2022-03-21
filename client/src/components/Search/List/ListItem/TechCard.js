@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 
-function TechnologyCard(props) {
+function TechCard(props) {
   console.log("props:", props);
   const [expertise, setExpertise] = useState([]);
 
@@ -28,4 +28,4 @@ function TechnologyCard(props) {
   );
 }
 
-export default TechnologyCard;
+export default TechCard;
