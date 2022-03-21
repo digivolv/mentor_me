@@ -1,7 +1,8 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 import ProfileCard from "./ProfileCard";
-
+import { useNavigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 function Content() {
   const [mentors, setMentors] = useState([]);
 
@@ -18,11 +19,15 @@ function Content() {
         console.log(err);
       });
   }, []);
-
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+        navigate(`/mentors/${id}`);
+    }
   return (
     <div>
       {mentors.map((mentor) => {
         return (
+          <div>
           <ProfileCard
             key={mentor.id}
             id={mentor.id}
@@ -33,7 +38,9 @@ function Content() {
             price={mentor.price}
             city={mentor.city}
             country={mentor.country}
+            
           />
+            </div>
         );
       })}
     </div>
