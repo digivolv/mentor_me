@@ -61,6 +61,7 @@ function ProfileCard(props) {
             <Grid item>
               {/* Show list of expertise */}
               <TechnologyCard user={props.id} />
+              {/* <TechnologyCard specialties={props.specialties} /> */}
             </Grid>
           </Grid>
           <Grid item>
@@ -75,6 +76,7 @@ function ProfileCard(props) {
             >
               View Profile
             </Button>
+            <br />
             <br />
             <Button
               variant="contained"

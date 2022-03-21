@@ -15,7 +15,7 @@ function Search() {
           <Filter />
         </Grid>
         <Grid item xs={8}>
-          <Content />
+          {/* <Content /> */}
         </Grid>
       </Grid>
     </div>
