@@ -6,7 +6,7 @@ import { Rating, Button, TextField } from "@mui/material";
 import axios from "axios";
 
 function Session() {
-  let { id, session_id } = useParams();
+  let { id, mentor_id, session_id } = useParams();
   let navigate = useNavigate();
   // const [sessions, setSessions] = useState([]);
   // const [message, setMessage] = useState("");
@@ -20,7 +20,9 @@ function Session() {
   useEffect(() => {
     axios
       //axios url path still hardcoded
-      .get(`http://localhost:8080/users/${id}/sessions/${session_id}`)
+      .get(
+        `http://localhost:8080/users/${id}/mentors/${mentor_id}/sessions/${session_id}`
+      )
       .then((response) => {
         console.log("data!");
         //Need first row of data only
@@ -48,12 +50,17 @@ function Session() {
     // }
 
     axios
-      .post(`http://localhost:8080/users/${id}/sessions/${session_id}`, {
-        //hardcoded user_id
-        user_id: id,
-        message: state.message,
-        rating: state.rating,
-      })
+      .post(
+        `http://localhost:8080/users/${id}/mentors/${mentor_id}/sessions/${session_id}`,
+        {
+          //hardcoded user_id
+          user_id: id,
+          mentor_id: mentor_id,
+          session_id: session_id,
+          message: state.message,
+          rating: state.rating,
+        }
+      )
       .then(function (response) {
         console.log(response);
         navigate(`/users/${id}/sessions`);
@@ -97,7 +104,7 @@ function Session() {
 
           <Rating
             name="size-medium"
-            defaultValue={2.5}
+            defaultValue={3}
             value={state.rating}
             onChange={(event) =>
               setState({ ...state, rating: event.target.value })
