@@ -7,7 +7,7 @@ function TechnologyCard(props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/users/expertise")
+      .get("http://localhost:8080/mentors/expertise")
       .then((response) => {
         console.log("data!");
         setExpertise(response.data);

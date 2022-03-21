@@ -46,12 +46,5 @@ module.exports = (db) => {
     });
   });
 
-  router.get("/expertise", (req, res) => {
-    const command = `SELECT * FROM users JOIN expertise ON users.id = user_id`;
-    db.query(command).then((data) => {
-      res.json(data.rows);
-    });
-  });
-
   return router;
 };
