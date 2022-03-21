@@ -25,10 +25,7 @@ function App() {
         <Route path="/users/:id/sessions/:session_id" element={<Session />} />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
         <Route path="/mentors/:id" element={<Mentor mentor={selectedUser} />} />
-        <Route
-          path="/mentors/:id/view"
-          element={<MentorView mentor={selectedUser} />}
-        />
+
         <Route
           path="/mentors"
           element={<Mentors onMentorSelect={(user) => setSelectedUser(user)} />}
