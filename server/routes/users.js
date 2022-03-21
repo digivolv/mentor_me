@@ -52,7 +52,7 @@ module.exports = (db) => {
       `SELECT sessions.*, users.name as mentor_name FROM sessions 
       JOIN mentors on mentors.id = sessions.mentor_id 
       JOIN users ON users.id = mentors.user_id 
-      WHERE users.id = $1 
+      WHERE mentee_id = $1 
       AND sessions.id = $2`,
       [user_id, session_id]
     ).then((data) => {

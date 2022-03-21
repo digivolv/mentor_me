@@ -50,13 +50,13 @@ function Session() {
     axios
       .post(`http://localhost:8080/users/${id}/sessions/${session_id}`, {
         //hardcoded user_id
-        user_id: 1,
+        user_id: id,
         message: state.message,
         rating: state.rating,
       })
       .then(function (response) {
         console.log(response);
-        navigate(`/`);
+        navigate(`/users/${id}/sessions`);
       })
       .catch(function (error) {
         console.log(error);
