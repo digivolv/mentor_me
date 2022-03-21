@@ -1,23 +1,52 @@
-import { React } from "react";
-import { Grid } from "@mui/material";
+import { React, useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
-import Filter from "./Filter";
+import Filter from "./FilterPanel";
 import NavBar from "../NavBar";
-import Content from "./Content";
+import List from "./List";
+import "./styles.css";
+import axios from "axios";
 
 function Search() {
+  const [searchInput, setSearchInput] = useState("");
+  const [mentors, setMentors] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/mentors/expertise")
+      .then((response) => {
+        setMentors(response.data);
+        const newArr = [];
+        response.data.forEach((element) => {
+          element.specialties = [element.specialty];
+          let index = newArr.findIndex((mentor) => mentor.name == element.name);
+
+          index === -1
+            ? newArr.push(element)
+            : newArr[index].specialties.push(element.specialty);
+        });
+        setMentors(newArr);
+      })
+      .catch((err) => {
+        console.log("error:", err);
+      });
+  }, []);
+
   return (
-    <div>
+    <div className="search">
       <NavBar />
-      <SearchBar />
-      <Grid container spacing={4}>
-        <Grid item xs={4}>
+      <SearchBar
+        value={searchInput}
+        changeInput={(e) => setSearchInput(e.target.value)}
+      />
+      <div className="content">
+        <div className="filter-pane">
+          Filters:
           <Filter />
-        </Grid>
-        <Grid item xs={8}>
-          {/* <Content /> */}
-        </Grid>
-      </Grid>
+        </div>
+        <div className="list-pane">
+          <List mentors={mentors} input={searchInput} />
+        </div>
+      </div>
     </div>
   );
 }
