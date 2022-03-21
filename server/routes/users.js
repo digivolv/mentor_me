@@ -9,7 +9,38 @@ module.exports = (db) => {
     });
   });
 
-  //session id route
+  //route for all sessions for specific user
+  // router.get("/:user_id/sessions/", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT sessions.* FROM sessions
+  //   JOIN users ON users.id = sessions.mentee_id
+  //   WHERE users.id = $1`,
+  //     [user_id]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
+
+  // -- users/:id/sessions/:session_id
+  // -- users/:id/mentors/:mentor_id/sessions/:session_id
+  // -- users/:id/mentees/:mentee_id/sessions/:session_id
+
+  router.get("/:user_id/sessions/", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT sessions.*, users.name as mentor_name, mentor_reviews.rating as rating, mentor_reviews.message as review FROM sessions 
+      JOIN mentors on mentors.id = sessions.mentor_id 
+      JOIN users ON users.id = mentors.user_id 
+      JOIN mentor_reviews ON mentor_reviews.mentor_id = mentors.user_id
+      WHERE mentee_id = $1`,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  //route for specific session session id of specific user
   router.get("/:user_id/sessions/:session_id", (req, res) => {
     const { user_id, session_id } = req.params;
     //works for mentee_name
@@ -26,7 +57,7 @@ module.exports = (db) => {
       `SELECT sessions.*, users.name as mentor_name FROM sessions 
       JOIN mentors on mentors.id = sessions.mentor_id 
       JOIN users ON users.id = mentors.user_id 
-      WHERE users.id = $1 
+      WHERE mentee_id = $1 
       AND sessions.id = $2`,
       [user_id, session_id]
     ).then((data) => {
@@ -39,7 +70,7 @@ module.exports = (db) => {
     const { rating, message } = req.body;
     console.log(req.body);
     db.query(
-      `INSERT INTO mentor_reviews (user_id, rating, message) VALUES($1, $2, $3)`,
+      `INSERT INTO mentor_reviews (mentee_id, mentor_id, rating, message) VALUES(${user_id}, $1, $2, $3)`,
       [user_id, rating, message]
     ).then((data) => {
       res.json(data.rows);

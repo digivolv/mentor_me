@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
-import { useNavigate } from "react-router-dom";
-import { Rating, Button } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { Rating, Button, TextField } from "@mui/material";
 
 import axios from "axios";
 
 function Session() {
+  let { id, session_id } = useParams();
   let navigate = useNavigate();
   // const [sessions, setSessions] = useState([]);
   // const [message, setMessage] = useState("");
@@ -19,7 +20,7 @@ function Session() {
   useEffect(() => {
     axios
       //axios url path still hardcoded
-      .get("http://localhost:8080/users/1/sessions/1")
+      .get(`http://localhost:8080/users/${id}/sessions/${session_id}`)
       .then((response) => {
         console.log("data!");
         //Need first row of data only
@@ -47,15 +48,15 @@ function Session() {
     // }
 
     axios
-      .post("http://localhost:8080/users/1/sessions/1", {
+      .post(`http://localhost:8080/users/${id}/sessions/${session_id}`, {
         //hardcoded user_id
-        user_id: 1,
+        user_id: id,
         message: state.message,
         rating: state.rating,
       })
       .then(function (response) {
         console.log(response);
-        navigate(`/`);
+        navigate(`/users/${id}/sessions`);
       })
       .catch(function (error) {
         console.log(error);
@@ -80,7 +81,7 @@ function Session() {
 
         <form className="form-control" onSubmit={onSubmitForm}>
           <label for="message">How was your experience:</label>
-          <input
+          <TextField
             id="message"
             name="message"
             type="text"
@@ -91,13 +92,12 @@ function Session() {
             onInput={(event) =>
               setState({ ...state, message: event.target.value })
             }
-          ></input>
+          />
           <label for="rating">Rating ( 0 and 5):</label>
 
           <Rating
-            name="half-rating"
+            name="size-medium"
             defaultValue={2.5}
-            precision={0.5}
             value={state.rating}
             onChange={(event) =>
               setState({ ...state, rating: event.target.value })

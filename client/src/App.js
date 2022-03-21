@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Search from "./components/Search";
 import Session from "./components/Session/Session";
+import Sessions from "./components/Session/Sessions";
 import Mentors from "./components/Mentors";
 import Mentor from "./components/Mentor";
 import MentorsEdit from "./components/MentorsEdit";
@@ -22,10 +23,22 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/users/:id/sessions/:session_id" element={<Session />} />
-        <Route path="/mentors" element={<Mentors onMentorSelect={(user) => setSelectedUser(user)}/>} />
-        <Route path="/mentors/:id" element={<Mentor mentor={selectedUser}/>} />
-        <Route path="/mentors/:id/edit" element={<MentorsEdit onMentorSelect={(user) => setSelectedUser(user)}/>} />
-       
+        <Route path="/users/:id/sessions/" element={<Sessions />} />
+        <Route path="/mentors/:id" element={<Mentor mentor={selectedUser} />} />
+        <Route
+          path="/mentors/:id/view"
+          element={<MentorView mentor={selectedUser} />}
+        />
+        <Route
+          path="/mentors"
+          element={<Mentors onMentorSelect={(user) => setSelectedUser(user)} />}
+        />
+        <Route
+          path="/mentors/:id/edit"
+          element={
+            <MentorsEdit onMentorSelect={(user) => setSelectedUser(user)} />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
