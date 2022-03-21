@@ -39,6 +39,8 @@ function Session() {
               mentor_name={user.mentor_name}
               date={user.date}
               duration={user.duration}
+              rating={user.rating}
+              review={user.review}
             />
           </div>
         );

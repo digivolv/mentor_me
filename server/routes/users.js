@@ -25,9 +25,10 @@ module.exports = (db) => {
   router.get("/:user_id/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name FROM sessions 
+      `SELECT sessions.*, users.name as mentor_name, mentor_reviews.rating as rating, mentor_reviews.message as review FROM sessions 
       JOIN mentors on mentors.id = sessions.mentor_id 
       JOIN users ON users.id = mentors.user_id 
+      JOIN mentor_reviews ON mentor_reviews.user_id = mentors.user_id
       WHERE mentee_id = $1`,
       [user_id]
     ).then((data) => {
