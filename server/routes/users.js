@@ -9,7 +9,33 @@ module.exports = (db) => {
     });
   });
 
-  //session id route
+  //route for all sessions for specific user
+  // router.get("/:user_id/sessions/", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT sessions.* FROM sessions
+  //   JOIN users ON users.id = sessions.mentee_id
+  //   WHERE users.id = $1`,
+  //     [user_id]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
+
+  router.get("/:user_id/sessions/", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT sessions.*, users.name as mentor_name FROM sessions 
+      JOIN mentors on mentors.id = sessions.mentor_id 
+      JOIN users ON users.id = mentors.user_id 
+      WHERE mentee_id = $1`,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  //route for specific session session id of specific user
   router.get("/:user_id/sessions/:session_id", (req, res) => {
     const { user_id, session_id } = req.params;
     //works for mentee_name
