@@ -4,7 +4,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
-
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -13,6 +14,10 @@ const Img = styled("img")({
 });
 
 function ProfileCard(props) {
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+        navigate(`/mentors/${id}`);
+    }
   return (
     <Paper
       sx={{
@@ -25,7 +30,7 @@ function ProfileCard(props) {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid item >
           <ButtonBase sx={{ width: 128, height: 128 }}>
             <Img alt="complex" src={props.picture} />
           </ButtonBase>
@@ -44,9 +49,13 @@ function ProfileCard(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography sx={{ cursor: "pointer" }} variant="body2">
+              <Typography sx={{ cursor: "pointer" }} variant="body2" onClick={() => { handleClick(props.id) }}>
                 Message
               </Typography>
+              <Button
+                variant="contained"
+                onClick={() => { handleClick(props.id) }}
+              >View Profile</Button>
             </Grid>
           </Grid>
           <Grid item>
