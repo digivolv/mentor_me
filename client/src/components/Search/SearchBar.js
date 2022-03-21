@@ -1,21 +1,13 @@
 import { React, useState } from "react";
-import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import { List } from "@mui/material";
+import "./SearchBar.css";
+import Content from "./Content";
 
 const SearchBar = (props) => {
-  const styles = {
-    border: "1px solid rgba(0, 0, 0, 0.5)",
-    marginLeft: "100px",
-    marginBottom: "50px",
-    paddingLeft: "15px",
-    textAlign: "left",
-  };
-
   const [inputText, setInputText] = useState("");
-  let inputHandler = (e) => {
-    //convert input text to lower case
-    var lowerCase = e.target.value.toLowerCase();
+
+  const inputHandler = (e) => {
+    const lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
   };
 
@@ -28,10 +20,10 @@ const SearchBar = (props) => {
           onChange={inputHandler}
           variant="outlined"
           fullWidth
-          label="Search"
+          label="Search Technology"
         />
       </div>
-      <List input={inputText} />
+      <Content input={inputText} />
     </div>
   );
 };
