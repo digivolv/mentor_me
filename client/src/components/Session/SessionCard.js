@@ -10,7 +10,7 @@ const SessionCard = (props) => {
 
   return (
     <div style={styles}>
-      <h3>{`ID: ${mentor_id}`}</h3>
+      <h3>{`mentor_ID: ${mentor_id}`}</h3>
       <h3>{`mentee_id: ${mentee_id}`}</h3>
       <h2>{`mentee_name: ${mentee_name}`}</h2>
       <p>{`mentor_name: ${mentor_name}`}</p>
