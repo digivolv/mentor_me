@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
 import { useNavigate, useParams } from "react-router-dom";
-import { Rating, Button } from "@mui/material";
+import { Rating, Button, TextField } from "@mui/material";
 
 import axios from "axios";
 
@@ -81,7 +81,7 @@ function Session() {
 
         <form className="form-control" onSubmit={onSubmitForm}>
           <label for="message">How was your experience:</label>
-          <input
+          <TextField
             id="message"
             name="message"
             type="text"
@@ -92,7 +92,7 @@ function Session() {
             onInput={(event) =>
               setState({ ...state, message: event.target.value })
             }
-          ></input>
+          />
           <label for="rating">Rating ( 0 and 5):</label>
 
           <Rating
