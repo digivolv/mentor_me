@@ -86,7 +86,7 @@ function Mentor(props) {
            <Button
                 variant="contained"
                 onClick={() => { alert("clicked") }}
-              >Message</Button>
+              >Edit</Button>
             </div>
             </div>
         ))}
