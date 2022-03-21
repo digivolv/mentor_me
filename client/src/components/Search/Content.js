@@ -1,8 +1,6 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 import ProfileCard from "./ProfileCard";
-import { useNavigate } from "react-router-dom";
-import Button from '@mui/material/Button';
 
 function Content(props) {
   const [mentors, setMentors] = useState([]);
@@ -12,40 +10,41 @@ function Content(props) {
       .get("http://localhost:8080/mentors/expertise")
       .then((response) => {
         setMentors(response.data);
-        console.log("DATA:", response.data);
         const newArr = [];
         response.data.forEach((element) => {
-          console.log("NAME:", element.name);
           element.specialties = [element.specialty];
-          console.log("ELEMENT:", element);
           let index = newArr.findIndex((mentor) => mentor.name == element.name);
-          console.log("INDEX", index);
 
           index === -1
             ? newArr.push(element)
             : newArr[index].specialties.push(element.specialty);
-
-          console.log("NEWARR:", newArr);
         });
         setMentors(newArr);
       })
       .catch((err) => {
-        console.log("error!");
-        console.log(err);
+        console.log("error:", err);
       });
   }, []);
-  const navigate = useNavigate();
-  const handleClick = (id) => {
-        navigate(`/mentors/${id}`);
+
+  const mentorContainsSpecialty = (specialties, input) => {
+    let found = false;
+    if (specialties) {
+      found =
+        specialties.map((s) => s.toLowerCase()).filter((x) => x.includes(input))
+          .length > 0;
     }
+    return found;
+  };
+
   return (
     <div>
-      {mentors.map((mentor) => {
-        return (
-          mentor.name.toLowerCase().includes(props.input) && (
+      {mentors
+        .filter((m) => mentorContainsSpecialty(m.specialties, props.input))
+        .map((mentor) => {
+          return (
             <ProfileCard
               key={mentor.id}
-              id={mentor.id}
+              id={mentor.user_id}
               name={mentor.name}
               picture={mentor.picture}
               jobTitle={mentor.job_title}
@@ -55,13 +54,10 @@ function Content(props) {
               country={mentor.country}
               specialties={mentor.specialties}
             />
-          )
-        );
-      })}
+          );
+        })}
     </div>
   );
 }
 
 export default Content;
-
-// : (newArr[index].specialties.push = element.specialty);
