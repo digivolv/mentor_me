@@ -4,6 +4,9 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import TechnologyCard from "./TechnologyCard";
 
 const Img = styled("img")({
   margin: "auto",
@@ -13,12 +16,18 @@ const Img = styled("img")({
 });
 
 function ProfileCard(props) {
+  const navigate = useNavigate();
+
+  const handleClick = (id) => {
+    navigate(`/mentors/${id}`);
+  };
+
   return (
     <Paper
       sx={{
         p: 2,
-        margin: "auto",
-        maxWidth: 500,
+        margin: 5,
+        maxWidth: 1400,
         flexGrow: 1,
         backgroundColor: (theme) =>
           theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,7 +35,13 @@ function ProfileCard(props) {
     >
       <Grid container spacing={2}>
         <Grid item>
-          <ButtonBase sx={{ width: 128, height: 128 }}>
+          <ButtonBase
+            sx={{ width: 128, height: 128 }}
+            variant="contained"
+            onClick={() => {
+              handleClick(props.id);
+            }}
+          >
             <Img alt="complex" src={props.picture} />
           </ButtonBase>
         </Grid>
@@ -44,15 +59,33 @@ function ProfileCard(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography sx={{ cursor: "pointer" }} variant="body2">
-                Message
-              </Typography>
+              {/* Show list of expertise */}
+              <TechnologyCard user={props.id} />
+              {/* <TechnologyCard specialties={props.specialties} /> */}
             </Grid>
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" component="div">
               Rate: ${props.price}
             </Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClick(props.id);
+              }}
+            >
+              View Profile
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClick(props.id);
+              }}
+            >
+              Message
+            </Button>
           </Grid>
         </Grid>
       </Grid>
