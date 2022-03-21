@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import axios from "axios";
 import MentorProfile from "./Search/MentorProfile";
 import { useNavigate } from "react-router-dom";
@@ -19,11 +19,11 @@ function Mentors(props) {
         console.log(err);
       });
   }, []);
-  
+
   const navigate = useNavigate();
   const handleClick = (id) => {
-        navigate(`/mentors/${id}`);
-    }
+    navigate(`/mentors/${id}`);
+  };
   return (
     <div>
       <h1>Mentors</h1>
@@ -39,18 +39,21 @@ function Mentors(props) {
                 years_of_experience={user.years_of_experience}
                 country={user.country}
                 price={user.price}
-            />
+              />
               <Button
                 variant="contained"
-                onClick={() => { handleClick(user.id) }}
-              >View Profile</Button>
-              </div>
-            );
-          })}
+                onClick={() => {
+                  handleClick(user.id);
+                }}
+              >
+                View Profile
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
-    
-  )
+  );
 }
 
 export default Mentors;
