@@ -1,29 +1,23 @@
 import { React, useState } from "react";
 import { TextField } from "@mui/material";
 import "./SearchBar.css";
-import Content from "./Content";
+import List from "../List";
 
-const SearchBar = (props) => {
-  const [inputText, setInputText] = useState("");
-
-  const inputHandler = (e) => {
-    const lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
-  };
-
+const SearchBar = ({ value, changeInput }) => {
   return (
     <div className="main">
       <h3>Find a Mentor:</h3>
       <div className="search">
         <TextField
           id="outlined-basic"
-          onChange={inputHandler}
+          onChange={changeInput}
+          value={value}
           variant="outlined"
           fullWidth
           label="Search Technology"
         />
       </div>
-      <Content input={inputText} />
+      {/* <List input={value} /> */}
     </div>
   );
 };
