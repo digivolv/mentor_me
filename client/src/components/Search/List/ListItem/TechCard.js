@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
+import "./styles.css";
 
 function TechCard(props) {
-  // console.log("props:", props);
   const [expertise, setExpertise] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,11 @@ function TechCard(props) {
   return (
     <div>
       {expertise.map((el) => {
-        return props.user == el.user_id && <p>{el.specialty}</p>;
+        return (
+          props.user == el.user_id && (
+            <span className="tech-card">{el.specialty}</span>
+          )
+        );
       })}
     </div>
   );
