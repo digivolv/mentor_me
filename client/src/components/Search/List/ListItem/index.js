@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import TechnologyCard from "./TechnologyCard";
+import TechCard from "./TechCard";
 
 const Img = styled("img")({
   margin: "auto",
@@ -15,7 +15,7 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
-function ProfileCard(props) {
+function ListItem(props) {
   const navigate = useNavigate();
 
   const handleClick = (id) => {
@@ -55,7 +55,7 @@ function ProfileCard(props) {
                 Job Title: {props.jobTitle}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Year of Experience: {props.yearsOfExperience}
+                Years of Experience: {props.yearsOfExperience}
               </Typography>
             </Grid>
             <Grid item>
@@ -78,8 +78,8 @@ function ProfileCard(props) {
               </Button>
 
               {/* Show list of expertise */}
-              <TechnologyCard user={props.id} />
-              {/* <TechnologyCard specialties={props.specialties} /> */}
+              <TechCard user={props.id} />
+              {/* <TechCard specialties={props.specialties} /> */}
             </Grid>
           </Grid>
           <Grid item>
@@ -111,4 +111,4 @@ function ProfileCard(props) {
   );
 }
 
-export default ProfileCard;
+export default ListItem;

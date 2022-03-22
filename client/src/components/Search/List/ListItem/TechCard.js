@@ -1,31 +1,32 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
+import "./styles.css";
 
-function TechnologyCard(props) {
-  console.log("props:", props);
+function TechCard(props) {
   const [expertise, setExpertise] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/mentors/expertise")
       .then((response) => {
-        console.log("data!");
         setExpertise(response.data);
-        console.log(response);
       })
       .catch((err) => {
-        console.log("error!");
-        console.log(err);
+        console.log("error:", err);
       });
   }, []);
 
   return (
     <div>
       {expertise.map((el) => {
-        return props.user == el.user_id && <p>{el.specialty}</p>;
+        return (
+          props.user == el.user_id && (
+            <span className="tech-card">{el.specialty}</span>
+          )
+        );
       })}
     </div>
   );
 }
 
-export default TechnologyCard;
+export default TechCard;
