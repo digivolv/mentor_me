@@ -1,18 +1,24 @@
 import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
 import { useNavigate, useParams } from "react-router-dom";
-import { Rating, Button, TextField } from "@mui/material";
-
+import {
+  Avatar,
+  Grid,
+  Paper,
+  Rating,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
+import NavBar from "../NavBar";
 import axios from "axios";
 
 function Session() {
-  let { id, session_id } = useParams();
+  let { id, mentor_id, session_id } = useParams();
   let navigate = useNavigate();
-  // const [sessions, setSessions] = useState([]);
-  // const [message, setMessage] = useState("");
 
   const [state, setState] = useState({
-    sessions: [],
+    sessions: {},
     message: "",
     rating: "",
   });
@@ -20,7 +26,9 @@ function Session() {
   useEffect(() => {
     axios
       //axios url path still hardcoded
-      .get(`http://localhost:8080/users/${id}/sessions/${session_id}`)
+      .get(
+        `http://localhost:8080/users/${id}/mentors/${mentor_id}/sessions/${session_id}`
+      )
       .then((response) => {
         console.log("data!");
         //Need first row of data only
@@ -35,25 +43,18 @@ function Session() {
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
-    // try {
-    //   // const body = state.message;
-    //   const response = await fetch("http://localhost:8080/users/1/sessions/1", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(state.message),
-    //   });
-    //   console.log(response);
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
 
     axios
-      .post(`http://localhost:8080/users/${id}/sessions/${session_id}`, {
-        //hardcoded user_id
-        user_id: id,
-        message: state.message,
-        rating: state.rating,
-      })
+      .put(
+        `http://localhost:8080/users/${id}/mentors/${mentor_id}/sessions/${session_id}`,
+        {
+          user_id: id,
+          mentor_id: mentor_id,
+          session_id: session_id,
+          message: state.message,
+          rating: state.rating,
+        }
+      )
       .then(function (response) {
         console.log(response);
         navigate(`/users/${id}/sessions`);
@@ -65,63 +66,64 @@ function Session() {
 
   return (
     <div>
-      <h1> Session Page </h1>
-      {/* <div> */}
-      <aside>
-        <span>Thank you</span>
-        <h1>session_id {state.sessions.id}</h1>
-        <h1>mentor_id {state.sessions.mentor_id}</h1>
-        <h1>mentee_id {state.sessions.mentee_id}</h1>
-        <h1>Hi, mentee_name {state.sessions.mentee_name}</h1>
-        <h1>
-          How was your experience with mentor_name {state.sessions.mentor_name}?
-        </h1>
-        <h1>date {state.sessions.date}</h1>
-        <h1>duration {state.sessions.duration}</h1>
+      <NavBar />
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={4}
+      >
+        <Grid item>
+          <Paper>
+            <Typography> Session Page </Typography>
+            {/* <h1>session_id {state.sessions.id}</h1> */}
+            {/* <h1>mentor_id {state.sessions.mentor_id}</h1> */}
+            {/* <h1>mentee_id {state.sessions.mentee_id}</h1> */}
+            <h1>Hi, mentee_name {state.sessions.mentee_name}</h1>
+            <h1>
+              How was your mentorship experience with{" "}
+              {state.sessions.mentor_name}?
+            </h1>
+            <h1>Date: {state.sessions.date}</h1>
+            <h1>Duration: {state.sessions.duration}</h1>
+            <h1>Cost: </h1>
+          </Paper>
+        </Grid>
+        <Grid item>
+          <Paper>
+            <form className="form-control" onSubmit={onSubmitForm}>
+              <label for="message">Please tell us about your experience:</label>
+              <TextField
+                variant="outlined"
+                id="message"
+                name="message"
+                type="text"
+                className="form-control"
+                required
+                // placeholder="Please write a brief description of how your message went with your mentor"
+                value={state.message}
+                onInput={(event) =>
+                  setState({ ...state, message: event.target.value })
+                }
+              />
+              <label for="rating">Rating ( 0 and 5):</label>
 
-        <form className="form-control" onSubmit={onSubmitForm}>
-          <label for="message">How was your experience:</label>
-          <TextField
-            id="message"
-            name="message"
-            type="text"
-            className="form-control"
-            required
-            // placeholder="Please write a brief description of how your message went with your mentor"
-            value={state.message}
-            onInput={(event) =>
-              setState({ ...state, message: event.target.value })
-            }
-          />
-          <label for="rating">Rating ( 0 and 5):</label>
-
-          <Rating
-            name="size-medium"
-            defaultValue={2.5}
-            value={state.rating}
-            onChange={(event) =>
-              setState({ ...state, rating: event.target.value })
-            }
-          />
-          {/* <input
-            type="range"
-            id="rating"
-            name="rating"
-            min="0"
-            max="5"
-            value={state.rating}
-            onInput={(event) =>
-              setState({ ...state, rating: event.target.value })
-            }
-          ></input> */}
-          {/* <button className="btn btn-success">Submit</button> */}
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
-          {/* <input type="submit" value="Submit"></input> */}
-        </form>
-      </aside>
-      {/* </div> */}
+              <Rating
+                name="size-medium"
+                defaultValue={3}
+                value={state.rating}
+                onChange={(event) =>
+                  setState({ ...state, rating: event.target.value })
+                }
+              />
+              <Button type="submit" variant="contained">
+                Submit
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }
