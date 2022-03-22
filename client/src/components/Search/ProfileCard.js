@@ -76,6 +76,7 @@ function ProfileCard(props) {
               >
                 View Profile
               </Button>
+
               {/* Show list of expertise */}
               <TechnologyCard user={props.id} />
               {/* <TechnologyCard specialties={props.specialties} /> */}
