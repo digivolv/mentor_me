@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Avatar,
   Grid,
   Paper,
   Rating,
@@ -44,7 +45,7 @@ function Session() {
     event.preventDefault();
 
     axios
-      .post(
+      .put(
         `http://localhost:8080/users/${id}/mentors/${mentor_id}/sessions/${session_id}`,
         {
           user_id: id,

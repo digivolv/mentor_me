@@ -13,7 +13,7 @@ module.exports = (db) => {
   router.get("/:user_id/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name 
+      `SELECT sessions.*, users.name as mentor_name, users.picture as picture
       FROM sessions 
       JOIN users ON users.id = sessions.mentor_id 
       JOIN mentors ON mentors.user_id = users.id
@@ -116,7 +116,7 @@ module.exports = (db) => {
   // AND sessions.id = 1
 
   //Route for adding a review and rating to a session
-  router.post(
+  router.put(
     "/:user_id/mentors/:mentor_id/sessions/:session_id",
     async (req, res) => {
       const { user_id, mentor_id, session_id } = req.params;

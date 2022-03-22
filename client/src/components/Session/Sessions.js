@@ -60,6 +60,7 @@ function Session() {
                     duration={user.duration}
                     rating={user.rating}
                     review={user.description}
+                    picture={user.picture}
                   />
                 </div>
               );
