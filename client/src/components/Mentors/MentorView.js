@@ -22,7 +22,7 @@ import { useParams } from "react-router-dom";
 import NavBar from '../NavBar';
 import { Rating, Button, TextField } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import TechnologyCard from '../Search/TechnologyCard';
+import TechnologyCard from '../Search/List/ListItem/TechCard';
 import MentorEdit from './MentorEdit';
 
 const drawerWidth = 240;
