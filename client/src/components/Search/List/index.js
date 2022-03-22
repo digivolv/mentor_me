@@ -1,7 +1,7 @@
 import { React } from "react";
 import ListItem from "./ListItem";
 
-function List({ mentors, input }) {
+function List({ list, input }) {
   const mentorContainsSpecialty = (specialties, input) => {
     let found = false;
     if (specialties) {
@@ -14,7 +14,7 @@ function List({ mentors, input }) {
 
   return (
     <div>
-      {mentors
+      {list
         .filter((m) => mentorContainsSpecialty(m.specialties, input))
         .map((mentor) => {
           return (

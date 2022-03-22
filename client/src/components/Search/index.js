@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
-import Filter from "./FilterPanel";
+import FilterPanel from "./FilterPanel";
 import NavBar from "../NavBar";
 import List from "./List";
 import "./styles.css";
@@ -8,28 +8,68 @@ import axios from "axios";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
-  const [mentors, setMentors] = useState([]);
+  const [list, setList] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState([20, 60]);
+
+  const [allMentors, setAllMentors] = useState([]);
+  const [filteredMentors, setFilteredMentors] = useState(allMentors);
+
+  const handleChangePrice = (event, value) => {
+    setSelectedPrice(value);
+    console.log("MOVED");
+  };
+
+  // create specialties array
+  let all = [];
+  const createSpecialtiesArr = (response) => {
+    response.data.forEach((element) => {
+      element.specialties = [element.specialty];
+      let index = all.findIndex((mentor) => mentor.name === element.name);
+
+      index === -1
+        ? all.push(element)
+        : all[index].specialties.push(element.specialty);
+    });
+    // setList(allMentors);
+    setAllMentors(all);
+  };
+
+  const applyFilters = () => {
+    // let updatedList = list;
+    let updated = allMentors;
+    // console.log("UPDATED LIST:", updatedList);
+
+    // Price Filter
+    const minPrice = selectedPrice[0];
+    const maxPrice = selectedPrice[1];
+
+    // updatedList = updatedList.filter(
+    //   (mentor) => mentor.price >= minPrice && mentor.price <= maxPrice
+    // );
+
+    // setList(updatedList);
+    updated = updated.filter(
+      (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
+    );
+    setFilteredMentors(updated);
+  };
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/mentors/expertise")
       .then((response) => {
-        setMentors(response.data);
-        const newArr = [];
-        response.data.forEach((element) => {
-          element.specialties = [element.specialty];
-          let index = newArr.findIndex((mentor) => mentor.name == element.name);
-
-          index === -1
-            ? newArr.push(element)
-            : newArr[index].specialties.push(element.specialty);
-        });
-        setMentors(newArr);
+        createSpecialtiesArr(response);
+        // applyFilters();
       })
       .catch((err) => {
         console.log("error:", err);
       });
   }, []);
+
+  useEffect(() => {
+    applyFilters();
+    console.log("MOVED HERE");
+  }, [selectedPrice]);
 
   return (
     <div className="search">
@@ -41,10 +81,13 @@ function Search() {
       <div className="content">
         <div className="filter-pane">
           Filters:
-          <Filter />
+          <FilterPanel
+            selectedPrice={selectedPrice}
+            changePrice={handleChangePrice}
+          />
         </div>
         <div className="list-pane">
-          <List mentors={mentors} input={searchInput} />
+          <List list={filteredMentors} input={searchInput} />
         </div>
       </div>
     </div>
