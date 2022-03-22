@@ -59,23 +59,7 @@ function ListItem(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography
-                sx={{ cursor: "pointer" }}
-                variant="body2"
-                onClick={() => {
-                  handleClick(props.id);
-                }}
-              >
-                Message
-              </Typography>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleClick(props.id);
-                }}
-              >
-                View Profile
-              </Button>
+              
 
               {/* Show list of expertise */}
               <TechCard user={props.id} />
