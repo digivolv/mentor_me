@@ -21,5 +21,32 @@ module.exports = (db) => {
     });
   });
 
+  router.get("/expertise/:id", (req, res) => {
+    const command = `
+    SELECT DISTINCT * FROM users
+    JOIN mentors ON mentors.user_id = users.id
+    JOIN expertise ON expertise.user_id = users.id
+    WHERE users.id = $1`;
+    const values = [req.params.id];
+    db.query(command, values).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  router.put("/:id", async(req, res) => {
+    const { mentor_id } = req.params;
+    const { job_title, price, city, country } = req.body;
+    console.log(req.body);
+    db.query(
+      `UPDATE mentors
+        SET job_title = $1, price = $2, city = $3, country = $4
+        WHERE mentors.id = $5  
+        RETURNING *`,
+      [job_title, price, city, country, mentor_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  }
+  );
   return router;
 };
