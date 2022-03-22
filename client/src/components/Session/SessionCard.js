@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
 
 const SessionCard = (props) => {
   const {
@@ -19,32 +21,19 @@ const SessionCard = (props) => {
   return (
     <div style={styles}>
       {/* <h3>{`mentor_ID: ${mentor_id}`}</h3> */}
-      <h3>{`mentee_id: ${mentee_id}`}</h3>
+      {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
       {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
-      <p>{`mentor_name: ${mentor_name}`}</p>
-      <p>{`date: ${date}`}</p>
-      <p>{`duration: ${duration}`}</p>
-      <p>{`rating: ${rating}`}</p>
-      <p>{`review: ${review}`}</p>
+      <Link to={`/mentors/${mentor_id}`}>{`Mentor: ${mentor_name}`}</Link>
+      <p>{`Mentorship Date: ${date}`}</p>
+      <p>{`Duration: ${duration}`}</p>
+      <p>
+        {`Rating: ${rating}`}
+        <Rating name="read-only" readOnly defaultValue={3} value={rating} />
+      </p>
+
+      <p>{`Review: ${review}`}</p>
     </div>
   );
 };
 
 export default SessionCard;
-
-{
-  /* <aside>
-  <span>Thank you</span>
-  <h1>session_id {user.id}</h1>
-  <h1>mentor_id {user.mentor_id}</h1>
-  <h1>mentee_id {user.mentee_id}</h1>
-  <h1>Hi, mentee_name {user.mentee_name}</h1>
-  <h1>
-    How was your experience with mentor_name {user.mentor_name}?
-  </h1>
-  <h1>date {user.date}</h1>
-  <h1>duration {user.duration}</h1>
-</aside>
-
-*/
-}
