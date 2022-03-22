@@ -55,7 +55,7 @@ function ListItem(props) {
                 Job Title: {props.jobTitle}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Year of Experience: {props.yearsOfExperience}
+                Years of Experience: {props.yearsOfExperience}
               </Typography>
             </Grid>
             <Grid item>

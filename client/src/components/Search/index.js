@@ -10,16 +10,23 @@ function Search() {
   const [searchInput, setSearchInput] = useState("");
   const [list, setList] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState([20, 60]);
+  // const [experience, setExperience] = useState([]);
 
   const [allMentors, setAllMentors] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState(allMentors);
 
   const handleChangePrice = (event, value) => {
     setSelectedPrice(value);
-    console.log("MOVED");
   };
 
-  // create specialties array
+  // const handleExperienceChecked = (id) => {
+  //   const experienceStateList = experience;
+  //   const changeCheckedExperiences = experienceStateList.map((mentor) =>
+  //     mentor.id === id ? { ...mentor, checked: !mentor.checked } : mentor
+  //   );
+  //   setExperience(changeCheckedExperiences);
+  // };
+
   let all = [];
   const createSpecialtiesArr = (response) => {
     response.data.forEach((element) => {
@@ -30,27 +37,35 @@ function Search() {
         ? all.push(element)
         : all[index].specialties.push(element.specialty);
     });
-    // setList(allMentors);
     setAllMentors(all);
+    setFilteredMentors(all);
   };
 
   const applyFilters = () => {
-    // let updatedList = list;
     let updated = allMentors;
-    // console.log("UPDATED LIST:", updatedList);
+
+    ///////// Years of Experience Filter  /////////////
+
+    // const experiencesChecked = experience
+    //   .filter((mentor) => mentor.checked)
+    //   .map((mentor) => mentor.label.toLowerCase());
+
+    // if (experiencesChecked.length) {
+    //   updatedList = updatedList.filter((mentor) =>
+    //     exprriencesChecked.includes(mentor.years_of_experience)
+    //   );
+    // }
+
+    //////////////////////////////////////////////
 
     // Price Filter
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
 
-    // updatedList = updatedList.filter(
-    //   (mentor) => mentor.price >= minPrice && mentor.price <= maxPrice
-    // );
-
-    // setList(updatedList);
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
+
     setFilteredMentors(updated);
   };
 
@@ -59,7 +74,6 @@ function Search() {
       .get("http://localhost:8080/mentors/expertise")
       .then((response) => {
         createSpecialtiesArr(response);
-        // applyFilters();
       })
       .catch((err) => {
         console.log("error:", err);
@@ -68,7 +82,6 @@ function Search() {
 
   useEffect(() => {
     applyFilters();
-    console.log("MOVED HERE");
   }, [selectedPrice]);
 
   return (
@@ -84,6 +97,8 @@ function Search() {
           <FilterPanel
             selectedPrice={selectedPrice}
             changePrice={handleChangePrice}
+            // experiences={experience}
+            // changeExperience={handleExperienceChecked}
           />
         </div>
         <div className="list-pane">
