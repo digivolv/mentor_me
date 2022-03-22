@@ -14,6 +14,7 @@ let indexRoutes = require("./routes/index");
 let usersRoutes = require("./routes/users");
 let mentorsRoutes = require("./routes/mentors");
 let mentorsIdRoutes = require("./routes/mentors_id");
+let mentorsEditRoutes = require("./routes/mentors_edit");
 
 let app = express();
 
@@ -30,5 +31,6 @@ app.use("/", indexRoutes);
 app.use("/users", usersRoutes(db));
 app.use("/mentors", mentorsRoutes(db));
 app.use("/mentors", mentorsIdRoutes(db));
+app.use("/mentors", mentorsEditRoutes(db));
 
 module.exports = app;

@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import MentorProfile from "./Search/MentorProfile";
+import MentorProfile from "./MentorProfile";
 import { useNavigate } from "react-router-dom";
 
 function Mentors(props) {
