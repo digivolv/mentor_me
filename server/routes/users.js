@@ -47,19 +47,73 @@ module.exports = (db) => {
       const { user_id, mentor_id, session_id } = req.params;
       //Example http://localhost:8080/users/4/mentors/1/sessions/1
       db.query(
-        `SELECT sessions.*, users.name as mentor_name 
-        FROM sessions 
-        JOIN users ON users.id = sessions.mentor_id 
+        `SELECT sessions.*, users.name as name, users.mentor
+        FROM sessions
+        JOIN users ON users.id = sessions.mentor_id
         JOIN mentors ON mentors.user_id = users.id
-        WHERE sessions.mentee_id = $1 
+        WHERE sessions.mentee_id = $1
         AND mentor_id = $2
+        AND sessions.id = $3 UNION
+        SELECT sessions.*, users.name as name , users.mentor
+        FROM sessions
+        JOIN users ON users.id = sessions.mentee_id
         AND sessions.id = $3`,
         [user_id, mentor_id, session_id]
       ).then((data) => {
-        res.json(data.rows);
+        let result = data.rows[0];
+        data.rows.map((item) => {
+          if (item.mentor) {
+            result.mentor_name = item.name;
+          } else {
+            result.mentee_name = item.name;
+          }
+        });
+        res.json([result]);
       });
     }
   );
+
+  // `SELECT sessions.*, users.name as mentor_name
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentor_id
+  // JOIN mentors ON mentors.user_id = users.id
+  // WHERE sessions.mentee_id = $1
+  // AND mentor_id = $2
+  // AND sessions.id = $3`,
+
+  // SELECT sessions.*, users.name as name, users.mentor
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentor_id
+  // JOIN mentors ON mentors.user_id = users.id
+  // WHERE sessions.mentee_id = $1
+  // AND mentor_id = $2
+  // AND sessions.id = $3 UNION
+  // SELECT sessions.*, users.name as name , users.mentor
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentee_id
+  // AND sessions.id = $3
+
+  //old query
+  // `SELECT sessions.*, users.name as mentor_name
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentor_id
+  // JOIN mentors ON mentors.user_id = users.id
+  // WHERE sessions.mentee_id = $1
+  // AND mentor_id = $2
+  // AND sessions.id = $3`,
+
+  //new query
+  // SELECT sessions.*, users.name as name, users.mentor
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentor_id
+  // JOIN mentors ON mentors.user_id = users.id
+  // WHERE sessions.mentee_id = 4
+  // AND mentor_id = 1
+  // AND sessions.id = 1 UNION
+  // SELECT sessions.*, users.name as name , users.mentor
+  // FROM sessions
+  // JOIN users ON users.id = sessions.mentee_id
+  // AND sessions.id = 1
 
   //Route for adding a review and rating to a session
   router.post(

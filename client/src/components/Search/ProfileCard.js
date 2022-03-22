@@ -59,13 +59,23 @@ function ProfileCard(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography sx={{ cursor: "pointer" }} variant="body2" onClick={() => { handleClick(props.id) }}>
+              <Typography
+                sx={{ cursor: "pointer" }}
+                variant="body2"
+                onClick={() => {
+                  handleClick(props.id);
+                }}
+              >
                 Message
               </Typography>
               <Button
                 variant="contained"
-                onClick={() => { handleClick(props.id) }}
-              >View Profile</Button>
+                onClick={() => {
+                  handleClick(props.id);
+                }}
+              >
+                View Profile
+              </Button>
               {/* Show list of expertise */}
               <TechnologyCard user={props.id} />
               {/* <TechnologyCard specialties={props.specialties} /> */}
