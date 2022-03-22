@@ -1,11 +1,15 @@
 import React from "react";
+import PriceSlider from "./PriceSlider";
 
-const Filter = (props) => {
+const FilterPanel = ({ selectedPrice, changePrice }) => {
   return (
     <div>
-      <h3>By Price:</h3>
+      <h3>Price Range:</h3>
+      <br />
+
+      <PriceSlider value={selectedPrice} changePrice={changePrice} />
     </div>
   );
 };
 
-export default Filter;
+export default FilterPanel;
