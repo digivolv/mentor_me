@@ -19,28 +19,58 @@ import Typography from '@mui/material/Typography';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-import NavBar from './NavBar';
-import { Rating, Button } from "@mui/material";
+import NavBar from '../NavBar';
+import { Rating, Button, TextField } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import TechnologyCard from '../Search/TechnologyCard';
+import MentorEdit from './MentorEdit';
+
 const drawerWidth = 240;
 
 function Mentor(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [users, setUsers] = useState([]);
+  const [mentors, setMentors] = useState([]);
   let { id } = useParams();
-  
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:8080/mentors/${id}`)
+  //     .then((response) => {
+  //       // console.log("data!");
+  //       setUsers(response.data);
+  //       // console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log("error!");
+  //       console.log(err);
+  //     });
+  // }, []);
+
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/mentors/${id}`)
+      .get(`http://localhost:8080/mentors/expertise/${id}`)
       .then((response) => {
-        // console.log("data!");
-        setUsers(response.data);
-        // console.log(response);
+        setMentors(response.data);
+        console.log("DATA:", response.data);
+        const newArr = [];
+        response.data.forEach((element) => {
+          console.log("NAME:", element.name);
+          element.specialties = [element.specialty];
+          console.log("ELEMENT:", element);
+          let index = newArr.findIndex((mentor) => mentor.name == element.name);
+          console.log("INDEX", index);
+
+          index === -1
+            ? newArr.push(element)
+            : newArr[index].specialties.push(element.specialty);
+
+          console.log("NEWARR:", newArr);
+        });
+        setMentors(newArr);
       })
       .catch((err) => {
         console.log("error!");
@@ -53,7 +83,7 @@ function Mentor(props) {
       <Toolbar />
       <Divider />
       <List>
-        {users.map((text, index) => (
+        {mentors.map((text, index) => (
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Rating/>
@@ -69,24 +99,28 @@ function Mentor(props) {
             </ListItemIcon>
               <ListItemText
                 primary={text.name} />
-          </ListItem>
+              
+            </ListItem>
+            <ListItemText
+              primary={text.city} secondary={text.country} align={'center'} />
           <ListItem button key={text.id}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
-            <ListItemText primary={text.job_title} />
+              <ListItemText primary={text.job_title} />
           </ListItem>
+              
           <ListItem button key={text.id}>
             <ListItemIcon>
               { <AttachMoneyIcon />}
             </ListItemIcon>
             <ListItemText primary={text.price} />
             </ListItem>
+            
+            <TechnologyCard user={text.id} />
+            
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-           <Button
-                variant="contained"
-                onClick={() => { alert("clicked") }}
-              >Message</Button>
+              <MentorEdit/>
             </div>
             </div>
         ))}
@@ -147,7 +181,7 @@ function Mentor(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        {users.map((user) => {
+        {mentors.map((user) => {
           return (
             <h1>{user.expertise}</h1>
             )
