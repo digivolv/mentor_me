@@ -1,16 +1,16 @@
 import "./App.css";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import MentorView
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Search from "./components/Search";
 import Session from "./components/Session/Session";
 import Sessions from "./components/Session/Sessions";
-import Mentors from "./components/Mentors";
-import Mentor from "./components/Mentor";
-import MentorsEdit from "./components/MentorsEdit";
+import Mentors from "./components/Mentors/Mentors";
+import Mentor from "./components/Mentors/Mentor";
+import MentorView from "./components/Mentors/MentorView";
 
 function App() {
   const [selectedUser, setSelectedUser] = useState();
@@ -22,7 +22,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/users/:id/sessions/:session_id" element={<Session />} />
+        <Route
+          path="/users/:id/mentors/:mentor_id/sessions/:session_id"
+          element={<Session />}
+        />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
         <Route path="/mentors/:id" element={<Mentor mentor={selectedUser} />} />
 
@@ -31,9 +34,9 @@ function App() {
           element={<Mentors onMentorSelect={(user) => setSelectedUser(user)} />}
         />
         <Route
-          path="/mentors/:id/edit"
+          path="/mentors/:id/admin"
           element={
-            <MentorsEdit onMentorSelect={(user) => setSelectedUser(user)} />
+            <MentorView onMentorSelect={(user) => setSelectedUser(user)} />
           }
         />
       </Routes>

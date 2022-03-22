@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-import NavBar from './NavBar';
+import NavBar from '../NavBar';
 import { Rating, Button } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const drawerWidth = 240;
@@ -86,7 +86,7 @@ function Mentor(props) {
            <Button
                 variant="contained"
                 onClick={() => { alert("clicked") }}
-              >Edit</Button>
+              >Message</Button>
             </div>
             </div>
         ))}
