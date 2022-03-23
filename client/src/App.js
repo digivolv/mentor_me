@@ -11,6 +11,7 @@ import Sessions from "./components/Session/Sessions";
 import Mentors from "./components/Mentors/Mentors";
 import Mentor from "./components/Mentors/Mentor";
 import MentorView from "./components/Mentors/MentorView";
+import Messages from "./components/Messages";
 
 function App() {
 const [users, setUsers] = useState([]);
@@ -38,6 +39,7 @@ const [users, setUsers] = useState([]);
             <MentorView />
           }
         />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
     </BrowserRouter>
   );
