@@ -8,18 +8,35 @@ const handleSubmit = (event) => {
   let loginForm = document.getElementById("loginForm");
   const formData = new FormData(loginForm);
 
+  const data = {
+    name: formData.get("name"),
+    username: formData.get("username"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    city: formData.get("city"),
+    country: formData.get("country"),
+    picture: formData.get("picture"),
+  };
+
+  const headers = {
+    "PRIVATE-KEY": "36cade4b-0f82-44e6-80ad-18e96d93e507",
+  };
+
   axios
-    .post("http://localhost:8080/register", {
-      name: formData.get("name"),
-      username: formData.get("username"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-      city: formData.get("city"),
-      country: formData.get("country"),
-      picture: formData.get("picture"),
-    })
+    .all([
+      axios.post("http://localhost:8080/register", data),
+      axios.post(
+        "https://api.chatengine.io/users/",
+        {
+          username: formData.get("username"),
+          secret: formData.get("password"),
+        },
+        { headers: headers }
+      ),
+    ])
     .then((res) => {
       console.log("successful!");
+      console.log(JSON.stringify(res.data));
     })
     .catch((err) => {
       console.log("ERROR:", err);
