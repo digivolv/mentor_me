@@ -59,8 +59,6 @@ function ListItem(props) {
               </Typography>
             </Grid>
             <Grid item>
-              
-
               {/* Show list of expertise */}
               <TechCard user={props.id} />
               {/* <TechCard specialties={props.specialties} /> */}

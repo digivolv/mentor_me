@@ -2,7 +2,8 @@ import { React, useState, useEffect } from "react";
 // import CardProfile from "./CardProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  Avatar,
+  Link,
+  styled,
   Grid,
   Paper,
   Rating,
@@ -41,6 +42,20 @@ function Session() {
       });
   }, []);
 
+  const Img = styled("img")({
+    margin: "auto",
+    display: "block",
+    maxWidth: "10em",
+    maxHeight: "10em",
+  });
+
+  const dateFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   const onSubmitForm = async (event) => {
     event.preventDefault();
 
@@ -67,36 +82,80 @@ function Session() {
   return (
     <div>
       <NavBar />
+
       <Grid
         container
+        padding={10}
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={4}
       >
-        <Grid item>
-          <Paper>
-            <Typography> Session Page </Typography>
-            {/* <h1>session_id {state.sessions.id}</h1> */}
-            {/* <h1>mentor_id {state.sessions.mentor_id}</h1> */}
-            {/* <h1>mentee_id {state.sessions.mentee_id}</h1> */}
-            <h1>Hi, mentee_name {state.sessions.mentee_name}</h1>
-            <h1>
+        <Paper elevation="10">
+          <Grid item paddingTop={6} paddingBottom={2} textAlign="center">
+            <Typography variant="h6"> Mentorship Session Review </Typography>
+            <Img src={state.sessions.picture}></Img>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              Mentor:
+              <Link href={`/mentors/${state.sessions.mentor_id}`}>
+                {state.sessions.mentor_name}
+              </Link>
+            </Typography>
+            <Typography gutterBottom variant="subtitle2" component="div">
+              Session Date:
+              {new Date(state.sessions.date).toLocaleDateString(
+                "EN-ca",
+                dateFormatOptions
+              )}
+            </Typography>
+            <Typography gutterBottom variant="subtitle2" component="div">
+              Duration: {state.sessions.duration}
+            </Typography>
+            <Typography gutterBottom variant="subtitle2" component="div">
+              Cost:
+            </Typography>
+          </Grid>
+          {/* <h1>session_id {state.sessions.id}</h1> */}
+          {/* <h1>mentor_id {state.sessions.mentor_id}</h1> */}
+          {/* <h1>mentee_id {state.sessions.mentee_id}</h1> */}
+          {/* <Grid item xs={9} margin="auto"> */}
+          <Grid
+            item
+            width="100%"
+            paddingLeft={10}
+            paddingRight={10}
+            paddingBottom={5}
+            textAlign="center"
+            justifyContent="center"
+          >
+            <Typography gutterBottom variant="subtitle1" component="div">
+              Hello, {state.sessions.mentee_name} !
+            </Typography>
+
+            <Typography gutterBottom variant="subtitle1" component="div">
               How was your mentorship experience with{" "}
               {state.sessions.mentor_name}?
-            </h1>
-            <h1>Date: {state.sessions.date}</h1>
-            <h1>Duration: {state.sessions.duration}</h1>
-            <h1>Cost: </h1>
-          </Paper>
-        </Grid>
-        <Grid item>
-          <Paper>
+            </Typography>
+
+            {/* <label for="rating">Rating:</label> */}
+
+            {/* <Grid
+              item
+              width="100%"
+              padding={10}
+              textAlign="center"
+              justifyContent="center"
+            > */}
             <form className="form-control" onSubmit={onSubmitForm}>
-              <label for="message">Please tell us about your experience:</label>
+              {/* <label for="message">Please tell us about your experience:</label> */}
               <TextField
-                variant="outlined"
-                id="message"
+                // size="medium"
+                multiline
+                label="Review"
+                // style={{ width: "100%" }}
+                style={{ width: "100%" }}
+                // variant="outlined"
+                id="outlined-multiline-static"
+                rows={4}
                 name="message"
                 type="text"
                 className="form-control"
@@ -107,22 +166,25 @@ function Session() {
                   setState({ ...state, message: event.target.value })
                 }
               />
-              <label for="rating">Rating ( 0 and 5):</label>
-
-              <Rating
-                name="size-medium"
-                defaultValue={3}
-                value={state.rating}
-                onChange={(event) =>
-                  setState({ ...state, rating: event.target.value })
-                }
-              />
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
+              <Grid>
+                <Rating
+                  name="size-medium"
+                  defaultValue={3}
+                  value={state.rating}
+                  onChange={(event) =>
+                    setState({ ...state, rating: event.target.value })
+                  }
+                />
+              </Grid>
+              <Grid>
+                <Button type="submit" variant="contained">
+                  Submit
+                </Button>
+              </Grid>
             </form>
-          </Paper>
-        </Grid>
+          </Grid>
+          {/* </Grid> */}
+        </Paper>
       </Grid>
     </div>
   );
