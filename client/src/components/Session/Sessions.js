@@ -20,7 +20,6 @@ function Session() {
 
   useEffect(() => {
     axios
-      //axios url path still hardcoded
       .get(`http://localhost:8080/users/${id}/sessions/`)
       .then((response) => {
         console.log("data!");
@@ -32,41 +31,64 @@ function Session() {
         console.log(err);
       });
   }, []);
+  // .sort(({ session_id: a }, { session_id: b }) => b - a) //
 
   return (
     <div className="">
       <NavBar />
       <Grid
         container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={4}
+        direction="row"
+        // justifyContent="center"
+        padding="10px"
+        // textAlign="center"
       >
-        <Grid item xs={8} md={8}>
-          <Paper>
-            <Typography>
-              <h1>Sessions</h1>
-            </Typography>
-            {selectedUser.map((user) => {
-              return (
-                <div>
-                  <SessionCard
-                    mentor_id={user.mentor_id}
-                    mentee_id={user.mentee_id}
-                    mentee_name={user.mentee_name}
-                    mentor_name={user.mentor_name}
-                    date={user.date}
-                    duration={user.duration}
-                    rating={user.rating}
-                    review={user.description}
-                    picture={user.picture}
-                  />
-                </div>
-              );
-            })}
-          </Paper>
-        </Grid>
+        <Paper
+          sx={{
+            p: 5,
+            paddingTop: "15",
+            margin: "auto",
+            maxWidth: 1400,
+            flexGrow: 1,
+            // elevation: 15,
+          }}
+          elevation="10"
+        >
+          <Grid
+            container
+            direction="row"
+            // justifyContent="center"
+            // padding="10px"
+            // textAlign="center"
+            // spacing={2}
+            marginLeft="10%"
+            // margin="auto"
+          >
+            <Grid item xs={12} sm container>
+              <Grid item xs={12}>
+                <Typography variant="h3">Sessions</Typography>
+              </Grid>
+              {selectedUser.map((user) => {
+                return (
+                  <Grid item xs={10} padding="10px">
+                    <SessionCard
+                      session_id={user.id}
+                      mentor_id={user.mentor_id}
+                      mentee_id={user.mentee_id}
+                      mentee_name={user.mentee_name}
+                      mentor_name={user.mentor_name}
+                      date={user.date}
+                      duration={user.duration}
+                      rating={user.rating}
+                      review={user.description}
+                      picture={user.picture}
+                    />
+                  </Grid>
+                );
+              })}{" "}
+            </Grid>
+          </Grid>
+        </Paper>
       </Grid>
     </div>
   );

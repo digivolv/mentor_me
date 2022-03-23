@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Grid, Rating, styled } from "@mui/material";
+import { Avatar, Paper, Grid, Rating, styled, Typography } from "@mui/material";
 
 const SessionCard = (props) => {
   const {
@@ -13,6 +13,7 @@ const SessionCard = (props) => {
     rating,
     review,
     picture,
+    session_id,
   } = props;
 
   const styles = {
@@ -22,30 +23,81 @@ const SessionCard = (props) => {
   const Img = styled("img")({
     margin: "auto",
     display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
+    maxWidth: "70%",
+    maxHeight: "70%",
   });
+
+  const dateFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  // let date = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
 
   return (
     <div style={styles}>
       {/* <h3>{`mentor_ID: ${mentor_id}`}</h3> */}
       {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
       {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
-      <Grid container spacing={1}>
-        <Grid item>
-          {/* <Img src={picture} /> */}
-          <Avatar src={picture} />
-        </Grid>
-      </Grid>
-      <Link to={`/mentors/${mentor_id}`}>{`Mentor: ${mentor_name}`}</Link>
-      <p>{`Mentorship Date: ${date}`}</p>
-      <p>{`Duration: ${duration}`}</p>
-      <p>
-        {`Rating: ${rating}`}
-        <Rating name="read-only" readOnly defaultValue={3} value={rating} />
-      </p>
+      <Paper>
+        <Grid
+          container
+          direction="row"
+          // justifyContent="center"
+          padding="1.5%"
+          // padding="10px"
+          // textAlign="center"
+          // spacing={2}
+          width="75%"
+          marginLeft="10%"
+          // margin="auto"
+        >
+          <Grid item xs={5} margin="auto">
+            {/* <Img src={picture} /> */}
+            <Img src={picture} />
+          </Grid>
+          <Grid container xs={7} direction="column" justifyContent="center">
+            <Typography gutterBottom variant="subtitle1" component="div">
+              {`Mentor:`}{" "}
+              <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              {`Mentorship Date: `}{" "}
+              <Link
+                to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
+              >
+                {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
+              </Link>
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              {`Duration: ${duration}`}
+            </Typography>
 
-      <p>{`Review: ${review}`}</p>
+            <Grid item>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {review
+                  ? `Review: ${review} `
+                  : "**This session has not yet been reviewed or rated**"}
+              </Typography>
+            </Grid>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              {/* <Grid vertical-align="auto"> */}
+              {/* {`Rating: ${rating}`} */}
+              {rating && (
+                <Rating
+                  name="read-only"
+                  readOnly
+                  defaultValue={3}
+                  value={rating}
+                />
+              )}
+              {/* </Grid> */}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
     </div>
   );
 };
