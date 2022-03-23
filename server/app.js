@@ -15,6 +15,8 @@ let usersRoutes = require("./routes/users");
 let mentorsRoutes = require("./routes/mentors");
 let mentorsIdRoutes = require("./routes/mentors_id");
 let mentorsEditRoutes = require("./routes/mentors_edit");
+let registerRoutes = require("./routes/register");
+let loginRoutes = require("./routes/login");
 
 let app = express();
 
@@ -32,5 +34,7 @@ app.use("/users", usersRoutes(db));
 app.use("/mentors", mentorsRoutes(db));
 app.use("/mentors", mentorsIdRoutes(db));
 app.use("/mentors", mentorsEditRoutes(db));
+app.use("/register", registerRoutes(db));
+app.use("/login", loginRoutes(db));
 
 module.exports = app;
