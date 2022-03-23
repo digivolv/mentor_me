@@ -5,5 +5,6 @@ CREATE TABLE mentors (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
   job_title VARCHAR(255),
   years_of_experience INTEGER NOT NULL,
-  price INTEGER NOT NULL
+  price INTEGER NOT NULL,
+  blurb VARCHAR(2000)
 );
