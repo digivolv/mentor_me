@@ -50,7 +50,9 @@ function Session() {
             margin: "auto",
             maxWidth: 1400,
             flexGrow: 1,
+            // elevation: 15,
           }}
+          elevation="10"
         >
           <Grid
             container
