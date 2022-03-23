@@ -2,7 +2,17 @@ import { React, useState, useEffect } from "react";
 import SessionCard from "./SessionCard";
 import SessionCardMentorsView from "./SessionCardMentorsView";
 import { useNavigate, useParams } from "react-router-dom";
-import { styled, Grid, Paper, Rating, Button, Typography } from "@mui/material";
+import {
+  ToggleButton,
+  ToggleButtonGroup,
+  alignment,
+  styled,
+  Grid,
+  Paper,
+  Rating,
+  Button,
+  Typography,
+} from "@mui/material";
 import NavBar from "../NavBar";
 import axios from "axios";
 
@@ -17,6 +27,7 @@ function Session() {
   let { id } = useParams();
   let navigate = useNavigate();
 
+  const [format, setFormat] = useState("completed");
   const [menteeSessions, setMenteeSessions] = useState([]);
   const [mentorSessions, setMentorSessions] = useState([]);
   const [userData, setUserData] = useState(id);
@@ -46,7 +57,12 @@ function Session() {
         console.log(err);
       });
   }, []);
-  // .sort(({ session_id: a }, { session_id: b }) => b - a) //
+
+  const handleFormat = (format) => {
+    format === "completed" ? setFormat("upcoming") : setFormat("completed");
+
+    console.log("format", format);
+  };
 
   return (
     <div className="">
@@ -69,6 +85,17 @@ function Session() {
           }}
           elevation="10"
         >
+          <ToggleButtonGroup
+            color="primary"
+            value={format}
+            exclusive
+            onClick={() => {
+              handleFormat(format);
+            }}
+          >
+            <ToggleButton value="completed">Completed Sessions</ToggleButton>
+            <ToggleButton value="upcoming">Upcoming Sessions</ToggleButton>
+          </ToggleButtonGroup>
           <Grid
             container
             direction="row"
@@ -91,6 +118,7 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCard
+                        format={format}
                         session_id={user.id}
                         mentor_id={user.mentor_id}
                         mentee_id={user.mentee_id}
@@ -116,6 +144,7 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCardMentorsView
+                        format={format}
                         session_id={user.id}
                         mentor_id={user.mentor_id}
                         mentee_id={user.mentee_id}
