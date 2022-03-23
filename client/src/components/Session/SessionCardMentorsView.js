@@ -61,16 +61,12 @@ const SessionCard = (props) => {
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Mentor:`}{" "}
-                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
+                {`Mentee: `}
+                {mentee_name}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
-                {/* <Link
-                  to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
-                > */}
                 {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
-                {/* </Link> */}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
