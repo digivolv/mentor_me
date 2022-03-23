@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatEngine, MessageFormSocial } from "react-chat-engine";
+import { ChatEngine } from "react-chat-engine";
 import NavBar from "../NavBar";
 
 function Messages() {

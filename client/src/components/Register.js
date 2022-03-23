@@ -4,16 +4,10 @@ import axios from "axios";
 
 const handleSubmit = (event) => {
   event.preventDefault();
+
   let loginForm = document.getElementById("loginForm");
   const formData = new FormData(loginForm);
-  // for (let key of formData.keys()) {
-  //   console.log("KEY:", key);
-  // }
-  // for (let value of formData.values()) {
-  //   console.log("VALUES:", value);
-  // }
 
-  console.log("USERNAME:", formData.get("username"));
   axios
     .post("http://localhost:8080/register", {
       name: formData.get("name"),
