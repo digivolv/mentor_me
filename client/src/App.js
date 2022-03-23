@@ -13,8 +13,7 @@ import Mentor from "./components/Mentors/Mentor";
 import MentorView from "./components/Mentors/MentorView";
 
 function App() {
-  const [selectedUser, setSelectedUser] = useState();
-
+const [users, setUsers] = useState([]);
   return (
     <BrowserRouter>
       <Routes>
@@ -27,16 +26,16 @@ function App() {
           element={<Session />}
         />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
-        <Route path="/mentors/:id" element={<Mentor mentor={selectedUser} />} />
+        <Route path="/mentors/:id" element={<Mentor users={users} setUsers={setUsers}/>} />
 
         <Route
           path="/mentors"
-          element={<Mentors onMentorSelect={(user) => setSelectedUser(user)} />}
+          element={<Mentors />}
         />
         <Route
           path="/mentors/:id/admin"
           element={
-            <MentorView onMentorSelect={(user) => setSelectedUser(user)} />
+            <MentorView />
           }
         />
       </Routes>
