@@ -72,55 +72,77 @@ function Session() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={4}
+        // spacing={8}
+        // paddingTop={10}
       >
-        <Grid item>
-          <Paper>
-            <Typography> Session Page </Typography>
-            {/* <h1>session_id {state.sessions.id}</h1> */}
-            {/* <h1>mentor_id {state.sessions.mentor_id}</h1> */}
-            {/* <h1>mentee_id {state.sessions.mentee_id}</h1> */}
-            <h1>Hi, mentee_name {state.sessions.mentee_name}</h1>
-            <h1>
-              How was your mentorship experience with{" "}
-              {state.sessions.mentor_name}?
-            </h1>
-            <h1>Date: {state.sessions.date}</h1>
-            <h1>Duration: {state.sessions.duration}</h1>
-            <h1>Cost: </h1>
-          </Paper>
-        </Grid>
-        <Grid item>
-          <Paper>
-            <form className="form-control" onSubmit={onSubmitForm}>
-              <label for="message">Please tell us about your experience:</label>
-              <TextField
-                variant="outlined"
-                id="message"
-                name="message"
-                type="text"
-                className="form-control"
-                required
-                // placeholder="Please write a brief description of how your message went with your mentor"
-                value={state.message}
-                onInput={(event) =>
-                  setState({ ...state, message: event.target.value })
-                }
-              />
-              <label for="rating">Rating ( 0 and 5):</label>
+        <Grid
+          container
+          padding={10}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Paper elevation="10" padding={10}>
+            <Grid container padding={10}
+          direction="row"
+          justifyContent="center"
+          alignItems="center">
+              <Grid item padding={6}>
+                <Typography variant="h2"> Session Page </Typography>
+              </Grid>
+              {/* <h1>session_id {state.sessions.id}</h1> */}
+              {/* <h1>mentor_id {state.sessions.mentor_id}</h1> */}
+              {/* <h1>mentee_id {state.sessions.mentee_id}</h1> */}
+              
+              
+              <Grid
+                item
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                >
+                <h1>Hi, mentee_name {state.sessions.mentee_name}</h1>
+                <h1>
+                  How was your mentorship experience with{" "}
+                  {state.sessions.mentor_name}?
+                </h1>
+                <h1>Date: {state.sessions.date}</h1>
+                <h1>Duration: {state.sessions.duration}</h1>
+                <h1>Cost: </h1>
 
-              <Rating
-                name="size-medium"
-                defaultValue={3}
-                value={state.rating}
-                onChange={(event) =>
-                  setState({ ...state, rating: event.target.value })
-                }
-              />
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
-            </form>
+                <form className="form-control" onSubmit={onSubmitForm}>
+                  <label for="message">
+                    Please tell us about your experience:
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    id="message"
+                    name="message"
+                    type="text"
+                    className="form-control"
+                    required
+                    // placeholder="Please write a brief description of how your message went with your mentor"
+                    value={state.message}
+                    onInput={(event) =>
+                      setState({ ...state, message: event.target.value })
+                    }
+                  />
+                  <label for="rating">Rating ( 0 and 5):</label>
+
+                  <Rating
+                    name="size-medium"
+                    defaultValue={3}
+                    value={state.rating}
+                    onChange={(event) =>
+                      setState({ ...state, rating: event.target.value })
+                    }
+                  />
+                  <Button type="submit" variant="contained">
+                    Submit
+                  </Button>
+                </form>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>
