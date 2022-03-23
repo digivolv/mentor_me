@@ -6,33 +6,31 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
+import WorkIcon from '@mui/icons-material/Work';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import NavBar from '../NavBar';
-import { Rating, Button } from "@mui/material";
+import { Rating, Button, Grid, Paper } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const drawerWidth = 240;
 
 function Mentor(props) {
-  const { window } = props;
+  const { window, users, setUsers } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [users, setUsers] = useState([]);
+  const [mentor, setMentor] = useState([]);
   let { id } = useParams();
-  
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  
 
   useEffect(() => {
     axios
@@ -41,6 +39,33 @@ function Mentor(props) {
         // console.log("data!");
         setUsers(response.data);
         // console.log(response);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/mentors/expertise/${id}`)
+      .then((response) => {
+        console.log("DATA:", response.data);
+        const newArr = [];
+        response.data.forEach((element) => {
+          console.log("NAME:", element.name);
+          element.specialties = [element.specialty];
+          console.log("ELEMENT:", element);
+          let index = newArr.findIndex((mentor) => mentor.name == element.name);
+          console.log("INDEX", index);
+
+          index === -1
+            ? newArr.push(element)
+            : newArr[index].specialties.push(element.specialty);
+
+          console.log("NEWARR:", newArr);
+        });
+        setMentor(newArr);
       })
       .catch((err) => {
         console.log("error!");
@@ -66,13 +91,15 @@ function Mentor(props) {
               </div >
           <ListItem button key={text.id}>
             <ListItemIcon>
-            </ListItemIcon>
-              <ListItemText
-                primary={text.name} />
+              </ListItemIcon>
+              
+
+              <ListItemText primary={text.name} />
+              
           </ListItem>
           <ListItem button key={text.id}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {<WorkIcon />}
             </ListItemIcon>
             <ListItemText primary={text.job_title} />
           </ListItem>
@@ -80,7 +107,7 @@ function Mentor(props) {
             <ListItemIcon>
               { <AttachMoneyIcon />}
             </ListItemIcon>
-            <ListItemText primary={text.price} />
+            <ListItemText primary={text.price.toFixed(2)} /> per hour
             </ListItem>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
            <Button
@@ -147,39 +174,13 @@ function Mentor(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        {users.map((user) => {
-          return (
-            <h1>{user.expertise}</h1>
-            )
-          })}
-
+        {users.map((text, index) => (
+          <>
         <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
+              {text.blurb}
         </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+          </>
+        ))}
       </Box>
     </Box>
   );

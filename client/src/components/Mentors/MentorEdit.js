@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Button, Modal, Box, Typography, TextField } from "@mui/material";
+import { Button, Modal, Box, Typography, TextField, Grid } from "@mui/material";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -20,21 +20,19 @@ const MentorEdit = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [mentors, setMentors] = useState([]);
+  const [mentor, setMentor] = useState([]);
   let { id } = useParams();
   let navigate = useNavigate()
   const [state, setState] = useState({
-    job_title: '',
-    price: "",
+    job_title: "",
+    price: 0,
     city: "",
-    country: ""
+    country: "",
   });
-  
   useEffect(() => {
     axios
       .get(`http://localhost:8080/mentors/expertise/${id}`)
       .then((response) => {
-        setMentors(response.data);
         console.log("DATA:", response.data);
         const newArr = [];
         response.data.forEach((element) => {
@@ -50,7 +48,7 @@ const MentorEdit = (props) => {
 
           console.log("NEWARR:", newArr);
         });
-        setMentors(newArr);
+        setMentor(newArr[0]);
       })
       .catch((err) => {
         console.log("error!");
@@ -64,14 +62,14 @@ const MentorEdit = (props) => {
       .put(`http://localhost:8080/mentors/${id}`,
         {
           user_id: id,
-          job_title: state.job_title,
-          price: state.price,
-          city: state.city,
-          country: state.country
+          job_title: mentor.job_title,
+          price: mentor.price,
+          years_of_experience: mentor.years_of_experience
         })
       .then(function (response) {
         console.log(response);
         navigate(`/mentors/${id}/admin`);
+        window.location.reload()
       })
       .catch(function (error) {
         console.log(error);
@@ -79,46 +77,64 @@ const MentorEdit = (props) => {
   }
 
   return (
-  <form className="form-control" onSubmit={onSubmitForm}>
-  <Button onClick={handleOpen}>Edit Information</Button>
+    <>
+    <Button onClick={handleOpen}>Edit</Button>
 <Modal
   open={open}
   onClose={handleClose}
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
+  <form className="form-control" onSubmit={onSubmitForm}>
   <Box sx={style}>
-          {mentors.map((text) => (
+          
             <div>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+              <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                 Edit Information
               </Typography>
-              <TextField label={text.job_title}
-              onInput={(event) =>
-              setState({ ...state, job_title: event.target.value })
-            }/>
-              <TextField label={text.price}
-              onInput={(event) =>
-              setState({ ...state, price: event.target.value })
-            }/>
-              <TextField label={text.city}
-              onInput={(event) =>
-              setState({ ...state, city: event.target.value })
-            }/>
-              <TextField label={text.country}
-              onInput={(event) =>
-              setState({ ...state, country: event.target.value })
-            }/>
+              <TextField
+                fullWidth label='Job Title'
+                id="fullWidth" 
+                onChange={(event) =>
+                  setMentor({ ...mentor, job_title: event.target.value })
+                }
+                value={mentor.job_title}
+              />
+              <TextField
+                fullWidth label="Rate"
+                id="fullWidth"
+                onChange={(event) =>
+                  setMentor({ ...mentor, price: event.target.value })
+                } 
+                value={mentor.price}
+                />
+              <TextField
+                fullWidth label="Years of Experience"
+                id="fullWidth"
+                onChange={(event) =>
+                  setMentor({ ...mentor, years_of_experience: event.target.value })
+                }
+                value={mentor.years_of_experience}
+              />
+              <Grid
+  container
+  spacing={0}
+  direction="column"
+  alignItems="center"
+  justifyContent="center"
+              >
               <Button
                 variant="contained"
                 type="submit"
+                
               >Edit</Button>
-            </div>
-      ))}    
+              
+              </Grid>
+            </div>   
   </Box>
+      </form>
 </Modal>
-  </form>
-
+</>
   )
 }
 
