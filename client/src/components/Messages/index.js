@@ -8,8 +8,8 @@ function Messages() {
       <NavBar />
       <ChatEngine
         height="93vh"
-        userName="linklink"
-        userSecret="1234"
+        userName={localStorage.getItem("username")}
+        userSecret={localStorage.getItem("password")}
         projectID="941d22c2-8fa3-4667-8160-392008fb47f7"
       />
     </div>

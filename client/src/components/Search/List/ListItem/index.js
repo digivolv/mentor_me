@@ -81,7 +81,7 @@ function ListItem(props) {
             <Button
               variant="contained"
               onClick={() => {
-                handleClick(props.id);
+                navigate(`/messages`);
               }}
             >
               Message
