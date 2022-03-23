@@ -92,7 +92,7 @@ function Session() {
       >
         <Paper elevation="10">
           <Grid item paddingTop={6} paddingBottom={2} textAlign="center">
-            <Typography variant="h6"> Mentoship Session Review </Typography>
+            <Typography variant="h6"> Mentorship Session Review </Typography>
             <Img src={state.sessions.picture}></Img>
             <Typography gutterBottom variant="subtitle1" component="div">
               Mentor:
@@ -101,7 +101,7 @@ function Session() {
               </Link>
             </Typography>
             <Typography gutterBottom variant="subtitle2" component="div">
-              Date:
+              Session Date:
               {new Date(state.sessions.date).toLocaleDateString(
                 "EN-ca",
                 dateFormatOptions
