@@ -1,13 +1,13 @@
 import { React } from "react";
-import axios from "axios";
-import "./register.css";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Register.css";
+import Button from "@mui/material/Button";
 
 function Register() {
   let navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     let loginForm = document.getElementById("loginForm");
@@ -24,12 +24,40 @@ function Register() {
     };
 
     const headers = {
-      "PRIVATE-KEY": "36cade4b-0f82-44e6-80ad-18e96d93e507",
+      // "PRIVATE-KEY": "36cade4b-0f82-44e6-80ad-18e96d93e507",
+      "PRIVATE-KEY": process.env.REACT_APP_CHAT_PRIVATE_KEY,
     };
 
     ///////////////////// PROMISE VERSION  ////////////////////
-    axios
-      .all([
+    //   axios
+    //     .all([
+    //       axios.post("http://localhost:8080/register", data),
+    //       axios.post(
+    //         "https://api.chatengine.io/users/",
+    //         {
+    //           username: formData.get("username"),
+    //           secret: formData.get("password"),
+    //         },
+    //         { headers: headers }
+    //       ),
+    //     ])
+    //     .then(
+    //       axios.spread((...responses) => {
+    //         console.log(JSON.stringify(responses[0].data));
+    //         console.log(responses[0]);
+    //         console.log("SUCCESS!");
+    //         navigate(`/search`);
+    //       })
+    //     )
+    //     .catch((err) => {
+    //       console.log("ERROR:", err);
+    //     });
+    // };
+
+    ////////// ASYNC AWAIT VERSION ///////////////////
+
+    try {
+      await axios.all([
         axios.post("http://localhost:8080/register", data),
         axios.post(
           "https://api.chatengine.io/users/",
@@ -39,41 +67,14 @@ function Register() {
           },
           { headers: headers }
         ),
-      ])
-      .then(
-        axios.spread((...responses) => {
-          console.log(JSON.stringify(responses[0].data));
-          console.log(responses[0]);
-          console.log("SUCCESS!");
-          navigate(`/search`);
-        })
-      )
-      .catch((err) => {
-        console.log("ERROR:", err);
-      });
+      ]);
+
+      navigate(`/search`);
+      console.log("success");
+    } catch (err) {
+      console.log("ERRORRRR:", err);
+    }
   };
-
-  ////////// ASYNC AWAIT VERSION ///////////////////
-
-  // try {
-  //   await axios.all([
-  //     axios.post("http://localhost:8080/register", data),
-  //     axios.post(
-  //       "https://api.chatengine.io/users/",
-  //       {
-  //         username: formData.get("username"),
-  //         secret: formData.get("password"),
-  //       },
-  //       { headers: headers }
-  //     ),
-  //   ]);
-
-  //   console.log("success");
-  //   navigate(`/search`);
-  // } catch (err) {
-  //   console.log("ERRORRRR:", err);
-  // }
-  // };
   ///////////////////////////////////////////////////
 
   return (

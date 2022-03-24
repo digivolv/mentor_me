@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import "./styles.css";
+import "./TechCard.css";
 
 function TechCard(props) {
   const [expertise, setExpertise] = useState([]);

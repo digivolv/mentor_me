@@ -3,7 +3,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import "./register.css";
+import "./Register.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,7 +15,8 @@ function Login() {
     event.preventDefault();
 
     const authObject = {
-      "Project-ID": "941d22c2-8fa3-4667-8160-392008fb47f7",
+      // "Project-ID": "941d22c2-8fa3-4667-8160-392008fb47f7",
+      "Project-ID": process.env.REACT_APP_CHAT_PROJECT_ID,
       "User-Name": username,
       "User-Secret": password,
     };
