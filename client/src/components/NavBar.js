@@ -11,6 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Find A Mentor", "Be a Mentor"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -18,6 +19,21 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const navigateHome = useNavigate();
+  const handleHome = (id) => {
+    navigateHome(`/`);
+  };  
+
+  const navigateSearch = useNavigate();
+  const handleClick = (id) => {
+    navigateSearch(`/search`);
+  };  
+
+  const navigateRegister = useNavigate();
+  const handleRegister = (id) => {
+    navigateRegister(`/register`);
+  };  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,6 +55,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
+            onClick={handleHome}
             variant="h6"
             noWrap
             component="div"
@@ -77,7 +94,7 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -95,7 +112,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={handleClick}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
