@@ -1,15 +1,19 @@
-// NOTE - This page needs WORK
 import { React } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Register.css";
+import Button from "@mui/material/Button";
 
-const handleSubmit = (event) => {
-  event.preventDefault();
+function Register() {
+  let navigate = useNavigate();
 
-  let loginForm = document.getElementById("loginForm");
-  const formData = new FormData(loginForm);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-  axios
-    .post("http://localhost:8080/register", {
+    let loginForm = document.getElementById("loginForm");
+    const formData = new FormData(loginForm);
+
+    const data = {
       name: formData.get("name"),
       username: formData.get("username"),
       email: formData.get("email"),
@@ -17,29 +21,90 @@ const handleSubmit = (event) => {
       city: formData.get("city"),
       country: formData.get("country"),
       picture: formData.get("picture"),
-    })
-    .then((res) => {
-      console.log("successful!");
-    })
-    .catch((err) => {
-      console.log("ERROR:", err);
-    });
-};
+    };
 
-function Register() {
+    const headers = {
+      "PRIVATE-KEY": process.env.REACT_APP_CHAT_PRIVATE_KEY,
+    };
+
+    ///////////////////// PROMISE VERSION  ////////////////////
+    axios
+      .all([
+        axios.post("http://localhost:8080/register", data),
+        axios.post(
+          "https://api.chatengine.io/users/",
+          {
+            username: formData.get("username"),
+            secret: formData.get("password"),
+          },
+          { headers: headers }
+        ),
+      ])
+      .then(
+        axios.spread((...responses) => {
+          console.log(JSON.stringify(responses[0].data));
+          console.log(responses[0]);
+          console.log("SUCCESS!");
+          navigate(`/search`);
+        })
+      )
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  };
+
+  ////////// ASYNC AWAIT VERSION ///////////////////
+
+  //   try {
+  //     await axios.all([
+  //       axios.post("http://localhost:8080/register", data),
+  //       axios.post(
+  //         "https://api.chatengine.io/users/",
+  //         {
+  //           username: formData.get("username"),
+  //           secret: formData.get("password"),
+  //         },
+  //         { headers: headers }
+  //       ),
+  //     ]);
+
+  //     navigate(`/search`);
+  //     console.log("success");
+  //   } catch (err) {
+  //     console.log("ERRORRRR:", err);
+  //   }
+  // };
+  ///////////////////////////////////////////////////
+
   return (
-    <div>
-      <h1>Registration Page </h1>
-      <form id="loginForm" onSubmit={handleSubmit}>
-        Username: <input type="text" name="username" />
-        Name: <input type="text" name="name" />
-        Email: <input type="text" name="email" />
-        Password: <input type="password" name="password" />
-        City: <input type="text" name="city" />
-        Country: <input type="text" name="country" />
-        Picture: <input type="text" name="picture" />
-        <button type="submit">Register</button>
-      </form>
+    <div className="registration">
+      <div className="left">
+        <div className="logo">
+          <h1 className="title">Hello, Friend!</h1>
+          <p>
+            Enter your details to register and find a mentor
+            <br /> to help with your coding questions today 👨🏻‍💻
+          </p>
+        </div>
+      </div>
+      <div className="right">
+        <h1>Register </h1>
+        <form id="loginForm" onSubmit={handleSubmit}>
+          Username: <input type="text" name="username" />
+          Name: <input type="text" name="name" />
+          Email: <input type="text" name="email" />
+          Password:
+          <input type="password" name="password" />
+          City: <input type="text" name="city" />
+          Country:
+          <input type="text" name="country" />
+          Picture:
+          <input type="text" name="picture" />
+          <Button variant="contained" size="large" type="submit">
+            Register
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

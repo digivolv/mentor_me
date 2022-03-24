@@ -1,5 +1,3 @@
-// NOTE - This file needs work
-
 const express = require("express");
 const router = express.Router();
 
