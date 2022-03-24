@@ -6,10 +6,12 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import { useNavigate } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import PsychologyIcon from '@mui/icons-material/Psychology';
 import WorkIcon from '@mui/icons-material/Work';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,9 +21,13 @@ import { useParams } from "react-router-dom";
 import NavBar from '../NavBar';
 import { Rating, Button, Grid, Paper } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { PopupButton } from "react-calendly";
+import { Stack } from '@mui/material';
+
 const drawerWidth = 240;
 
 function Mentor(props) {
+  const FavouriteComponent = props.favouriteComponent
   const { window, users, setUsers } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mentor, setMentor] = useState([]);
@@ -30,7 +36,11 @@ function Mentor(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  
+
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+    navigate(`/messages`);
+  };
 
   useEffect(() => {
     axios
@@ -75,6 +85,7 @@ function Mentor(props) {
 
   const drawer = (
     <div>
+      <FavouriteComponent onClick={props.handleFavouritesClick} />
       <Toolbar />
       <Divider />
       <List>
@@ -96,7 +107,9 @@ function Mentor(props) {
 
               <ListItemText primary={text.name} />
               
-          </ListItem>
+            </ListItem>
+             <ListItemText
+              primary={text.city} secondary={text.country} align={'center'} />
           <ListItem button key={text.id}>
             <ListItemIcon>
               {<WorkIcon />}
@@ -109,11 +122,29 @@ function Mentor(props) {
             </ListItemIcon>
             <ListItemText primary={text.price.toFixed(2)} /> per hour
             </ListItem>
+            <ListItem button key={text.id}>
+            <ListItemIcon>
+              {<PsychologyIcon />}
+            </ListItemIcon>
+              <ListItemText primary={text.years_of_experience} /> years of teaching
+            </ListItem>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-           <Button
+           <Stack spacing={2} direction="row">
+              <Button
                 variant="contained"
-                onClick={() => { alert("clicked") }}
+                onClick={() => { handleClick() }}
               >Message</Button>
+                <PopupButton
+                  class="mui-btn"
+        url="https://calendly.com/j-jaeykim/30min?month=2022-03"
+        /*
+         * react-calendly uses React's Portal feature (https://reactjs.org/docs/portals.html) to render the popup modal. As a result, you'll need to
+         * specify the rootElement property to ensure that the modal is inserted into the correct domNode.
+         */
+        rootElement={document.getElementById("root")}
+        text="Click here to schedule!"
+              />
+              </Stack>
             </div>
             </div>
         ))}
