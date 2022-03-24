@@ -8,12 +8,14 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import WorkIcon from '@mui/icons-material/Work';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import PsychologyIcon from '@mui/icons-material/Psychology';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Avatar } from '@mui/material';
@@ -105,7 +107,7 @@ function Mentor(props) {
               primary={text.city} secondary={text.country} align={'center'} />
           <ListItem button key={text.id}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {<WorkIcon/>}
             </ListItemIcon>
               <ListItemText primary={text.job_title} />
           </ListItem>
@@ -116,7 +118,12 @@ function Mentor(props) {
             </ListItemIcon>
             <ListItemText primary={text.price} />
             </ListItem>
-            
+            <ListItem button key={text.id}>
+            <ListItemIcon>
+              {<PsychologyIcon />}
+            </ListItemIcon>
+              <ListItemText primary={text.years_of_experience} /> years of teaching
+            </ListItem>
             <TechnologyCard user={text.id} />
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

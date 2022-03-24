@@ -17,6 +17,7 @@ let mentorsIdRoutes = require("./routes/mentors_id");
 let mentorsEditRoutes = require("./routes/mentors_edit");
 let registerRoutes = require("./routes/register");
 let loginRoutes = require("./routes/login");
+let favouriteRoutes = require("./routes/favourites");
 
 let app = express();
 
@@ -36,5 +37,6 @@ app.use("/mentors", mentorsIdRoutes(db));
 app.use("/mentors", mentorsEditRoutes(db));
 app.use("/register", registerRoutes(db));
 app.use("/login", loginRoutes(db));
+app.use("/favourites",favouriteRoutes(db));
 
 module.exports = app;

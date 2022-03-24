@@ -10,6 +10,19 @@ module.exports = (db) => {
   });
 
   // All sessions/reviews of a specifid "user", sort by ID
+  router.get("/:user_id/", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT * 
+      FROM users
+      WHERE id = $1`,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  // All sessions/reviews of a specifid "user" MENTEE, sort by ID
   router.get("/:user_id/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
@@ -18,6 +31,24 @@ module.exports = (db) => {
       JOIN users ON users.id = sessions.mentor_id 
       JOIN mentors ON mentors.user_id = users.id
       WHERE mentee_id = $1`,
+      [user_id]
+    ).then((data) => {
+      let sortedDataById = data.rows.sort(function(a, b) {
+        return b.id - a.id;
+      });
+      res.json(sortedDataById);
+    });
+  });
+
+  /// ALL SESSIONS FOR MENTOR
+  router.get("/:user_id/mentors/sessions/", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT sessions.*, users.name as mentee_name, users.picture as picture
+      FROM sessions 
+      JOIN users ON users.id = sessions.mentee_id 
+      JOIN mentors ON mentors.user_id = sessions.mentor_id
+      WHERE mentor_id = $1`,
       [user_id]
     ).then((data) => {
       let sortedDataById = data.rows.sort(function (a, b) {
@@ -39,7 +70,7 @@ module.exports = (db) => {
         AND `,
       [user_id]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function (a, b) {
+      let sortedDataById = data.rows.sort(function(a, b) {
         return b.id - a.id;
       });
       res.json(sortedDataById);
@@ -77,7 +108,7 @@ module.exports = (db) => {
   });
 
   //Route for adding a review and rating to a session
-  router.put("/:user_id/sessions/:session_id", async (req, res) => {
+  router.put("/:user_id/sessions/:session_id", async(req, res) => {
     // const { user_id, mentor_id, session_id } = req.params;
     const { user_id } = req.params;
     const { mentor_id, rating, description, id } = req.body;
@@ -133,7 +164,7 @@ module.exports = (db) => {
         data.rows.map((item) => {
           if (item.mentor) {
             result.mentor_name = item.name;
-            // result.picture = item.picture;
+            result.picture = item.picture;
           } else {
             result.mentee_name = item.name;
           }
@@ -146,7 +177,7 @@ module.exports = (db) => {
   //Route for adding a review and rating to a session
   router.put(
     "/:user_id/mentors/:mentor_id/sessions/:session_id",
-    async (req, res) => {
+    async(req, res) => {
       const { user_id, mentor_id, session_id } = req.params;
       const { rating, description } = req.body;
       console.log(req.body);
