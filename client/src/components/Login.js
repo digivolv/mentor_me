@@ -31,7 +31,7 @@ function Login() {
       navigate(`/search`);
       setError("");
     } catch (err) {
-      setError("Error, wrong username or password.");
+      setError("Error, wrong username/password.");
     }
   };
 
