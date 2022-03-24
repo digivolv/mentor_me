@@ -8,9 +8,9 @@ function Messages() {
       <NavBar />
       <ChatEngine
         height="93vh"
-        userName="linklink"
-        userSecret="1234"
-        projectID="941d22c2-8fa3-4667-8160-392008fb47f7"
+        userName={localStorage.getItem("username")}
+        userSecret={localStorage.getItem("password")}
+        projectID={process.env.REACT_APP_CHAT_PROJECT_ID}
       />
     </div>
   );
