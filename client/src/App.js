@@ -15,12 +15,14 @@ import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
 import AddFavourite from "./components/AddFavourite";
 function App() {
+
   const [users, setUsers] = useState([]);
   const [favourites, setFavourites] = useState([])
   const addFavouriteMentor = (mentor) => {
     const newFavouriteList = [...favourites, mentor]
     setFavourites(newFavouriteList)
   }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -33,12 +35,20 @@ function App() {
           element={<Session />}
         />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
+
         <Route path="/mentors/:id"
           element={<Mentor
             users={users}
             setUsers={setUsers}
             favouriteComponent={AddFavourite}
             handleFavouritesClick={addFavouriteMentor} />} />
+        <Route
+          path="/mentors/:id"
+          element={<Mentor users={users} setUsers={setUsers} />}
+        />
+
+        <Route path="/mentors" element={<Mentors />} />
+        <Route path="/mentors/:id/admin" element={<MentorView />} />
 
         <Route
           path="/mentors"
@@ -50,6 +60,7 @@ function App() {
             <MentorView />
           }
         />
+>>>>>>> main
         <Route path="/messages" element={<Messages />} />
       <Route path="/calendar" element={<Calendar />} />
       </Routes>
