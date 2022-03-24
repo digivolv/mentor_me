@@ -14,7 +14,11 @@ import MentorView from "./components/Mentors/MentorView";
 import Messages from "./components/Messages";
 
 function App() {
+<<<<<<< HEAD
   const [users, setUsers] = useState([]);
+=======
+const [users, setUsers] = useState([]);
+>>>>>>> main
   return (
     <BrowserRouter>
       <Routes>
@@ -27,6 +31,7 @@ function App() {
           element={<Session />}
         />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
+<<<<<<< HEAD
         <Route
           path="/mentors/:id"
           element={<Mentor users={users} setUsers={setUsers} />}
@@ -34,6 +39,20 @@ function App() {
 
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/mentors/:id/admin" element={<MentorView />} />
+=======
+        <Route path="/mentors/:id" element={<Mentor users={users} setUsers={setUsers}/>} />
+
+        <Route
+          path="/mentors"
+          element={<Mentors />}
+        />
+        <Route
+          path="/mentors/:id/admin"
+          element={
+            <MentorView />
+          }
+        />
+>>>>>>> main
         <Route path="/messages" element={<Messages />} />
       </Routes>
     </BrowserRouter>
