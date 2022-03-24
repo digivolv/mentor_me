@@ -3,7 +3,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import "./Register.css";
+import "./register.css";
 
 function Login() {
   const [username, setUsername] = useState("");
