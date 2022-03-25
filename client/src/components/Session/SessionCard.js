@@ -14,6 +14,7 @@ import {
 
 const SessionCard = (props) => {
   const {
+    mentor_confirmed,
     mentor_id,
     mentee_id,
     mentee_name,
@@ -163,6 +164,63 @@ const SessionCard = (props) => {
         )}
 
         {!review && !rating && format === "upcoming" && (
+          <Grid
+            container
+            direction="row"
+            // justifyContent="center"
+            padding="1.5%"
+            // padding="10px"
+            // textAlign="center"
+            // spacing={2}
+            width="75%"
+            marginLeft="10%"
+            // margin="auto"
+          >
+            <Grid item xs={5} margin="auto">
+              {/* <Img src={picture} /> */}
+              <Img src={picture} />
+            </Grid>
+            <Grid container xs={7} direction="column" justifyContent="center">
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Mentor:`}{" "}
+                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Mentorship Date: `}{" "}
+                <Link
+                  to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
+                >
+                  {new Date(date).toLocaleDateString(
+                    "EN-ca",
+                    dateFormatOptions
+                  )}
+                </Link>
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Duration: ${duration}`}
+              </Typography>
+
+              <Grid item>
+                <Typography gutterBottom variant="subtitle1" component="div">
+                  Review: {review}
+                </Typography>
+              </Grid>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {/* <Grid vertical-align="auto"> */}
+                {/* {`Rating: ${rating}`} */}
+                <Rating
+                  name="read-only"
+                  readOnly
+                  defaultValue={3}
+                  value={rating}
+                />
+                {/* </Grid> */}
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+
+        {!mentor_confirmed && format === "pending" && (
           <Grid
             container
             direction="row"
