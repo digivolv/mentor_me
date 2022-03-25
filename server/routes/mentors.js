@@ -33,7 +33,7 @@ module.exports = (db) => {
     });
   });
 
-  router.put("/:id", async(req, res) => {
+  router.put("/:id", async (req, res) => {
     const { mentor_id } = req.params;
     const { job_title, price, city, country } = req.body;
     console.log(req.body);
@@ -46,7 +46,23 @@ module.exports = (db) => {
     ).then((data) => {
       res.json(data.rows);
     });
-  }
-  );
+  });
+
+  router.post("/", (req, res) => {
+    const queryStr = `INSERT INTO mentors (user_id, job_title, years_of_experience, price) VALUES ($1, $2, $3, $4) RETURNING *;`;
+
+    const { user_id, job_title, years_of_experience, price } = req.body;
+
+    const values = [user_id, job_title, years_of_experience, price];
+
+    db.query(queryStr, values)
+      .then((data) => {
+        console.log("Added new mentors to mentor table!");
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  });
+
   return router;
 };

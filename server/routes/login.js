@@ -4,15 +4,13 @@ const router = express.Router();
 module.exports = (db) => {
   router.post("/", function (req, res) {
     const username = req.body.username;
-    const password = req.body.password;
+    console.log("accessing backend");
+    console.log("USERNAME", username);
 
     db.query(`SELECT * FROM users WHERE username = $1`, [username])
       .then((data) => {
-        const id = data.rows[0].id;
-        const name = data.rows[0].name;
-        console.log("ID", id);
-        console.log("NAME", name);
-        res.redirect("http://localhost:3000");
+        console.log("DATA:", data.rows);
+        res.json(data.rows);
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });

@@ -14,6 +14,8 @@ import MentorView from "./components/Mentors/MentorView";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
 import AddFavourite from "./components/AddFavourite";
+import BecomeMentor from "./components/BecomeMentor";
+
 function App() {
   const [users, setUsers] = useState([]);
   const [favourites, setFavourites] = useState([]);
@@ -58,6 +60,7 @@ function App() {
         <Route path="/mentors/:id/admin" element={<MentorView />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route path="/become-a-mentor" element={<BecomeMentor />} />
       </Routes>
     </BrowserRouter>
   );
