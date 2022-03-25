@@ -107,6 +107,30 @@ module.exports = (db) => {
     });
   });
 
+  router.put("/:user_id/sessions/confirm", (req, res) => {
+    const { mentor_confirmed, session_id } = req.body;
+    db.query(
+      `UPDATE sessions
+        SET mentor_confirmed = $1
+        WHERE sessions.id = $2  
+        RETURNING *`,
+      [mentor_confirmed, session_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  router.delete("/:user_id/sessions/delete", (req, res) => {
+    const { session_id } = req.body;
+    db.query(
+      `DELETE FROM sessions
+        WHERE sessions.id = $1 `,
+      [session_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
   // router.post("/:user_id/sessions/new", (req, res) => {
   //   const { user_id } = req.params;
   //   const { mentor_id, mentor_confirmed, duration } = req.body;
@@ -169,7 +193,7 @@ module.exports = (db) => {
     });
   });
 
-  //Route for adding a review and rating to a session
+  //Route for MENTEE adding a review and rating to a session +++++
   router.put("/:user_id/sessions/:session_id", async (req, res) => {
     // const { user_id, mentor_id, session_id } = req.params;
     const { user_id } = req.params;

@@ -72,7 +72,8 @@ function Session() {
       )
       .then(function (response) {
         console.log(response);
-        navigate(`/users/${id}/sessions`);
+        // navigate(`/users/${id}/sessions`);
+        window.location.reload(false);
       })
       .catch(function (error) {
         console.log(error);

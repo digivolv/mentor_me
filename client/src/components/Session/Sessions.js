@@ -69,8 +69,11 @@ function Session() {
   // };
 
   const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-    setFormat(newAlignment);
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+      // setAlignment(newAlignment);
+      setFormat(newAlignment);
+    }
   };
 
   return (

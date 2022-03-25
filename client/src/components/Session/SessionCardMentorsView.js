@@ -1,6 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Avatar, Paper, Grid, Rating, styled, Typography } from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
+
+import {
+  Button,
+  Avatar,
+  Paper,
+  Grid,
+  Rating,
+  styled,
+  Typography,
+} from "@mui/material";
+import axios from "axios";
 
 const SessionCard = (props) => {
   const {
@@ -36,7 +46,52 @@ const SessionCard = (props) => {
     day: "numeric",
   };
 
-  // let date = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+  let navigate = useNavigate();
+
+  const onClickConfirmSession = async (event) => {
+    event.preventDefault();
+
+    axios
+      .put(`http://localhost:8080/users/${mentor_id}/sessions/confirm`, {
+        mentor_confirmed: true,
+        session_id: session_id,
+      })
+      .then(function (response) {
+        console.log(response);
+        navigate(`/users/${mentor_id}/sessions`);
+        window.location.reload();
+        // window.location.reload(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const onClickDeleteSession = async (event) => {
+    event.preventDefault();
+
+    axios
+      .delete(`http://localhost:8080/users/${mentor_id}/sessions/delete`, {
+        data: {
+          session_id: session_id,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        navigate(`/users/${mentor_id}/sessions`);
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  // let date = new Date().toLocaleDateString("en-us", {
+  //   weekday: "long",
+  //   year: "numeric",
+  //   month: "short",
+  //   day: "numeric",
+  // });
 
   return (
     <div style={styles}>
@@ -44,7 +99,7 @@ const SessionCard = (props) => {
       {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
       {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
       <Paper>
-        {review && rating && format === "completed" && (
+        {mentor_confirmed && review && rating && format === "completed" && (
           <Grid
             container
             direction="row"
@@ -98,7 +153,7 @@ const SessionCard = (props) => {
           </Grid>
         )}
 
-        {!review && !rating && format === "upcoming" && (
+        {mentor_confirmed && !review && !rating && format === "upcoming" && (
           <Grid
             container
             direction="row"
@@ -208,6 +263,12 @@ const SessionCard = (props) => {
                 />
                 {/* </Grid> */}
               </Typography>
+              <Button onClick={onClickConfirmSession} variant="contained">
+                Confirm Session
+              </Button>
+              <Button onClick={onClickDeleteSession} variant="contained">
+                Delete Session
+              </Button>
             </Grid>
           </Grid>
         )}

@@ -5,6 +5,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Avatar,
+  Button,
   Paper,
   Grid,
   Rating,
@@ -54,7 +55,7 @@ const SessionCard = (props) => {
       {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
       {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
       <Paper>
-        {review && rating && format === "completed" && (
+        {mentor_confirmed && review && rating && format === "completed" && (
           <Grid
             container
             direction="row"
@@ -163,7 +164,7 @@ const SessionCard = (props) => {
           // </Grid>
         )}
 
-        {!review && !rating && format === "upcoming" && (
+        {mentor_confirmed && !review && !rating && format === "upcoming" && (
           <Grid
             container
             direction="row"
@@ -216,6 +217,12 @@ const SessionCard = (props) => {
                 />
                 {/* </Grid> */}
               </Typography>
+              <Button
+                href={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
+                variant="contained"
+              >
+                Review Session
+              </Button>
             </Grid>
           </Grid>
         )}
