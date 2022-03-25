@@ -9,13 +9,49 @@ module.exports = (db) => {
     });
   });
 
-  // All sessions/reviews of a specifid "user", sort by ID
+  // GRAB ALL MENTORS FROM USERS TABLE
+  router.get("/mentors", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT * 
+      FROM users
+      WHERE mentor IS TRUE`
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  // All information of a specifid "user", sort by ID
   router.get("/:user_id/", (req, res) => {
     const { user_id } = req.params;
     db.query(
       `SELECT * 
       FROM users
       WHERE id = $1`,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  // router.get("/:user_id/mentor/:mentor_id/form", (req, res) => {
+  //       const { user_id } = req.params;
+  //       db.query(
+  //         `SELECT *
+  //         FROM users
+  //         WHERE id = $1`,
+  //         [user_id]
+  //       ).then((data) => {
+  //         res.json(data.rows);
+  //       });
+  //     });
+
+  router.post("/:user_id/form/new", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT * 
+    FROM users
+    WHERE id = $1`,
       [user_id]
     ).then((data) => {
       res.json(data.rows);
@@ -33,14 +69,14 @@ module.exports = (db) => {
       WHERE mentee_id = $1`,
       [user_id]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function(a, b) {
+      let sortedDataById = data.rows.sort(function (a, b) {
         return b.id - a.id;
       });
       res.json(sortedDataById);
     });
   });
 
-  /// ALL SESSIONS FOR MENTOR
+  /// ALL SESSIONS FOR MENTOR TEMPORARY ROUTE NAME *** *****************
   router.get("/:user_id/mentors/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
@@ -58,24 +94,38 @@ module.exports = (db) => {
     });
   });
 
-  // All sessions/reviews of a specifid "user", sort by ID
-  router.get("/:user_id/sessions/pending", (req, res) => {
+  router.post("/:user_id/sessions/new", (req, res) => {
     const { user_id } = req.params;
+    const { mentor_id, mentee_id, mentor_confirmed, date, duration } = req.body;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name, users.picture as picture
-        FROM sessions 
-        JOIN users ON users.id = sessions.mentor_id 
-        JOIN mentors ON mentors.user_id = users.id
-        WHERE mentee_id = $1
-        AND `,
-      [user_id]
+      ` INSERT INTO sessions (mentor_id, mentee_id, mentor_confirmed, date, duration)
+        VALUES
+      ($1, $2, $3, $4, $5),  
+          RETURNING *`,
+      [mentor_id, mentee_id, mentor_confirmed, date, duration]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function(a, b) {
-        return b.id - a.id;
-      });
       res.json(sortedDataById);
     });
   });
+
+  // // All sessions/reviews of a specifid "user", sort by ID
+  // router.get("/:user_id/sessions/pending", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT sessions.*, users.name as mentor_name, users.picture as picture
+  //       FROM sessions
+  //       JOIN users ON users.id = sessions.mentor_id
+  //       JOIN mentors ON mentors.user_id = users.id
+  //       WHERE mentee_id = $1
+  //       AND `,
+  //     [user_id]
+  //   ).then((data) => {
+  //     let sortedDataById = data.rows.sort(function(a, b) {
+  //       return b.id - a.id;
+  //     });
+  //     res.json(sortedDataById);
+  //   });
+  // });
 
   //session review page for a specific session
   router.get("/:user_id/sessions/:session_id", (req, res) => {
@@ -108,7 +158,7 @@ module.exports = (db) => {
   });
 
   //Route for adding a review and rating to a session
-  router.put("/:user_id/sessions/:session_id", async(req, res) => {
+  router.put("/:user_id/sessions/:session_id", async (req, res) => {
     // const { user_id, mentor_id, session_id } = req.params;
     const { user_id } = req.params;
     const { mentor_id, rating, description, id } = req.body;
@@ -177,7 +227,7 @@ module.exports = (db) => {
   //Route for adding a review and rating to a session
   router.put(
     "/:user_id/mentors/:mentor_id/sessions/:session_id",
-    async(req, res) => {
+    async (req, res) => {
       const { user_id, mentor_id, session_id } = req.params;
       const { rating, description } = req.body;
       console.log(req.body);

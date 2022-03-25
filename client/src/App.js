@@ -11,17 +11,17 @@ import Sessions from "./components/Session/Sessions";
 import Mentors from "./components/Mentors/Mentors";
 import Mentor from "./components/Mentors/Mentor";
 import MentorView from "./components/Mentors/MentorView";
+import MenteeForm1 from "./components/Forms/MenteeForm1";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
 import AddFavourite from "./components/AddFavourite";
 function App() {
-
   const [users, setUsers] = useState([]);
-  const [favourites, setFavourites] = useState([])
+  const [favourites, setFavourites] = useState([]);
   const addFavouriteMentor = (mentor) => {
-    const newFavouriteList = [...favourites, mentor]
-    setFavourites(newFavouriteList)
-  }
+    const newFavouriteList = [...favourites, mentor];
+    setFavourites(newFavouriteList);
+  };
 
   return (
     <BrowserRouter>
@@ -36,12 +36,19 @@ function App() {
         />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
 
-        <Route path="/mentors/:id"
-          element={<Mentor
-            users={users}
-            setUsers={setUsers}
-            favouriteComponent={AddFavourite}
-            handleFavouritesClick={addFavouriteMentor} />} />
+        <Route path="/users/:id/mentors/:mentor_id" element={<MenteeForm1 />} />
+
+        <Route
+          path="/mentors/:id"
+          element={
+            <Mentor
+              users={users}
+              setUsers={setUsers}
+              favouriteComponent={AddFavourite}
+              handleFavouritesClick={addFavouriteMentor}
+            />
+          }
+        />
         <Route
           path="/mentors/:id"
           element={<Mentor users={users} setUsers={setUsers} />}
@@ -50,19 +57,10 @@ function App() {
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/mentors/:id/admin" element={<MentorView />} />
 
-        <Route
-          path="/mentors"
-          element={<Mentors />}
-        />
-        <Route
-          path="/mentors/:id/admin"
-          element={
-            <MentorView />
-          }
-        />
->>>>>>> main
+        <Route path="/mentors" element={<Mentors />} />
+        <Route path="/mentors/:id/admin" element={<MentorView />} />
         <Route path="/messages" element={<Messages />} />
-      <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar" element={<Calendar />} />
       </Routes>
     </BrowserRouter>
   );
