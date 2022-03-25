@@ -46,17 +46,17 @@ module.exports = (db) => {
   //       });
   //     });
 
-  router.post("/:user_id/form/new", (req, res) => {
-    const { user_id } = req.params;
-    db.query(
-      `SELECT * 
-    FROM users
-    WHERE id = $1`,
-      [user_id]
-    ).then((data) => {
-      res.json(data.rows);
-    });
-  });
+  // router.post("/:user_id/form/new", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT *
+  //   FROM users
+  //   WHERE id = $1`,
+  //     [user_id]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
 
   // All sessions/reviews of a specifid "user" MENTEE, sort by ID
   router.get("/:user_id/sessions/", (req, res) => {
@@ -100,13 +100,25 @@ module.exports = (db) => {
     db.query(
       ` INSERT INTO sessions (mentor_id, mentee_id, mentor_confirmed, date, duration)
         VALUES
-      ($1, $2, $3, $4, $5),  
-          RETURNING *`,
+      ($1, $2, $3, $4, $5)`,
       [mentor_id, mentee_id, mentor_confirmed, date, duration]
     ).then((data) => {
-      res.json(sortedDataById);
+      res.json(data.rows);
     });
   });
+
+  // router.post("/:user_id/sessions/new", (req, res) => {
+  //   const { user_id } = req.params;
+  //   const { mentor_id, mentor_confirmed, duration } = req.body;
+  //   db.query(
+  //     ` INSERT INTO sessions (mentor_id, mentor_confirmed, duration)
+  //       VALUES
+  //     ($1, $2, $3)  `,
+  //     [mentor_id, mentor_confirmed, duration]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
 
   // // All sessions/reviews of a specifid "user", sort by ID
   // router.get("/:user_id/sessions/pending", (req, res) => {

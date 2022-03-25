@@ -53,15 +53,17 @@ function DropDownMentors(props) {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+
+    // setMentorId(allMentors.name)
     // setFormName(formName);
     // props.getFormName(formName);
   };
 
   // props.setFormName("Jae");
 
-  const namesOfMentors = allMentors.map((item) => {
-    return item.name;
-  });
+  // const namesOfMentors = allMentors.map((item) => {
+  //   return item.name;
+  // });
 
   // console.log("dropdown mentors", allMentors);
 
@@ -77,13 +79,24 @@ function DropDownMentors(props) {
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
         >
-          {namesOfMentors.map((name) => (
+          {/* {namesOfMentors.map((name) => (
             <MenuItem
               key={name}
               value={name}
               style={getStyles(name, formName, theme)}
             >
               {name}
+            </MenuItem>
+          ))} */}
+
+          {allMentors.map((mentor) => (
+            <MenuItem
+              key={mentor.name}
+              value={mentor.name}
+              style={getStyles(mentor.name, formName, theme)}
+            >
+              {mentor.name}
+              {/* {setMentorId(mentor.id)} */}
             </MenuItem>
           ))}
         </Select>

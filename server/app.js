@@ -37,6 +37,6 @@ app.use("/mentors", mentorsIdRoutes(db));
 app.use("/mentors", mentorsEditRoutes(db));
 app.use("/register", registerRoutes(db));
 app.use("/login", loginRoutes(db));
-app.use("/favourites",favouriteRoutes(db));
+app.use("/favourites", favouriteRoutes(db));
 
 module.exports = app;
