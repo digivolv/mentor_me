@@ -33,7 +33,7 @@ module.exports = (db) => {
       WHERE mentee_id = $1`,
       [user_id]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function(a, b) {
+      let sortedDataById = data.rows.sort(function (a, b) {
         return b.id - a.id;
       });
       res.json(sortedDataById);
@@ -70,7 +70,7 @@ module.exports = (db) => {
         AND `,
       [user_id]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function(a, b) {
+      let sortedDataById = data.rows.sort(function (a, b) {
         return b.id - a.id;
       });
       res.json(sortedDataById);
@@ -108,7 +108,7 @@ module.exports = (db) => {
   });
 
   //Route for adding a review and rating to a session
-  router.put("/:user_id/sessions/:session_id", async(req, res) => {
+  router.put("/:user_id/sessions/:session_id", async (req, res) => {
     // const { user_id, mentor_id, session_id } = req.params;
     const { user_id } = req.params;
     const { mentor_id, rating, description, id } = req.body;
@@ -177,7 +177,7 @@ module.exports = (db) => {
   //Route for adding a review and rating to a session
   router.put(
     "/:user_id/mentors/:mentor_id/sessions/:session_id",
-    async(req, res) => {
+    async (req, res) => {
       const { user_id, mentor_id, session_id } = req.params;
       const { rating, description } = req.body;
       console.log(req.body);
@@ -192,6 +192,24 @@ module.exports = (db) => {
       });
     }
   );
+
+  // RK - Route for updating is user a mentor boolean
+  router.patch("/:user_id", async (req, res) => {
+    const { user_id } = req.params;
+    const mentor = req.body.mentor;
+    // console.log("accessing BE");
+    db.query(`UPDATE users SET mentor = $1 WHERE id = $2 RETURNING *`, [
+      mentor,
+      user_id,
+    ])
+      .then((data) => {
+        // console.log("SUCCESS in updating user table");
+        res.json(data.rows);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
 
   return router;
 };

@@ -8,26 +8,35 @@ function BecomeMentor() {
 
     let becomeMentorForm = document.getElementById("becomeMentorForm");
     const formData = new FormData(becomeMentorForm);
-    const username = localStorage.getItem("username");
+    const user_id = localStorage.getItem("userID");
 
-    // TODO: CANNOT HARD CODE USER ID
     const data = {
-      user_id: localStorage.getItem("userID"),
+      user_id: user_id,
       job_title: formData.get("jobTitle"),
       years_of_experience: formData.get("experience"),
       price: formData.get("rate"),
     };
 
-    console.log(data);
-
+    // Add user to mentor table
     axios
       .post("http://localhost:8080/mentors", data)
       .then((response) => {
-        console.log("RESPONSE:", response);
-        console.log("Added mentor to database!");
+        // console.log("RESPONSE:", response);
+        console.log("Added user to mentor table!");
       })
       .catch((err) => {
         console.log("ERROR:", err);
+      });
+
+    // Update user table to reflect mentor field is true
+    axios
+      .patch(`http://localhost:8080/users/${user_id}`, { mentor: true })
+      .then((response) => {
+        // console.log("RESPONSE2:", response);
+        console.log("Changed mentor field to true!");
+      })
+      .catch((err) => {
+        console.log("ERROR2:", err);
       });
   };
 
