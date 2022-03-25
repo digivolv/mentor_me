@@ -14,6 +14,7 @@ import NavBar from "../NavBar";
 import axios from "axios";
 import DropDownMentors from "./DropDownMentors";
 import DropDownDuration from "./DropDownDuration";
+import DatePicker from "./DatePicker";
 
 function MenteeForm() {
   let { id, mentor_id } = useParams();
@@ -45,11 +46,19 @@ function MenteeForm() {
   const [mentor, setMentor] = useState("");
   const [userData, setUserData] = useState(id);
   const [allMentors, setAllMentors] = useState([]);
+  const [extractedMentorIdFromName, setExtractedMentorIdFromName] =
+    useState("");
+
+  const [formName, setFormName] = useState("");
+  const [duration, setDuration] = useState(0);
+  const [dateTime, setDateTime] = useState(new Date());
+
   const [state, setState] = useState({
     // mentor_id: "",
     // mentee_id: "",
+    mentorName: "",
     date: new Date(),
-    mentor_confirmed: false,
+    mentorConfirmed: false,
     duration: 0,
   });
 
@@ -112,10 +121,19 @@ function MenteeForm() {
     event.preventDefault();
 
     if (mentee) {
+      //        axios.get(`http://localhost:8080/users/`).then((response) => {
+      //       console.log("data!", response.data);
+
+      // response.data.forEach((mentor)=>{ if (mentor.name === state.mentorName) {setState(...state, mentor)}})
+      //     });
       axios
         //add conditional post req depending on if id is mentor or mentee
 
-        .post(`http://localhost:8080/users/${id}/sessions/new`, {})
+        .post(`http://localhost:8080/users/${id}/sessions/new`, {
+          // date,
+          // duration,
+          // mentor_id,
+        })
         .then(function (response) {
           console.log(response);
           navigate(`/users/${id}/sessions`);
@@ -140,6 +158,7 @@ function MenteeForm() {
         });
     }
   };
+  // setTimeout(console.log("formname", formName)[3000]);
 
   return (
     <div>
@@ -147,35 +166,23 @@ function MenteeForm() {
       {mentee && (
         <>
           <h1>mentee not mentor</h1>
+
           <form className="form-control" onSubmit={onSubmitForm}>
             {/* <label for="message">Please tell us about your experience:</label> */}
-            <TextField
-              // size="medium"
-              multiline
-              label="Proposal"
-              // style={{ width: "100%" }}
-              style={{ width: "100%" }}
-              // variant="outlined"
-              id="outlined-multiline-static"
-              rows={1}
-              name="description"
-              type="text"
-              className="form-control"
-              required
-              // placeholder="Please write a brief description of how your message went with your mentor"
-              // value={state.description}
-              // onInput={(event) =>
-              //   setState({ ...state, description: event.target.value })
-              // }
-            />
 
             {/* mentor_id: "",
     mentee_id: "",
     date: new Date(),
-    mentor_confirmed: false,
+    mentorConfirmed: false,
     duration: 0, */}
-            <DropDownMentors allMentors={allMentors} />
-            <DropDownDuration />
+            <DropDownMentors
+              allMentors={allMentors}
+              formName={formName}
+              setFormName={setFormName}
+              // getFormName={(formName) => setFormName(formName)}
+            />
+            <DropDownDuration duration={duration} setDuration={setDuration} />
+            <DatePicker dateTime={dateTime} setDateTime={setDateTime} />
             {/* <TextField
               // size="medium"
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}

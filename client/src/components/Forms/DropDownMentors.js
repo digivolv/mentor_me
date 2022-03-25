@@ -30,30 +30,34 @@ const MenuProps = {
 //   "Kelly Snyder",
 // ];
 
-function getStyles(name, personName, theme) {
+function getStyles(name, formName, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      formName.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
 function DropDownMentors(props) {
-  const { allMentors } = props;
+  const { allMentors, formName, setFormName } = props;
   // console.log(props);
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  // const [formName, setFormName] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setFormName(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+    // setFormName(formName);
+    // props.getFormName(formName);
   };
+
+  // props.setFormName("Jae");
 
   const namesOfMentors = allMentors.map((item) => {
     return item.name;
@@ -68,7 +72,7 @@ function DropDownMentors(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={personName}
+          value={formName}
           onChange={handleChange}
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
@@ -77,7 +81,7 @@ function DropDownMentors(props) {
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, personName, theme)}
+              style={getStyles(name, formName, theme)}
             >
               {name}
             </MenuItem>
