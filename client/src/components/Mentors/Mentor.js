@@ -41,7 +41,7 @@ function Mentor(props) {
   const handleClick = (id) => {
     navigate(`/messages`);
   };
-
+  
   useEffect(() => {
     axios
       .get(`http://localhost:8080/mentors/${id}`)
@@ -134,16 +134,7 @@ function Mentor(props) {
                 variant="contained"
                 onClick={() => { handleClick() }}
               >Message</Button>
-                <PopupButton
-                  class="mui-btn"
-        url="https://calendly.com/j-jaeykim/30min?month=2022-03"
-        /*
-         * react-calendly uses React's Portal feature (https://reactjs.org/docs/portals.html) to render the popup modal. As a result, you'll need to
-         * specify the rootElement property to ensure that the modal is inserted into the correct domNode.
-         */
-        rootElement={document.getElementById("root")}
-        text="Click here to schedule!"
-              />
+                  
               </Stack>
             </div>
             </div>

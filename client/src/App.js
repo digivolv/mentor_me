@@ -60,7 +60,6 @@ function App() {
             <MentorView />
           }
         />
->>>>>>> main
         <Route path="/messages" element={<Messages />} />
       <Route path="/calendar" element={<Calendar />} />
       </Routes>

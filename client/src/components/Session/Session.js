@@ -20,7 +20,7 @@ function Session() {
 
   const [state, setState] = useState({
     sessions: {},
-    message: "",
+    description: "",
     rating: "",
   });
 
@@ -66,7 +66,7 @@ function Session() {
           user_id: id,
           mentor_id: mentor_id,
           session_id: session_id,
-          message: state.message,
+          description: state.description,
           rating: state.rating,
         }
       )
@@ -156,14 +156,14 @@ function Session() {
                 // variant="outlined"
                 id="outlined-multiline-static"
                 rows={4}
-                name="message"
+                name="description"
                 type="text"
                 className="form-control"
                 required
                 // placeholder="Please write a brief description of how your message went with your mentor"
-                value={state.message}
+                value={state.description}
                 onInput={(event) =>
-                  setState({ ...state, message: event.target.value })
+                  setState({ ...state, description: event.target.value })
                 }
               />
               <Grid>

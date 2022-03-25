@@ -1,7 +1,18 @@
 import { React, useState, useEffect } from "react";
 import SessionCard from "./SessionCard";
+import SessionCardMentorsView from "./SessionCardMentorsView";
 import { useNavigate, useParams } from "react-router-dom";
-import { styled, Grid, Paper, Rating, Button, Typography } from "@mui/material";
+import {
+  ToggleButton,
+  ToggleButtonGroup,
+  alignment,
+  styled,
+  Grid,
+  Paper,
+  Rating,
+  Button,
+  Typography,
+} from "@mui/material";
 import NavBar from "../NavBar";
 import axios from "axios";
 
@@ -16,14 +27,29 @@ function Session() {
   let { id } = useParams();
   let navigate = useNavigate();
 
-  const [selectedUser, setSelectedUser] = useState([]);
+  const [format, setFormat] = useState("completed");
+  const [menteeSessions, setMenteeSessions] = useState([]);
+  const [mentorSessions, setMentorSessions] = useState([]);
+  const [userData, setUserData] = useState(id);
 
   useEffect(() => {
+    axios.get(`http://localhost:8080/users/${id}`).then((response) => {
+      console.log("data!");
+      setUserData(response.data[0]);
+      console.log(response.data[0]);
+    });
     axios
       .get(`http://localhost:8080/users/${id}/sessions/`)
       .then((response) => {
         console.log("data!");
-        setSelectedUser(response.data);
+        setMenteeSessions(response.data);
+        console.log(response.data);
+      });
+    axios
+      .get(`http://localhost:8080/users/${id}/mentors/sessions/`)
+      .then((response) => {
+        console.log("data!");
+        setMentorSessions(response.data);
         console.log(response.data);
       })
       .catch((err) => {
@@ -31,7 +57,12 @@ function Session() {
         console.log(err);
       });
   }, []);
-  // .sort(({ session_id: a }, { session_id: b }) => b - a) //
+
+  const handleFormat = (format) => {
+    format === "completed" ? setFormat("upcoming") : setFormat("completed");
+
+    console.log("format", format);
+  };
 
   return (
     <div className="">
@@ -54,6 +85,17 @@ function Session() {
           }}
           elevation="10"
         >
+          <ToggleButtonGroup
+            color="primary"
+            value={format}
+            exclusive
+            onClick={() => {
+              handleFormat(format);
+            }}
+          >
+            <ToggleButton value="completed">Completed Sessions</ToggleButton>
+            <ToggleButton value="upcoming">Upcoming Sessions</ToggleButton>
+          </ToggleButtonGroup>
           <Grid
             container
             direction="row"
@@ -65,27 +107,58 @@ function Session() {
             // margin="auto"
           >
             <Grid item xs={12} sm container>
-              <Grid item xs={12}>
-                <Typography variant="h3">Sessions</Typography>
-              </Grid>
-              {selectedUser.map((user) => {
-                return (
-                  <Grid item xs={10} padding="10px">
-                    <SessionCard
-                      session_id={user.id}
-                      mentor_id={user.mentor_id}
-                      mentee_id={user.mentee_id}
-                      mentee_name={user.mentee_name}
-                      mentor_name={user.mentor_name}
-                      date={user.date}
-                      duration={user.duration}
-                      rating={user.rating}
-                      review={user.description}
-                      picture={user.picture}
-                    />
-                  </Grid>
-                );
-              })}{" "}
+              {!userData.mentor && (
+                <Grid item xs={12}>
+                  //conditional formatting if mentee completed review sessions
+                  <Typography variant="h3">Mentee Sessions</Typography>
+                </Grid>
+              )}
+              {!userData.mentor &&
+                menteeSessions.map((user) => {
+                  return (
+                    <Grid item xs={10} padding="10px">
+                      <SessionCard
+                        format={format}
+                        session_id={user.id}
+                        mentor_id={user.mentor_id}
+                        mentee_id={user.mentee_id}
+                        mentee_name={user.mentee_name}
+                        mentor_name={user.mentor_name}
+                        date={user.date}
+                        duration={user.duration}
+                        rating={user.rating}
+                        review={user.description}
+                        picture={user.picture}
+                      />
+                    </Grid>
+                  );
+                })}{" "}
+              {userData.mentor && (
+                <Grid item xs={12}>
+                  //conditional formatting if mentor completed review sessions
+                  <Typography variant="h3">Mentor Sessions</Typography>
+                </Grid>
+              )}
+              {userData.mentor &&
+                mentorSessions.map((user) => {
+                  return (
+                    <Grid item xs={10} padding="10px">
+                      <SessionCardMentorsView
+                        format={format}
+                        session_id={user.id}
+                        mentor_id={user.mentor_id}
+                        mentee_id={user.mentee_id}
+                        mentee_name={user.mentee_name}
+                        mentor_name={user.mentor_name}
+                        date={user.date}
+                        duration={user.duration}
+                        rating={user.rating}
+                        review={user.description}
+                        picture={user.picture}
+                      />
+                    </Grid>
+                  );
+                })}{" "}
             </Grid>
           </Grid>
         </Paper>
