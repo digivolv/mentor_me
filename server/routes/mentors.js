@@ -48,7 +48,7 @@ module.exports = (db) => {
     });
   });
 
-  // RK - Route for when a user signs up to be a mentor
+  // RK - Route to add user as a mentor
   router.post("/", (req, res) => {
     const queryStr = `INSERT INTO mentors (user_id, job_title, years_of_experience, price) VALUES ($1, $2, $3, $4) RETURNING *;`;
 

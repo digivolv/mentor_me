@@ -193,7 +193,7 @@ module.exports = (db) => {
     }
   );
 
-  // RK - Route for updating is user a mentor boolean
+  // RK - Route for updating if user is a mentor boolean
   router.patch("/:user_id", async (req, res) => {
     const { user_id } = req.params;
     const mentor = req.body.mentor;
@@ -203,7 +203,7 @@ module.exports = (db) => {
       user_id,
     ])
       .then((data) => {
-        // console.log("SUCCESS in updating user table");
+        // console.log("Success updated user table");
         res.json(data.rows);
       })
       .catch((err) => {

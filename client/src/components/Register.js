@@ -27,33 +27,60 @@ function Register() {
       "PRIVATE-KEY": process.env.REACT_APP_CHAT_PRIVATE_KEY,
     };
 
-    ///////////////////// PROMISE VERSION  ////////////////////
-    axios
-      .all([
-        axios.post("http://localhost:8080/register", data),
-        axios.post(
-          "https://api.chatengine.io/users/",
-          {
-            username: formData.get("username"),
-            secret: formData.get("password"),
-          },
-          { headers: headers }
-        ),
-      ])
-      .then(
-        axios.spread((...responses) => {
-          console.log(JSON.stringify(responses[0].data));
-          console.log(responses[0]);
-          console.log("SUCCESS!");
-          navigate(`/search`);
-        })
-      )
-      .catch((err) => {
-        console.log("ERROR:", err);
+    // Request to add user to users database
+    axios.post("http://localhost:8080/register", data).then((res) => {
+      console.log("Added user to users table").catch((err) => {
+        console.log("error:", err);
       });
+    });
+
+    // Request to add user to React Chat Engine
+    axios
+      .post(
+        "https://api.chatengine.io/users/",
+        {
+          username: formData.get("username"),
+          secret: formData.get("password"),
+        },
+        { headers: headers }
+      )
+      .then((res) => {
+        console.log("Added user to react chat engine");
+      })
+      .catch((err) => {
+        console.log("error:", err);
+      });
+
+    navigate(`/`);
   };
 
-  ////////// ASYNC AWAIT VERSION ///////////////////
+  /////////////// PROMISE AXIOS ALL VERSION  /////////////////
+  //   axios
+  //     .all([
+  //       axios.post("http://localhost:8080/register", data),
+  //       axios.post(
+  //         "https://api.chatengine.io/users/",
+  //         {
+  //           username: formData.get("username"),
+  //           secret: formData.get("password"),
+  //         },
+  //         { headers: headers }
+  //       ),
+  //     ])
+  //     .then(
+  //       axios.spread((...responses) => {
+  //         console.log(JSON.stringify(responses[0].data));
+  //         console.log(responses[0]);
+  //         console.log("SUCCESS!");
+  //         navigate(`/search`);
+  //       })
+  //     )
+  //     .catch((err) => {
+  //       console.log("ERROR:", err);
+  //     });
+  // };
+
+  ////////////// ASYNC AWAIT VERSION ////////////////
 
   //   try {
   //     await axios.all([
