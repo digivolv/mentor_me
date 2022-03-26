@@ -3,9 +3,9 @@ import SessionCard from "./SessionCard";
 import SessionCardMentorsView from "./SessionCardMentorsView";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  ToggleButton,
-  ToggleButtonGroup,
-  alignment,
+  // ToggleButton,
+  // ToggleButtonGroup,
+
   styled,
   Grid,
   Paper,
@@ -15,6 +15,9 @@ import {
 } from "@mui/material";
 import NavBar from "../NavBar";
 import axios from "axios";
+
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 const Img = styled("img")({
   margin: "auto",
@@ -31,6 +34,7 @@ function Session() {
   const [menteeSessions, setMenteeSessions] = useState([]);
   const [mentorSessions, setMentorSessions] = useState([]);
   const [userData, setUserData] = useState(id);
+  const [alignment, setAlignment] = useState("completed");
 
   useEffect(() => {
     axios.get(`http://localhost:8080/users/${id}`).then((response) => {
@@ -58,10 +62,18 @@ function Session() {
       });
   }, []);
 
-  const handleFormat = (format) => {
-    format === "completed" ? setFormat("upcoming") : setFormat("completed");
+  // const handleFormat = (format) => {
+  //   format === "completed" ? setFormat("upcoming") : setFormat("completed");
 
-    console.log("format", format);
+  //   console.log("format", format);
+  // };
+
+  const handleChange = (event, newAlignment) => {
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+      // setAlignment(newAlignment);
+      setFormat(newAlignment);
+    }
   };
 
   return (
@@ -87,6 +99,16 @@ function Session() {
         >
           <ToggleButtonGroup
             color="primary"
+            value={alignment}
+            exclusive
+            onChange={handleChange}
+          >
+            <ToggleButton value="completed">Completed</ToggleButton>
+            <ToggleButton value="upcoming">Upcoming</ToggleButton>
+            <ToggleButton value="pending">Pending</ToggleButton>
+          </ToggleButtonGroup>
+          {/* <ToggleButtonGroup
+            color="primary"
             value={format}
             exclusive
             onClick={() => {
@@ -95,7 +117,9 @@ function Session() {
           >
             <ToggleButton value="completed">Completed Sessions</ToggleButton>
             <ToggleButton value="upcoming">Upcoming Sessions</ToggleButton>
-          </ToggleButtonGroup>
+            <ToggleButton value="pending">Pending Sessions</ToggleButton>
+          </ToggleButtonGroup> */}
+
           <Grid
             container
             direction="row"
@@ -118,6 +142,8 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCard
+                        time={user.time}
+                        mentor_confirmed={user.mentor_confirmed}
                         format={format}
                         session_id={user.id}
                         mentor_id={user.mentor_id}
@@ -144,6 +170,8 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCardMentorsView
+                        time={user.time}
+                        mentor_confirmed={user.mentor_confirmed}
                         format={format}
                         session_id={user.id}
                         mentor_id={user.mentor_id}

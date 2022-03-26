@@ -11,6 +11,7 @@ import Sessions from "./components/Session/Sessions";
 import Mentors from "./components/Mentors/Mentors";
 import Mentor from "./components/Mentors/Mentor";
 import MentorView from "./components/Mentors/MentorView";
+import MenteeForm from "./components/Forms/MenteeForm";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
 import AddFavourite from "./components/AddFavourite";
@@ -37,6 +38,8 @@ function App() {
         />
         <Route path="/users/:id/sessions/" element={<Sessions />} />
 
+        <Route path="/users/:id/form" element={<MenteeForm />} />
+
         <Route
           path="/mentors/:id"
           element={
@@ -48,13 +51,6 @@ function App() {
             />
           }
         />
-        <Route
-          path="/mentors/:id"
-          element={<Mentor users={users} setUsers={setUsers} />}
-        />
-
-        <Route path="/mentors" element={<Mentors />} />
-        <Route path="/mentors/:id/admin" element={<MentorView />} />
 
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/mentors/:id/admin" element={<MentorView />} />

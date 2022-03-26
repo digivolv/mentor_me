@@ -9,7 +9,19 @@ module.exports = (db) => {
     });
   });
 
-  // All sessions/reviews of a specifid "user", sort by ID
+  // GRAB ALL MENTORS FROM USERS TABLE
+  router.get("/mentors", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT * 
+      FROM users
+      WHERE mentor IS TRUE`
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  // All information of a specifid "user", sort by ID
   router.get("/:user_id/", (req, res) => {
     const { user_id } = req.params;
     db.query(
@@ -21,6 +33,30 @@ module.exports = (db) => {
       res.json(data.rows);
     });
   });
+
+  // router.get("/:user_id/mentor/:mentor_id/form", (req, res) => {
+  //       const { user_id } = req.params;
+  //       db.query(
+  //         `SELECT *
+  //         FROM users
+  //         WHERE id = $1`,
+  //         [user_id]
+  //       ).then((data) => {
+  //         res.json(data.rows);
+  //       });
+  //     });
+
+  // router.post("/:user_id/form/new", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT *
+  //   FROM users
+  //   WHERE id = $1`,
+  //     [user_id]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
 
   // All sessions/reviews of a specifid "user" MENTEE, sort by ID
   router.get("/:user_id/sessions/", (req, res) => {
@@ -40,7 +76,7 @@ module.exports = (db) => {
     });
   });
 
-  /// ALL SESSIONS FOR MENTOR
+  /// ALL SESSIONS FOR MENTOR TEMPORARY ROUTE NAME *** *****************
   router.get("/:user_id/mentors/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
@@ -58,24 +94,75 @@ module.exports = (db) => {
     });
   });
 
-  // All sessions/reviews of a specifid "user", sort by ID
-  router.get("/:user_id/sessions/pending", (req, res) => {
+  router.post("/:user_id/sessions/new", (req, res) => {
     const { user_id } = req.params;
+    const { mentor_id, mentee_id, mentor_confirmed, date, duration, time } =
+      req.body;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name, users.picture as picture
-        FROM sessions 
-        JOIN users ON users.id = sessions.mentor_id 
-        JOIN mentors ON mentors.user_id = users.id
-        WHERE mentee_id = $1
-        AND `,
-      [user_id]
+      ` INSERT INTO sessions (mentor_id, mentee_id, mentor_confirmed, date, duration, time)
+        VALUES
+      ($1, $2, $3, $4, $5, $6)`,
+      [mentor_id, mentee_id, mentor_confirmed, date, duration, time]
     ).then((data) => {
-      let sortedDataById = data.rows.sort(function (a, b) {
-        return b.id - a.id;
-      });
-      res.json(sortedDataById);
+      res.json(data.rows);
     });
   });
+
+  router.put("/:user_id/sessions/confirm", (req, res) => {
+    const { mentor_confirmed, session_id } = req.body;
+    db.query(
+      `UPDATE sessions
+        SET mentor_confirmed = $1
+        WHERE sessions.id = $2  
+        RETURNING *`,
+      [mentor_confirmed, session_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  router.delete("/:user_id/sessions/delete", (req, res) => {
+    const { session_id } = req.body;
+    db.query(
+      `DELETE FROM sessions
+        WHERE sessions.id = $1 `,
+      [session_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  // router.post("/:user_id/sessions/new", (req, res) => {
+  //   const { user_id } = req.params;
+  //   const { mentor_id, mentor_confirmed, duration } = req.body;
+  //   db.query(
+  //     ` INSERT INTO sessions (mentor_id, mentor_confirmed, duration)
+  //       VALUES
+  //     ($1, $2, $3)  `,
+  //     [mentor_id, mentor_confirmed, duration]
+  //   ).then((data) => {
+  //     res.json(data.rows);
+  //   });
+  // });
+
+  // // All sessions/reviews of a specifid "user", sort by ID
+  // router.get("/:user_id/sessions/pending", (req, res) => {
+  //   const { user_id } = req.params;
+  //   db.query(
+  //     `SELECT sessions.*, users.name as mentor_name, users.picture as picture
+  //       FROM sessions
+  //       JOIN users ON users.id = sessions.mentor_id
+  //       JOIN mentors ON mentors.user_id = users.id
+  //       WHERE mentee_id = $1
+  //       AND `,
+  //     [user_id]
+  //   ).then((data) => {
+  //     let sortedDataById = data.rows.sort(function(a, b) {
+  //       return b.id - a.id;
+  //     });
+  //     res.json(sortedDataById);
+  //   });
+  // });
 
   //session review page for a specific session
   router.get("/:user_id/sessions/:session_id", (req, res) => {
@@ -107,7 +194,7 @@ module.exports = (db) => {
     });
   });
 
-  //Route for adding a review and rating to a session
+  //Route for MENTEE adding a review and rating to a session +++++
   router.put("/:user_id/sessions/:session_id", async (req, res) => {
     // const { user_id, mentor_id, session_id } = req.params;
     const { user_id } = req.params;
