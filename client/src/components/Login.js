@@ -1,5 +1,5 @@
 // NOTE - This file needs work
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -11,28 +11,47 @@ function Login() {
   const [error, setError] = useState("");
   let navigate = useNavigate();
 
-  const handleLogin = async (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
 
+    // Post request to backend
+    let loginForm = document.getElementById("loginForm");
+    const formData = new FormData(loginForm);
+
+    const loginData = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
+
+    axios
+      .post(`http://localhost:8080/login`, loginData)
+      .then((res) => {
+        console.log("RESPONSE:", res.data);
+        localStorage.setItem("userID", res.data[0].id);
+      })
+      .catch((error) => console.log("ERROR:", error));
+
+    // Post request to chat engine to set user
     const authObject = {
       "Project-ID": process.env.REACT_APP_CHAT_PROJECT_ID,
       "User-Name": username,
       "User-Secret": password,
     };
 
-    try {
-      await axios.get("https://api.chatengine.io/chats", {
+    axios
+      .get("https://api.chatengine.io/chats", {
         headers: authObject,
+      })
+      .then(() => {
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+
+        navigate(`/search`);
+        setError("");
+      })
+      .catch((error) => {
+        setError("Error, wrong username or password.");
       });
-
-      localStorage.setItem("username", username);
-      localStorage.setItem("password", password);
-
-      navigate(`/search`);
-      setError("");
-    } catch (err) {
-      setError("Error, wrong username or password.");
-    }
   };
 
   return (
@@ -52,6 +71,7 @@ function Login() {
           Username:
           <input
             type="text"
+            name="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -59,6 +79,7 @@ function Login() {
           Password:
           <input
             type="password"
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -71,31 +92,6 @@ function Login() {
         <h3>{error}</h3>
       </div>
     </div>
-
-    ////////////////////// OLD VERSION ////////////////////////////
-    // <div>
-    //   <h1>Login Page</h1>
-    //   <form onSubmit={handleLogin}>
-    //     <input
-    //       type="text"
-    //       value={username}
-    //       onChange={(e) => setUsername(e.target.value)}
-    //       placeholder="Enter Username"
-    //       required
-    //     />
-    //     <input
-    //       type="password"
-    //       value={password}
-    //       onChange={(e) => setPassword(e.target.value)}
-    //       placeholder="Enter Password"
-    //       required
-    //     />
-    //     <button type="submit">Login</button>
-    //   </form>
-    //   <h3>{error}</h3>
-    // </div>
-
-    ////////////////////////////////////////////////////////////////
   );
 }
 

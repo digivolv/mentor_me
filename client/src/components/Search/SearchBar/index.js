@@ -7,6 +7,7 @@ const SearchBar = ({ value, changeInput }) => {
   return (
     <div className="main">
       <h3>Find a Mentor:</h3>
+      <br />
       <div className="search">
         <TextField
           id="outlined-basic"

@@ -5,15 +5,19 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Avatar,
+  Button,
   Paper,
   Grid,
   Rating,
   styled,
   Typography,
 } from "@mui/material";
+import moment from "moment";
 
 const SessionCard = (props) => {
   const {
+    time,
+    mentor_confirmed,
     mentor_id,
     mentee_id,
     mentee_name,
@@ -53,7 +57,7 @@ const SessionCard = (props) => {
       {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
       {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
       <Paper>
-        {review && rating && format === "completed" && (
+        {mentor_confirmed && review && rating && format === "completed" && (
           <Grid
             container
             direction="row"
@@ -83,6 +87,11 @@ const SessionCard = (props) => {
                 {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
                 {/* </Link> */}
               </Typography>
+
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
+              </Typography>
+
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
@@ -162,7 +171,7 @@ const SessionCard = (props) => {
           // </Grid>
         )}
 
-        {!review && !rating && format === "upcoming" && (
+        {mentor_confirmed && !review && !rating && format === "upcoming" && (
           <Grid
             container
             direction="row"
@@ -194,6 +203,68 @@ const SessionCard = (props) => {
                     dateFormatOptions
                   )}
                 </Link>
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Duration: ${duration}`}
+              </Typography>
+
+              <Grid item>
+                <Typography gutterBottom variant="subtitle1" component="div">
+                  Review: {review}
+                </Typography>
+              </Grid>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {/* <Grid vertical-align="auto"> */}
+                {/* {`Rating: ${rating}`} */}
+                <Rating
+                  name="read-only"
+                  readOnly
+                  defaultValue={3}
+                  value={rating}
+                />
+                {/* </Grid> */}
+              </Typography>
+              <Button
+                href={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
+                variant="contained"
+              >
+                Review Session
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+
+        {!mentor_confirmed && format === "pending" && (
+          <Grid
+            container
+            direction="row"
+            // justifyContent="center"
+            padding="1.5%"
+            // padding="10px"
+            // textAlign="center"
+            // spacing={2}
+            width="75%"
+            marginLeft="10%"
+            // margin="auto"
+          >
+            <Grid item xs={5} margin="auto">
+              {/* <Img src={picture} /> */}
+              <Img src={picture} />
+            </Grid>
+            <Grid container xs={7} direction="column" justifyContent="center">
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Mentor:`}{" "}
+                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Mentorship Date: `}{" "}
+                {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}

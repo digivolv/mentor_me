@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.tagLine {
+  text-align: center;
+  font-size: 40px;
+  background-color: #1976d2;
+  margin: 0;
+  padding: 100px;
+  color: #fff;
+}
+
+.navigationCard {
+  background-color: #c0d2f0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.mentorCard {
+  border-radius: 25px;
+  margin: 50px;
+  color: #6d7178;
+  border: #6d7178 solid 1px;
+  height: 300px;
+  width: 400px;
+  line-height: 200px;
+}
+
+.mentorCard:hover {
+  cursor: pointer;
+  background-color: #d9e6fc;
+}
+
+.about {
+  text-align: center;
+  padding: 30px;
+  color: #6d7178;
+}
+
+.about p {
+  font-size: 25px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.instructions {
+  margin-top: 20px;
+}
