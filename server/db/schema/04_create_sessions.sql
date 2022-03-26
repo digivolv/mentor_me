@@ -9,6 +9,7 @@ CREATE TABLE sessions (
   description VARCHAR(255),
   date DATE,
   date_reviewed DATE,
+  time VARCHAR(100),
   duration INTEGER NOT NULL
 );
 

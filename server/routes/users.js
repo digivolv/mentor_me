@@ -96,12 +96,13 @@ module.exports = (db) => {
 
   router.post("/:user_id/sessions/new", (req, res) => {
     const { user_id } = req.params;
-    const { mentor_id, mentee_id, mentor_confirmed, date, duration } = req.body;
+    const { mentor_id, mentee_id, mentor_confirmed, date, duration, time } =
+      req.body;
     db.query(
-      ` INSERT INTO sessions (mentor_id, mentee_id, mentor_confirmed, date, duration)
+      ` INSERT INTO sessions (mentor_id, mentee_id, mentor_confirmed, date, duration, time)
         VALUES
-      ($1, $2, $3, $4, $5)`,
-      [mentor_id, mentee_id, mentor_confirmed, date, duration]
+      ($1, $2, $3, $4, $5, $6)`,
+      [mentor_id, mentee_id, mentor_confirmed, date, duration, time]
     ).then((data) => {
       res.json(data.rows);
     });

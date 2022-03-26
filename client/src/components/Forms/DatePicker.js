@@ -15,7 +15,7 @@ export default function ResponsiveDatePickers(props) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       {/* <Stack spacing={3}> */}
       <DatePicker
-        disableFuture
+        disablePast
         label="Date of session"
         openTo="year"
         views={["year", "month", "day"]}

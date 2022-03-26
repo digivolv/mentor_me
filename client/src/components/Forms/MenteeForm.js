@@ -15,6 +15,8 @@ import axios from "axios";
 import DropDownMentors from "./DropDownMentors";
 import DropDownDuration from "./DropDownDuration";
 import DatePicker from "./DatePicker";
+import TimePicker from "./TimePicker";
+import moment from "moment";
 
 function MenteeForm() {
   let { id } = useParams();
@@ -53,6 +55,7 @@ function MenteeForm() {
   const [duration, setDuration] = useState(0);
   const [date, setDate] = useState(new Date());
   const [mentorId, setMentorId] = useState("");
+  const [time, setTime] = useState("");
 
   // const [state, setState] = useState({
   //   // mentor_id: "",
@@ -132,6 +135,7 @@ function MenteeForm() {
         //add conditional post req depending on if id is mentor or mentee
 
         .post(`http://localhost:8080/users/${id}/sessions/new`, {
+          time: time,
           date,
           duration,
           mentor_id: mentorId,
@@ -207,6 +211,7 @@ function MenteeForm() {
                 setState({ ...state, duration: event.target.value })
               }
             /> */}
+            <TimePicker time={time} setTime={setTime} />
             <Button type="submit" variant="contained">
               Submit
             </Button>

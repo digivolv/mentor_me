@@ -11,9 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import moment from "moment";
 
 const SessionCard = (props) => {
   const {
+    time,
     mentor_confirmed,
     format,
     mentor_id,
@@ -130,6 +132,9 @@ const SessionCard = (props) => {
                 {/* </Link> */}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
 
@@ -187,6 +192,9 @@ const SessionCard = (props) => {
                 </Link>
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
 
@@ -234,14 +242,10 @@ const SessionCard = (props) => {
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
-                <Link
-                  to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
-                >
-                  {new Date(date).toLocaleDateString(
-                    "EN-ca",
-                    dateFormatOptions
-                  )}
-                </Link>
+                {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {`Time: ${moment(time).format("LTS")}`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
