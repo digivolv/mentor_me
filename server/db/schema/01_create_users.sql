@@ -10,6 +10,6 @@ CREATE TABLE users (
   phone INTEGER,
   city VARCHAR(255) NOT NULL,
   country VARCHAR(255) NOT NULL,
-  mentor BOOLEAN,
+  mentor BOOLEAN NOT NULL DEFAULT FALSE,
   picture VARCHAR(255) NOT NULL
 );

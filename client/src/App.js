@@ -15,6 +15,8 @@ import MenteeForm from "./components/Forms/MenteeForm";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
 import AddFavourite from "./components/AddFavourite";
+import MentorNew from "./components/Mentors/MentorNew";
+
 function App() {
   const [users, setUsers] = useState([]);
   const [favourites, setFavourites] = useState([]);
@@ -49,18 +51,12 @@ function App() {
             />
           }
         />
-        <Route
-          path="/mentors/:id"
-          element={<Mentor users={users} setUsers={setUsers} />}
-        />
-
-        <Route path="/mentors" element={<Mentors />} />
-        <Route path="/mentors/:id/admin" element={<MentorView />} />
 
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/mentors/:id/admin" element={<MentorView />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route path="/mentors/new" element={<MentorNew />} />
       </Routes>
     </BrowserRouter>
   );

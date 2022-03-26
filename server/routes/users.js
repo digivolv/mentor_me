@@ -280,5 +280,23 @@ module.exports = (db) => {
     }
   );
 
+  // RK - Route for updating if user is a mentor boolean
+  router.patch("/:user_id", async (req, res) => {
+    const { user_id } = req.params;
+    const mentor = req.body.mentor;
+    // console.log("accessing BE");
+    db.query(`UPDATE users SET mentor = $1 WHERE id = $2 RETURNING *`, [
+      mentor,
+      user_id,
+    ])
+      .then((data) => {
+        // console.log("Success updated user table");
+        res.json(data.rows);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
   return router;
 };
