@@ -14,7 +14,7 @@ function Home() {
   let navigate = useNavigate();
 
   const handleClick = () => {
-    console.log("clicked");
+    // console.log("clicked");
     navigate(`/search`);
   };
   return (

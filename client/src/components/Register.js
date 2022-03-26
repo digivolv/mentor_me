@@ -130,6 +130,10 @@ function Register() {
           <Button variant="contained" size="large" type="submit">
             Register
           </Button>
+          <div>
+            <br />
+            Already registered? <a href="/login">Login</a>
+          </div>
         </form>
       </div>
     </div>
