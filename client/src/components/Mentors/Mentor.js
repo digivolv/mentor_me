@@ -17,12 +17,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams  } from "react-router-dom";
 import NavBar from '../NavBar';
 import { Rating, Button, Grid, Paper } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { PopupButton } from "react-calendly";
 import { Stack } from '@mui/material';
+
 
 const drawerWidth = 240;
 
@@ -36,18 +36,21 @@ function Mentor(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  
   const navigate = useNavigate();
-  const handleClick = (id) => {
+  const messageHandleClick = () => {
     navigate(`/messages`);
   };
-
+  const formHandleClick = (id) => {
+    navigate(`/users/${localStorage.userID}/form`);
+  }
   useEffect(() => {
     axios
       .get(`http://localhost:8080/mentors/${id}`)
       .then((response) => {
         // console.log("data!");
         setUsers(response.data);
+        localStorage.setItem("mentorID", response.data[0].id)
         // console.log(response);
       })
       .catch((err) => {
@@ -132,18 +135,12 @@ function Mentor(props) {
            <Stack spacing={2} direction="row">
               <Button
                 variant="contained"
-                onClick={() => { handleClick() }}
+                onClick={() => { messageHandleClick() }}
               >Message</Button>
-                <PopupButton
-                  class="mui-btn"
-        url="https://calendly.com/j-jaeykim/30min?month=2022-03"
-        /*
-         * react-calendly uses React's Portal feature (https://reactjs.org/docs/portals.html) to render the popup modal. As a result, you'll need to
-         * specify the rootElement property to ensure that the modal is inserted into the correct domNode.
-         */
-        rootElement={document.getElementById("root")}
-        text="Click here to schedule!"
-              />
+                <Button
+                variant="contained"
+                onClick={() => { formHandleClick() }}
+              >Appt Form</Button>
               </Stack>
             </div>
             </div>
@@ -155,6 +152,7 @@ function Mentor(props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
+  console.log("mentor id", id)
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
