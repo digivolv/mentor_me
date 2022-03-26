@@ -48,21 +48,45 @@ module.exports = (db) => {
     });
   });
 
-  // RK - Route to add user as a mentor
+  // RK - Route to add user as a mentor in mentor table, update users table, and expertise table
   router.post("/", (req, res) => {
-    const queryStr = `INSERT INTO mentors (user_id, job_title, years_of_experience, price) VALUES ($1, $2, $3, $4) RETURNING *;`;
+    const { user_id, job_title, years_of_experience, price, specialties } =
+      req.body;
 
-    const { user_id, job_title, years_of_experience, price } = req.body;
+    // Update mentor table to include user
+    const queryMentor = `INSERT INTO mentors (user_id, job_title, years_of_experience, price) VALUES ($1, $2, $3, $4) RETURNING *`;
 
-    const values = [user_id, job_title, years_of_experience, price];
-
-    db.query(queryStr, values)
+    db.query(queryMentor, [user_id, job_title, years_of_experience, price])
       .then((data) => {
-        console.log("Added user to mentor table.");
+        console.log("ADDED USER TO MENTOR TABLE.");
       })
       .catch((err) => {
         console.log("ERROR:", err);
       });
+
+    // Update users table (isMentor boolean)
+    const queryUser = `UPDATE users SET mentor = true WHERE id = ${user_id} RETURNING *`;
+
+    db.query(queryUser)
+      .then((data) => {
+        console.log("ADDED USER TO USER TABLE.");
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+
+    // Update specialties table
+    for (let i = 0; i < specialties.length; i++) {
+      const querySkill = `INSERT INTO expertise (user_id, specialty) VALUES ($1, $2) RETURNING *;`;
+
+      db.query(querySkill, [user_id, specialties[i]])
+        .then((data) => {
+          console.log("ADDED TO EXPERTISE TABLE.");
+        })
+        .catch((err) => {
+          console.log("ERROR:", err);
+        });
+    }
   });
 
   return router;
