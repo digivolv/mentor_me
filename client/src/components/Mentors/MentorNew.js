@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import NavBar from "./NavBar";
-import "./BecomeMentor.css";
+import NavBar from "../NavBar";
+import "./MentorNew.css";
 import { useNavigate } from "react-router-dom";
 
-function BecomeMentor() {
+function MentorNew() {
   let navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -41,7 +41,7 @@ function BecomeMentor() {
     };
 
     axios
-      .post("http://localhost:8080/mentors", data)
+      .post("http://localhost:8080/mentors/new", data)
       .then((response) => {
         // console.log("RESPONSE:", response);
         console.log("Added user to mentor table!");
@@ -147,4 +147,4 @@ function BecomeMentor() {
   );
 }
 
-export default BecomeMentor;
+export default MentorNew;

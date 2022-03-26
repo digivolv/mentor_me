@@ -48,8 +48,8 @@ module.exports = (db) => {
     });
   });
 
-  // RK - Route to add user as a mentor in mentor table, update users table, and expertise table
-  router.post("/", (req, res) => {
+  // RK - Route to add user in mentor table, update users table, and expertise table
+  router.post("/new", (req, res) => {
     const { user_id, job_title, years_of_experience, price, specialties } =
       req.body;
 
