@@ -30,17 +30,18 @@ const MenuProps = {
 //   "Kelly Snyder",
 // ];
 
-function getStyles(name, formName, theme) {
-  return {
-    fontWeight:
-      formName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
+// function getStyles(name, formName, theme) {
+//   return {
+//     fontWeight:
+//       formName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium,
+//   };
+// }
 
 function DropDownMentors(props) {
-  const { allMentors, formName, setFormName } = props;
+  const { allMentors, formName, setFormName, newMentorId, setNewMentorId } =
+    props;
   // console.log(props);
   const theme = useTheme();
   // const [formName, setFormName] = React.useState([]);
@@ -49,15 +50,18 @@ function DropDownMentors(props) {
     const {
       target: { value },
     } = event;
-    setFormName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+
+    console.log("Select value", value);
+    setNewMentorId(value);
 
     // setMentorId(allMentors.name)
     // setFormName(formName);
     // props.getFormName(formName);
   };
+
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  // };
 
   // props.setFormName("Jae");
 
@@ -65,7 +69,7 @@ function DropDownMentors(props) {
   //   return item.name;
   // });
 
-  // console.log("dropdown mentors", allMentors);
+  // console.log("dropdown mentors333", allMentors);
 
   return (
     <div>
@@ -74,26 +78,16 @@ function DropDownMentors(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={formName}
+          value={newMentorId}
           onChange={handleChange}
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
         >
-          {/* {namesOfMentors.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, formName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))} */}
-
           {allMentors.map((mentor) => (
             <MenuItem
-              key={mentor.name}
-              value={mentor.name}
-              style={getStyles(mentor.name, formName, theme)}
+              key={mentor.id}
+              value={mentor.id}
+              // style={getStyles(mentor.name, formName, theme)}
             >
               {mentor.name}
               {/* {setMentorId(mentor.id)} */}
