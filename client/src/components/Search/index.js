@@ -5,12 +5,17 @@ import NavBar from "../NavBar";
 import List from "./List";
 import "./styles.css";
 import axios from "axios";
+import { min } from "date-fns";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState([20, 60]);
-  // const [experience, setExperience] = useState([]);
+  const [experienceList, setExperienceList] = useState([
+    { id: 1, checked: true, label: "> 15 years" },
+    { id: 2, checked: true, label: "5-15 years" },
+    { id: 3, checked: true, label: "5 years" },
+  ]);
 
   const [allMentors, setAllMentors] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState(allMentors);
@@ -19,13 +24,13 @@ function Search() {
     setSelectedPrice(value);
   };
 
-  // const handleExperienceChecked = (id) => {
-  //   const experienceStateList = experience;
-  //   const changeCheckedExperiences = experienceStateList.map((mentor) =>
-  //     mentor.id === id ? { ...mentor, checked: !mentor.checked } : mentor
-  //   );
-  //   setExperience(changeCheckedExperiences);
-  // };
+  const handleChangeExperience = (id) => {
+    const experienceStateList = experienceList;
+    const changeCheckedExperience = experienceStateList.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setExperienceList(changeCheckedExperience);
+  };
 
   let all = [];
   const createSpecialtiesArr = (response) => {
@@ -43,20 +48,38 @@ function Search() {
 
   const applyFilters = () => {
     let updated = allMentors;
+    console.log("UPDATED LIST 1", updated);
 
     ///////// Years of Experience Filter  /////////////
+    console.log("EXPERIENCE LIST", experienceList);
 
-    // const experiencesChecked = experience
-    //   .filter((mentor) => mentor.checked)
-    //   .map((mentor) => mentor.label.toLowerCase());
+    // const experienceChecked = experienceList.filter((item) => item.checked);
 
-    // if (experiencesChecked.length) {
-    //   updatedList = updatedList.filter((mentor) =>
-    //     exprriencesChecked.includes(mentor.years_of_experience)
-    //   );
-    // }
+    const experienceChecked = experienceList.filter((item) => item.checked);
 
-    //////////////////////////////////////////////
+    console.log("EXP CHECK", experienceChecked);
+
+    if (experienceChecked) {
+      let mentorsToKeep = [];
+      experienceChecked.forEach((exp) => {
+        let toKeep = [];
+        if (exp.id === 1) {
+          toKeep = updated.filter((m) => m.years_of_experience >= 15);
+          toKeep.forEach((m) => mentorsToKeep.push(m));
+        } else if (exp.id === 2) {
+          toKeep = updated.filter(
+            (m) => m.years_of_experience <= 15 && m.years_of_experience >= 5
+          );
+          toKeep.forEach((m) => mentorsToKeep.push(m));
+        } else if (exp.id === 3) {
+          toKeep = updated.filter(
+            (m) => m.years_of_experience <= 5 && m.years_of_experience >= 0
+          );
+          toKeep.forEach((m) => mentorsToKeep.push(m));
+        }
+      });
+      updated = mentorsToKeep;
+    }
 
     // Price Filter
     const minPrice = selectedPrice[0];
@@ -65,6 +88,8 @@ function Search() {
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
+
+    console.log("UPDATED LIST 2", updated);
 
     setFilteredMentors(updated);
   };
@@ -82,7 +107,7 @@ function Search() {
 
   useEffect(() => {
     applyFilters();
-  }, [selectedPrice]);
+  }, [selectedPrice, experienceList, searchInput]);
 
   return (
     <div className="search">
@@ -97,8 +122,8 @@ function Search() {
           <FilterPanel
             selectedPrice={selectedPrice}
             changePrice={handleChangePrice}
-            // experiences={experience}
-            // changeExperience={handleExperienceChecked}
+            experienceList={experienceList}
+            changeExperience={handleChangeExperience}
           />
         </div>
         <div className="list-pane">
