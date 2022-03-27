@@ -8,6 +8,8 @@ const FilterPanel = ({
   changePrice,
   experienceList,
   changeExperience,
+  selectedRating,
+  selectRating,
 }) => {
   // console.log("EXP LIST:", experienceList);
   return (
@@ -24,9 +26,8 @@ const FilterPanel = ({
           changeChecked={changeExperience}
         />
       ))}
-
       <h3>Rating:</h3>
-      <StarRating />
+      <StarRating value={selectedRating} selectToggle={selectRating} /> & up
     </div>
   );
 };

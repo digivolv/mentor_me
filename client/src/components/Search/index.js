@@ -8,17 +8,18 @@ import axios from "axios";
 import { min } from "date-fns";
 
 function Search() {
+  const [allMentors, setAllMentors] = useState([]);
+  const [filteredMentors, setFilteredMentors] = useState(allMentors);
   const [searchInput, setSearchInput] = useState("");
   const [selectedPrice, setSelectedPrice] = useState([20, 60]);
+  const [selectedRating, setSelectedRating] = useState(null);
   const [experienceList, setExperienceList] = useState([
     { id: 1, checked: true, label: "> 15 years" },
     { id: 2, checked: true, label: "5-15 years" },
-    { id: 3, checked: true, label: "5 years" },
+    { id: 3, checked: true, label: "< 5 years" },
   ]);
 
-  const [allMentors, setAllMentors] = useState([]);
-  const [filteredMentors, setFilteredMentors] = useState(allMentors);
-  console.log("ALL MENTORS", allMentors);
+  // console.log("ALL MENTORS", allMentors);
 
   const handleChangePrice = (event, value) => {
     setSelectedPrice(value);
@@ -32,8 +33,11 @@ function Search() {
     setExperienceList(changeCheckedExperience);
   };
 
-  let all = [];
+  const handleSelectRating = (event, value) =>
+    !value ? null : setSelectedRating(value);
 
+  // Manipulate array so that each mentor element has the required info
+  let all = [];
   const createSpecialtiesArr = (res1, res2) => {
     res1.data.forEach((element) => {
       element.specialties = [element.specialty];
@@ -50,8 +54,8 @@ function Search() {
       let index2 = all.findIndex(
         (mentor) => mentor.user_id === review.mentor_id
       );
-      console.log("MENTOR ID:", review.mentor_id);
-      console.log("INDEX2:", index2);
+      // console.log("MENTOR ID:", review.mentor_id);
+      // console.log("INDEX2:", index2);
 
       if (review.rating) {
         all[index2].ratingArr.push(review.rating);
@@ -66,7 +70,6 @@ function Search() {
     setAllMentors(all);
     setFilteredMentors(all);
   };
-  /////////
 
   const applyFilters = () => {
     let updated = allMentors;
@@ -99,6 +102,15 @@ function Search() {
       updated = mentorsToKeep;
     }
 
+    // Rating Filter
+    if (selectedRating) {
+      updated = updated.filter(
+        // (mentor) => parseInt(mentor.price) === parseInt(selectedRating)
+
+        (mentor) => mentor.ratingAvg >= selectedRating
+      );
+    }
+
     // Price Filter
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
@@ -106,7 +118,7 @@ function Search() {
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
-    console.log("UPDATED", updated);
+    // console.log("UPDATED", updated);
     setFilteredMentors(updated);
   };
 
@@ -118,8 +130,6 @@ function Search() {
       ])
       .then(
         axios.spread((...res) => {
-          // console.log(res[0].data);
-          // console.log(res[1].data);
           createSpecialtiesArr(res[0], res[1]);
         })
       )
@@ -130,7 +140,7 @@ function Search() {
 
   useEffect(() => {
     applyFilters();
-  }, [selectedPrice, experienceList, searchInput]);
+  }, [selectedPrice, experienceList, searchInput, selectedRating]);
 
   return (
     <div className="search">
@@ -147,6 +157,8 @@ function Search() {
             changePrice={handleChangePrice}
             experienceList={experienceList}
             changeExperience={handleChangeExperience}
+            selectedRating={selectedRating}
+            selectRating={handleSelectRating}
           />
         </div>
         <div className="list-pane">

@@ -17,7 +17,7 @@ function ExperienceCheckbox({ changeChecked, experience }) {
           <Checkbox
             checked={checked}
             onChange={() => changeChecked(id)}
-            name="> 15 years"
+            name={label}
           />
         }
         label={label}
