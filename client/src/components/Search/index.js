@@ -9,7 +9,6 @@ import { min } from "date-fns";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
-  // const [list, setList] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState([20, 60]);
   const [experienceList, setExperienceList] = useState([
     { id: 1, checked: true, label: "> 15 years" },
@@ -19,6 +18,7 @@ function Search() {
 
   const [allMentors, setAllMentors] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState(allMentors);
+  console.log("ALL MENTORS", allMentors);
 
   const handleChangePrice = (event, value) => {
     setSelectedPrice(value);
@@ -33,49 +33,67 @@ function Search() {
   };
 
   let all = [];
-  const createSpecialtiesArr = (response) => {
-    response.data.forEach((element) => {
+
+  const createSpecialtiesArr = (res1, res2) => {
+    res1.data.forEach((element) => {
       element.specialties = [element.specialty];
       let index = all.findIndex((mentor) => mentor.name === element.name);
 
       index === -1
         ? all.push(element)
         : all[index].specialties.push(element.specialty);
+
+      element.ratingArr = [];
     });
+
+    res2.data.forEach((review) => {
+      let index2 = all.findIndex(
+        (mentor) => mentor.user_id === review.mentor_id
+      );
+      console.log("MENTOR ID:", review.mentor_id);
+      console.log("INDEX2:", index2);
+
+      if (review.rating) {
+        all[index2].ratingArr.push(review.rating);
+      }
+    });
+
+    all.forEach((mentor) => {
+      mentor.ratingAvg =
+        mentor.ratingArr.reduce((a, b) => a + b, 0) / mentor.ratingArr.length;
+    });
+
     setAllMentors(all);
     setFilteredMentors(all);
   };
+  /////////
 
   const applyFilters = () => {
     let updated = allMentors;
-    console.log("UPDATED LIST 1", updated);
 
-    ///////// Years of Experience Filter  /////////////
-    console.log("EXPERIENCE LIST", experienceList);
-
-    // const experienceChecked = experienceList.filter((item) => item.checked);
-
+    // Years of Experience Filter
     const experienceChecked = experienceList.filter((item) => item.checked);
-
-    console.log("EXP CHECK", experienceChecked);
 
     if (experienceChecked) {
       let mentorsToKeep = [];
       experienceChecked.forEach((exp) => {
         let toKeep = [];
         if (exp.id === 1) {
-          toKeep = updated.filter((m) => m.years_of_experience >= 15);
-          toKeep.forEach((m) => mentorsToKeep.push(m));
+          toKeep = updated.filter((mentor) => mentor.years_of_experience >= 15);
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
         } else if (exp.id === 2) {
           toKeep = updated.filter(
-            (m) => m.years_of_experience <= 15 && m.years_of_experience >= 5
+            (mentor) =>
+              mentor.years_of_experience <= 15 &&
+              mentor.years_of_experience >= 5
           );
-          toKeep.forEach((m) => mentorsToKeep.push(m));
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
         } else if (exp.id === 3) {
           toKeep = updated.filter(
-            (m) => m.years_of_experience <= 5 && m.years_of_experience >= 0
+            (mentor) =>
+              mentor.years_of_experience <= 5 && mentor.years_of_experience >= 0
           );
-          toKeep.forEach((m) => mentorsToKeep.push(m));
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
         }
       });
       updated = mentorsToKeep;
@@ -88,18 +106,23 @@ function Search() {
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
-
-    console.log("UPDATED LIST 2", updated);
-
+    console.log("UPDATED", updated);
     setFilteredMentors(updated);
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/mentors/expertise")
-      .then((response) => {
-        createSpecialtiesArr(response);
-      })
+      .all([
+        axios.get("http://localhost:8080/mentors/expertise"),
+        axios.get("http://localhost:8080/mentors/sessions"),
+      ])
+      .then(
+        axios.spread((...res) => {
+          // console.log(res[0].data);
+          // console.log(res[1].data);
+          createSpecialtiesArr(res[0], res[1]);
+        })
+      )
       .catch((err) => {
         console.log("error:", err);
       });
