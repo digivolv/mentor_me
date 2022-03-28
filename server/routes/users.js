@@ -298,5 +298,20 @@ module.exports = (db) => {
       });
   });
 
+  //COUNT of all sessions where mentor_confirmed
+  router.get("/:user_id/mentor_confirmed", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT COUNT(*)
+      FROM sessions
+      WHERE mentor_id = $1
+      AND mentor_confirmed IS FALSE
+     `,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
   return router;
 };

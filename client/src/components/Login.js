@@ -28,6 +28,7 @@ function Login() {
       .then((res) => {
         console.log("RESPONSE:", res.data);
         localStorage.setItem("userID", res.data[0].id);
+        localStorage.setItem("isMentor", res.data[0].mentor);
       })
       .catch((error) => console.log("ERROR:", error));
 
