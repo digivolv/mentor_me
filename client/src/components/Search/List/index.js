@@ -29,6 +29,7 @@ function List({ list, input }) {
               city={mentor.city}
               country={mentor.country}
               specialties={mentor.specialties}
+              rating={mentor.ratingAvg}
             />
           );
         })}

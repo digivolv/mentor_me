@@ -7,36 +7,62 @@ import "./styles.css";
 import axios from "axios";
 
 function Search() {
-  const [searchInput, setSearchInput] = useState("");
-  const [list, setList] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState([20, 60]);
-  // const [experience, setExperience] = useState([]);
-
   const [allMentors, setAllMentors] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState(allMentors);
+  const [searchInput, setSearchInput] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState([20, 60]);
+  const [selectedRating, setSelectedRating] = useState(null);
+  const [experienceList, setExperienceList] = useState([
+    { id: 1, checked: true, label: "> 15 years" },
+    { id: 2, checked: true, label: "5-15 years" },
+    { id: 3, checked: true, label: "< 5 years" },
+  ]);
+
+  // console.log("ALL MENTORS", allMentors);
 
   const handleChangePrice = (event, value) => {
     setSelectedPrice(value);
   };
 
-  // const handleExperienceChecked = (id) => {
-  //   const experienceStateList = experience;
-  //   const changeCheckedExperiences = experienceStateList.map((mentor) =>
-  //     mentor.id === id ? { ...mentor, checked: !mentor.checked } : mentor
-  //   );
-  //   setExperience(changeCheckedExperiences);
-  // };
+  const handleChangeExperience = (id) => {
+    const experienceStateList = experienceList;
+    const changeCheckedExperience = experienceStateList.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setExperienceList(changeCheckedExperience);
+  };
+
+  const handleSelectRating = (event, value) =>
+    !value ? null : setSelectedRating(value);
 
   let all = [];
-  const createSpecialtiesArr = (response) => {
-    response.data.forEach((element) => {
+  const createSpecialtiesArr = (res1, res2) => {
+    res1.data.forEach((element) => {
       element.specialties = [element.specialty];
       let index = all.findIndex((mentor) => mentor.name === element.name);
 
       index === -1
         ? all.push(element)
         : all[index].specialties.push(element.specialty);
+
+      element.ratingArr = [];
     });
+
+    res2.data.forEach((review) => {
+      let index2 = all.findIndex(
+        (mentor) => mentor.user_id === review.mentor_id
+      );
+
+      if (review.rating) {
+        all[index2].ratingArr.push(review.rating);
+      }
+    });
+
+    all.forEach((mentor) => {
+      mentor.ratingAvg =
+        mentor.ratingArr.reduce((a, b) => a + b, 0) / mentor.ratingArr.length;
+    });
+
     setAllMentors(all);
     setFilteredMentors(all);
   };
@@ -44,19 +70,42 @@ function Search() {
   const applyFilters = () => {
     let updated = allMentors;
 
-    ///////// Years of Experience Filter  /////////////
+    // Years of Experience Filter
+    const experienceChecked = experienceList.filter((item) => item.checked);
 
-    // const experiencesChecked = experience
-    //   .filter((mentor) => mentor.checked)
-    //   .map((mentor) => mentor.label.toLowerCase());
+    if (experienceChecked) {
+      let mentorsToKeep = [];
+      experienceChecked.forEach((exp) => {
+        let toKeep = [];
+        if (exp.id === 1) {
+          toKeep = updated.filter((mentor) => mentor.years_of_experience >= 15);
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
+        } else if (exp.id === 2) {
+          toKeep = updated.filter(
+            (mentor) =>
+              mentor.years_of_experience <= 15 &&
+              mentor.years_of_experience >= 5
+          );
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
+        } else if (exp.id === 3) {
+          toKeep = updated.filter(
+            (mentor) =>
+              mentor.years_of_experience <= 5 && mentor.years_of_experience >= 0
+          );
+          toKeep.forEach((mentor) => mentorsToKeep.push(mentor));
+        }
+      });
+      updated = mentorsToKeep;
+    }
 
-    // if (experiencesChecked.length) {
-    //   updatedList = updatedList.filter((mentor) =>
-    //     exprriencesChecked.includes(mentor.years_of_experience)
-    //   );
-    // }
+    // Rating Filter
+    if (selectedRating) {
+      updated = updated.filter(
+        // (mentor) => parseInt(mentor.price) === parseInt(selectedRating)
 
-    //////////////////////////////////////////////
+        (mentor) => mentor.ratingAvg >= selectedRating
+      );
+    }
 
     // Price Filter
     const minPrice = selectedPrice[0];
@@ -65,16 +114,21 @@ function Search() {
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
-
+    // console.log("UPDATED", updated);
     setFilteredMentors(updated);
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/mentors/expertise")
-      .then((response) => {
-        createSpecialtiesArr(response);
-      })
+      .all([
+        axios.get("http://localhost:8080/mentors/expertise"),
+        axios.get("http://localhost:8080/mentors/sessions"),
+      ])
+      .then(
+        axios.spread((...res) => {
+          createSpecialtiesArr(res[0], res[1]);
+        })
+      )
       .catch((err) => {
         console.log("error:", err);
       });
@@ -82,7 +136,7 @@ function Search() {
 
   useEffect(() => {
     applyFilters();
-  }, [selectedPrice]);
+  }, [selectedPrice, experienceList, searchInput, selectedRating]);
 
   return (
     <div className="search">
@@ -93,12 +147,13 @@ function Search() {
       />
       <div className="content">
         <div className="filter-pane">
-          Filters:
           <FilterPanel
             selectedPrice={selectedPrice}
             changePrice={handleChangePrice}
-            // experiences={experience}
-            // changeExperience={handleExperienceChecked}
+            experienceList={experienceList}
+            changeExperience={handleChangeExperience}
+            selectedRating={selectedRating}
+            selectRating={handleSelectRating}
           />
         </div>
         <div className="list-pane">

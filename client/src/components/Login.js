@@ -29,6 +29,7 @@ function Login() {
         console.log("RESPONSE:", res.data);
         localStorage.setItem("userID", res.data[0].id);
         localStorage.setItem("isMentor", res.data[0].mentor);
+        localStorage.setItem("userPic", res.data[0].picture);
       })
       .catch((error) => console.log("ERROR:", error));
 
@@ -47,7 +48,7 @@ function Login() {
         localStorage.setItem("username", username);
         localStorage.setItem("password", password);
 
-        navigate(`/search`);
+        navigate(`/`);
         setError("");
       })
       .catch((error) => {
@@ -91,6 +92,9 @@ function Login() {
           </Button>
         </form>
         <h3>{error}</h3>
+        <div>
+          New User? <a href="/register">Register</a>
+        </div>
       </div>
     </div>
   );

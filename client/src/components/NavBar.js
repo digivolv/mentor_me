@@ -20,16 +20,11 @@ import { useEffect } from "react";
 const NavBar = () => {
   const user_id = localStorage.getItem("userID");
   // Displays profile picture in Nav bar circle
-  // const profile_pic = localStorage.getItem("userPic");
+  const profile_pic = localStorage.getItem("userPic");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
 
-  /////////////////changes for notification EDWIN
-
-  // const [mentorSessionData, setMentorSessionData] = React.useState(null);
-  // const [sessions, setSessions] = React.useState([]);
-  // const [pendingSessions, setPendingSessions] = React.useState(0);
   const [pendingSessionCount, setPendingSessionsCount] = React.useState([]);
 
   const isMentor = localStorage.getItem("isMentor");
@@ -53,9 +48,9 @@ const NavBar = () => {
       });
   }, []);
   // Post request to chat engine to set user
-
-  ////////////////////
-
+  const handleMessages = () => {
+    navigate(`/messages`);
+  };
   const handleHome = () => {
     navigate(`/`);
   };
@@ -152,8 +147,8 @@ const NavBar = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="M" src="/static/images/avatar/2.jpg" />
-            {/* <Avatar alt="M" src={profile_pic} /> */}
+            {/* <Avatar alt="M" src="/static/images/avatar/2.jpg" /> */}
+            <Avatar alt="M" src={profile_pic} />
           </IconButton>
         </Tooltip>
         <Menu
@@ -173,11 +168,21 @@ const NavBar = () => {
           onClose={handleCloseUserMenu}
         >
           <MenuItem key="profile" onClick={handleProfile}>
-            <Typography textAlign="center">My Profile</Typography>
+            <Typography textAlign="center">Profile</Typography>
           </MenuItem>
+
           <MenuItem key="sessions" onClick={handleSessions}>
-            <Typography textAlign="center">My Sessions</Typography>
+            <Typography textAlign="center">Favourites</Typography>
           </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleMessages}>
+            <Typography textAlign="center">Messages</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleSessions}>
+            <Typography textAlign="center">Sessions</Typography>
+          </MenuItem>
+
           <MenuItem key="logout" onClick={handleLogout}>
             <Typography textAlign="center">Logout</Typography>
           </MenuItem>
@@ -244,16 +249,16 @@ const NavBar = () => {
             MENTOR ME
           </Typography>
           {boxOne}
-          {boxTwo}
-          /////////////////changes for notification EDWIN
           {isMentor && (
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
               <Button variant="contained" onClick={handleNotification}>
-                {pendingSessionCount} pending sessions
+                {pendingSessionCount === 0 && pendingSessionCount}
+                {pendingSessionCount > 0 && pendingSessionCount} pending
+                sessions
               </Button>
             </Box>
           )}
-          ////////////////////
+          {boxTwo}
         </Toolbar>
       </Container>
     </AppBar>

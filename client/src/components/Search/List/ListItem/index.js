@@ -57,6 +57,9 @@ function ListItem(props) {
               <Typography variant="body2" color="text.secondary">
                 Years of Experience: {props.yearsOfExperience}
               </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Avg Rating: {props.rating}
+              </Typography>
             </Grid>
             <Grid item>
               {/* Show list of expertise */}
