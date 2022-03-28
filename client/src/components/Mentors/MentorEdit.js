@@ -23,13 +23,9 @@ const MentorEdit = (props) => {
   const [mentor, setMentor] = useState([]);
   let { id } = useParams();
   let navigate = useNavigate()
-  const [state, setState] = useState({
-    job_title: "",
-    price: 0,
-    city: "",
-    country: "",
-  });
+  
   useEffect(() => {
+
     axios
       .get(`http://localhost:8080/mentors/expertise/${id}`)
       .then((response) => {
@@ -61,7 +57,6 @@ const MentorEdit = (props) => {
     axios
       .put(`http://localhost:8080/mentors/${id}`,
         {
-          user_id: id,
           job_title: mentor.job_title,
           price: mentor.price,
           years_of_experience: mentor.years_of_experience

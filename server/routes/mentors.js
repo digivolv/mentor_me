@@ -32,17 +32,18 @@ module.exports = (db) => {
       res.json(data.rows);
     });
   });
-
-  router.put("/:id", async (req, res) => {
-    const { mentor_id } = req.params;
-    const { job_title, price, city, country } = req.body;
+  //:id needs to equal the variable set to req.params
+  router.put("/:id", async(req, res) => {
+    const { id } = req.params;
+    const { job_title, price, years_of_experience } = req.body;
     console.log(req.body);
+    console.log("id,", req.params);
     db.query(
       `UPDATE mentors
-        SET job_title = $1, price = $2, city = $3, country = $4
-        WHERE mentors.id = $5  
+        SET job_title = $1, price = $2, years_of_experience = $3
+        WHERE mentors.id = $4  
         RETURNING *`,
-      [job_title, price, city, country, mentor_id]
+      [job_title, price, years_of_experience, id]
     ).then((data) => {
       res.json(data.rows);
     });
