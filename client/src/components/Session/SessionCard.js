@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
+import "./SessionCard.css"
 
 const SessionCard = (props) => {
   const {
@@ -42,6 +43,7 @@ const SessionCard = (props) => {
     maxHeight: "70%",
   });
 
+
   const dateFormatOptions = {
     weekday: "long",
     year: "numeric",
@@ -52,12 +54,10 @@ const SessionCard = (props) => {
   // let date = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
 
   return (
-    <div style={styles}>
-      {/* <h3>{`mentor_ID: ${mentor_id}`}</h3> */}
-      {/* <h3>{`mentee_id: ${mentee_id}`}</h3> */}
-      {/* <h2>{`mentee_name: ${mentee_name}`}</h2> */}
-      <Paper>
-        {mentor_confirmed && review && rating && format === "completed" && (
+   
+    <Paper className="paper">
+        {mentor_confirmed && review && rating && format === "completed" ? (
+          
           <Grid
             container
             direction="row"
@@ -76,8 +76,8 @@ const SessionCard = (props) => {
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Mentor:`}{" "}
-                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
+                {`Mentor: `} {mentor_name}
+                {/* <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link> */}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
@@ -87,11 +87,9 @@ const SessionCard = (props) => {
                 {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
                 {/* </Link> */}
               </Typography>
-
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Time: ${moment(time).format("LTS")}`}
               </Typography>
-
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
@@ -115,63 +113,10 @@ const SessionCard = (props) => {
             </Grid>
           </Grid>
 
-          // <Grid
-          //   container
-          //   direction="row"
-          //   // justifyContent="center"
-          //   padding="1.5%"
-          //   // padding="10px"
-          //   // textAlign="center"
-          //   // spacing={2}
-          //   width="75%"
-          //   marginLeft="10%"
-          //   // margin="auto"
-          // >
-          //   <Grid item xs={5} margin="auto">
-          //     {/* <Img src={picture} /> */}
-          //     <Img src={picture} />
-          //   </Grid>
-          //   <Grid container xs={7} direction="column" justifyContent="center">
-          //     <Typography gutterBottom variant="subtitle1" component="div">
-          //       {`Mentor:`}{" "}
-          //       <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
-          //     </Typography>
-          //     <Typography gutterBottom variant="subtitle1" component="div">
-          //       {`Mentorship Date: `}{" "}
-          //       <Link
-          //         to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
-          //       >
-          //         {new Date(date).toLocaleDateString(
-          //           "EN-ca",
-          //           dateFormatOptions
-          //         )}
-          //       </Link>
-          //     </Typography>
-          //     <Typography gutterBottom variant="subtitle1" component="div">
-          //       {`Duration: ${duration}`}
-          //     </Typography>
+         
+        ) :
 
-          //     <Grid item>
-          //       <Typography gutterBottom variant="subtitle1" component="div">
-          //         {/* Review: ${review} */}
-          //       </Typography>
-          //     </Grid>
-          //     <Typography gutterBottom variant="subtitle1" component="div">
-          //       {/* <Grid vertical-align="auto"> */}
-          //       {/* {`Rating: ${rating}`} */}
-          //       <Rating
-          //         name="read-only"
-          //         readOnly
-          //         defaultValue={3}
-          //         value={rating}
-          //       />
-          //       {/* </Grid> */}
-          //     </Typography>
-          //   </Grid>
-          // </Grid>
-        )}
-
-        {mentor_confirmed && !review && !rating && format === "upcoming" && (
+        (mentor_confirmed && !review && !rating && format === "upcoming") ? (
           <Grid
             container
             direction="row"
@@ -186,7 +131,7 @@ const SessionCard = (props) => {
           >
             <Grid item xs={5} margin="auto">
               {/* <Img src={picture} /> */}
-              <Img src={picture} />
+             <Img src={picture} />
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
@@ -235,9 +180,8 @@ const SessionCard = (props) => {
               </Button>
             </Grid>
           </Grid>
-        )}
-
-        {!mentor_confirmed && format === "pending" && (
+        ) : 
+            (!mentor_confirmed && format === "pending") ? (
           <Grid
             container
             direction="row"
@@ -252,7 +196,11 @@ const SessionCard = (props) => {
           >
             <Grid item xs={5} margin="auto">
               {/* <Img src={picture} /> */}
-              <Img src={picture} />
+              <Avatar
+        alt="Remy Sharp"
+        src={picture}
+              sx={{ width: 150, height: 150 }}
+      />
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
@@ -288,9 +236,9 @@ const SessionCard = (props) => {
               </Typography>
             </Grid>
           </Grid>
-        )}
+        ) : <></> }      
+        
       </Paper>
-    </div>
   );
 };
 

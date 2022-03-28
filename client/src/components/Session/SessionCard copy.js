@@ -1,26 +1,27 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
-import "./SessionCard.css"
+import { Link } from "react-router-dom";
 import {
-  Button,
+  alignment,
+  ToggleButton,
+  ToggleButtonGroup,
   Avatar,
+  Button,
   Paper,
   Grid,
   Rating,
   styled,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import moment from "moment";
 
 const SessionCard = (props) => {
   const {
     time,
     mentor_confirmed,
-    format,
     mentor_id,
     mentee_id,
     mentee_name,
+    format,
     mentor_name,
     date,
     duration,
@@ -34,12 +35,13 @@ const SessionCard = (props) => {
     border: "1px solid rgba(0, 0, 0, 0.05)",
   };
 
-  const Img = styled("img")({
-    margin: "auto",
-    display: "block",
-    maxWidth: "70%",
-    maxHeight: "70%",
-  });
+  // const Img = styled("img")({
+  //   margin: "auto",
+  //   display: "block",
+  //   maxWidth: "70%",
+  //   maxHeight: "70%",
+  // });
+
 
   const dateFormatOptions = {
     weekday: "long",
@@ -48,78 +50,39 @@ const SessionCard = (props) => {
     day: "numeric",
   };
 
-  let navigate = useNavigate();
-
-  const onClickConfirmSession = async (event) => {
-    event.preventDefault();
-
-    axios
-      .put(`http://localhost:8080/users/${mentor_id}/sessions/confirm`, {
-        mentor_confirmed: true,
-        session_id: session_id,
-      })
-      .then(function (response) {
-        console.log(response);
-        navigate(`/users/${mentor_id}/sessions`);
-        window.location.reload();
-        // window.location.reload(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  const onClickDeleteSession = async (event) => {
-    event.preventDefault();
-
-    axios
-      .delete(`http://localhost:8080/users/${mentor_id}/sessions/delete`, {
-        data: {
-          session_id: session_id,
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-        navigate(`/users/${mentor_id}/sessions`);
-        window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  // let date = new Date().toLocaleDateString("en-us", {
-  //   weekday: "long",
-  //   year: "numeric",
-  //   month: "short",
-  //   day: "numeric",
-  // });
+  // let date = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
 
   return (
-    
-      
-      <Paper className="paper">
-        {mentor_confirmed && review && rating && format === "completed" && (
+   
+    <Paper>
+        {mentor_confirmed && review && rating && format === "completed" ? (
+          
           <Grid
             container
             direction="row"
-            // justifyContent="center"
-            padding="1.5%"
-            // padding="10px"
-            // textAlign="center"
-            // spacing={2}
+            justifyContent="center"
+            padding="10px"
+            textAlign="center"
+            spacing={2}
             width="75%"
             marginLeft="10%"
-            // margin="auto"
+          margin="auto"
+          
           >
-            <Grid item xs={5} margin="auto">
-              {/* <Img src={picture} /> */}
-              <Img src={picture} />
-            </Grid>
-            <Grid container xs={7} direction="column" justifyContent="center">
+          <Grid>
+            <Avatar
+              container xs={3}
+              alt="Remy Sharp"
+              src={picture}
+              sx={{ width: 150, height: 150 }}
+            />
+            
+        </Grid>
+         
+          <Grid container xs={9} direction="row" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Mentee:`} {mentee_name}
-                {/* <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link> */}
+                {`Mentor:`}{" "}
+                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
@@ -129,11 +92,13 @@ const SessionCard = (props) => {
                 {new Date(date).toLocaleDateString("EN-ca", dateFormatOptions)}
                 {/* </Link> */}
               </Typography>
+
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Time: ${moment(time).format("LTS")}`}
+                Time: {moment(time).format("LTS")}
               </Typography>
+
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Duration: ${duration}`}
+                Duration: {duration}
               </Typography>
 
               <Grid item>
@@ -153,10 +118,12 @@ const SessionCard = (props) => {
                 {/* </Grid> */}
               </Typography>
             </Grid>
-          </Grid>
-        )}
+        </Grid>
 
-        {mentor_confirmed && !review && !rating && format === "upcoming" && (
+         
+        ) :
+
+        (mentor_confirmed && !review && !rating && format === "upcoming") ? (
           <Grid
             container
             direction="row"
@@ -171,23 +138,27 @@ const SessionCard = (props) => {
           >
             <Grid item xs={5} margin="auto">
               {/* <Img src={picture} /> */}
-              <Img src={picture} />
+              <Avatar
+        alt="Remy Sharp"
+        src={picture}
+              sx={{ width: 150, height: 150 }}
+      />
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Mentee:`} {mentee_name}
-                {/* <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link> */}
+                {`Mentor:`}{" "}
+                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
-                {/* <Link
+                <Link
                   to={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
-                > */}
+                >
                   {new Date(date).toLocaleDateString(
                     "EN-ca",
                     dateFormatOptions
                   )}
-                {/* </Link> */}
+                </Link>
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Time: ${moment(time).format("LTS")}`}
@@ -212,11 +183,16 @@ const SessionCard = (props) => {
                 />
                 {/* </Grid> */}
               </Typography>
+              <Button
+                href={`/users/${mentee_id}/mentors/${mentor_id}/sessions/${session_id}`}
+                variant="contained"
+              >
+                Review Session
+              </Button>
             </Grid>
           </Grid>
-        )}
-
-        {!mentor_confirmed && format === "pending" && (
+        ) : 
+            (!mentor_confirmed && format === "pending") ? (
           <Grid
             container
             direction="row"
@@ -231,12 +207,16 @@ const SessionCard = (props) => {
           >
             <Grid item xs={5} margin="auto">
               {/* <Img src={picture} /> */}
-              <Img src={picture} />
+              <Avatar
+        alt="Remy Sharp"
+        src={picture}
+              sx={{ width: 150, height: 150 }}
+      />
             </Grid>
             <Grid container xs={7} direction="column" justifyContent="center">
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Mentee:`} {mentee_name}
-                {/* <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link> */}
+                {`Mentor:`}{" "}
+                <Link to={`/mentors/${mentor_id}`}>{mentor_name}</Link>
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Mentorship Date: `}{" "}
@@ -265,17 +245,11 @@ const SessionCard = (props) => {
                 />
                 {/* </Grid> */}
               </Typography>
-              <Button onClick={onClickConfirmSession} variant="contained">
-                Confirm Session
-              </Button>
-              <Button onClick={onClickDeleteSession} variant="contained">
-                Delete Session
-              </Button>
             </Grid>
           </Grid>
-        )}
+        ) : <></> }      
+        
       </Paper>
-    
   );
 };
 
