@@ -248,17 +248,7 @@ const NavBar = () => {
           /////////////////changes for notification EDWIN
           {isMentor && (
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
-              <MenuItem onClick={handleNotification}>
-                {/* <Typography textAlign="center">LOL</Typography> */}
-                <Badge
-                  badgeContent={pendingSessionCount}
-                  color="secondary"
-                  variant="dot"
-                >
-                  <MailIcon color="action" />
-                </Badge>
-              </MenuItem>
-              <Button variant="contained">
+              <Button variant="contained" onClick={handleNotification}>
                 {pendingSessionCount} pending sessions
               </Button>
             </Box>
