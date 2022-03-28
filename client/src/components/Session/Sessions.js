@@ -35,6 +35,7 @@ function Session() {
   const [mentorSessions, setMentorSessions] = useState([]);
   const [userData, setUserData] = useState(id);
   const [alignment, setAlignment] = useState("completed");
+  const [pendingSessionCount, setPendingSessionsCount] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:8080/users/${id}`).then((response) => {
@@ -55,6 +56,19 @@ function Session() {
         console.log("data!");
         setMentorSessions(response.data);
         console.log(response.data);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+    axios
+      .get(`http://localhost:8080/users/${id}/mentor_confirmed/`)
+      .then((response) => {
+        console.log("data!");
+        //Loop through session data to see if there are any unconfirmed mentor sessions with corresponding userID
+        let count = response.data[0].count;
+        setPendingSessionsCount(count);
+        console.log(count, "count");
       })
       .catch((err) => {
         console.log("error!");
@@ -105,7 +119,9 @@ function Session() {
           >
             <ToggleButton value="completed">Completed</ToggleButton>
             <ToggleButton value="upcoming">Upcoming</ToggleButton>
-            <ToggleButton value="pending">Pending</ToggleButton>
+            <ToggleButton value="pending">
+              Pending ({pendingSessionCount})
+            </ToggleButton>
           </ToggleButtonGroup>
           {/* <ToggleButtonGroup
             color="primary"

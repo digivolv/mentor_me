@@ -87,9 +87,10 @@ function MenteeForm() {
         date,
         duration,
         // mentor_id: mentorId,
-        mentor_id: newMentorId,
-
-        mentee_id: id,
+        // mentor_id: newMentorId,
+        mentor_id: localStorage.mentorID,
+        // mentee_id: id,
+        mentee_id: localStorage.userID,
         mentor_confirmed: false,
       })
       .then(function (response) {
@@ -108,7 +109,7 @@ function MenteeForm() {
         <h1>Mentorship Form</h1>
 
         <form className="form-control" onSubmit={onSubmitForm}>
-          <DropDownMentors
+          {/* <DropDownMentors
             allMentors={allMentors}
             formName={formName}
             setFormName={setFormName}
@@ -117,7 +118,7 @@ function MenteeForm() {
             // mentorId={mentorId}
             // setMentorId={setMentorId}
             // getFormName={(formName) => setFormName(formName)}
-          />
+          /> */}
           <DropDownDuration duration={duration} setDuration={setDuration} />
           <DatePicker date={date} setDate={setDate} />
 

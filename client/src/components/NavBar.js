@@ -12,6 +12,10 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
+import Badge from "@mui/material/Badge";
+import MailIcon from "@mui/icons-material/Mail";
+import axios from "axios";
+import { useEffect } from "react";
 
 const NavBar = () => {
   const user_id = localStorage.getItem("userID");
@@ -19,53 +23,65 @@ const NavBar = () => {
   const profile_pic = localStorage.getItem("userPic");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   const navigate = useNavigate();
 
-  const handleHome = () => {
-    navigate(`/`);
-  };
+  const [pendingSessionCount, setPendingSessionsCount] = React.useState([]);
 
-  const handleFindMentor = () => {
-    navigate(`/search`);
-  };
-
-  const handleBeMentor = () => {
-    navigate(`/mentors/new`);
-  };
-
-  const handleSessions = () => {
+  const isMentor = localStorage.getItem("isMentor");
+  const handleNotification = () => {
     navigate(`/users/${user_id}/sessions`);
   };
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users/${user_id}/mentor_confirmed/`)
+      .then((response) => {
+        console.log("data!");
+        //Loop through session data to see if there are any unconfirmed mentor sessions with corresponding userID
+        let count = response.data[0].count;
+        setPendingSessionsCount(count);
+        console.log(count, "count");
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+  }, []);
+  // Post request to chat engine to set user
   const handleMessages = () => {
     navigate(`/messages`);
   };
-
+  const handleHome = () => {
+    navigate(`/`);
+  };
+  const handleFindMentor = () => {
+    navigate(`/search`);
+  };
+  const handleBeMentor = () => {
+    navigate(`/mentors/new`);
+  };
+  const handleSessions = () => {
+    navigate(`/users/${user_id}/sessions`);
+  };
   const handleProfile = () => {
     navigate(`/mentors/${user_id}/admin`);
   };
-
   const handleLogout = () => {
     localStorage.clear();
     navigate(`/login`);
   };
-
   const handleRegister = () => {
     navigate(`/register`);
   };
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -74,6 +90,16 @@ const NavBar = () => {
   let boxTwo;
 
   // If user is not logged in, show login + register options
+
+  <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
+    <MenuItem onClick={handleRegister}>
+      <Typography textAlign="center">REGISTER</Typography>
+    </MenuItem>
+    <MenuItem onClick={handleLogout}>
+      <Typography textAlign="center">LOGIN</Typography>
+    </MenuItem>
+  </Box>;
+
   if (!user_id) {
     boxOne = (
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -86,13 +112,11 @@ const NavBar = () => {
         </Button>
       </Box>
     );
-
     boxTwo = (
       <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
         <MenuItem onClick={handleRegister}>
           <Typography textAlign="center">REGISTER</Typography>
         </MenuItem>
-
         <MenuItem onClick={handleLogout}>
           <Typography textAlign="center">LOGIN</Typography>
         </MenuItem>
@@ -109,7 +133,6 @@ const NavBar = () => {
         >
           Find a Mentor
         </Button>
-
         <Button
           key="beMentor"
           onClick={handleBeMentor}
@@ -167,7 +190,6 @@ const NavBar = () => {
       </Box>
     );
   }
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -181,7 +203,6 @@ const NavBar = () => {
           >
             MENTOR ME
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -214,7 +235,6 @@ const NavBar = () => {
               <MenuItem key="findMentor" onClick={handleFindMentor}>
                 <Typography textAlign="center">Find a Mentor</Typography>
               </MenuItem>
-
               <MenuItem key="beMentor" onClick={handleBeMentor}>
                 <Typography textAlign="center">Be A Mentor</Typography>
               </MenuItem>
@@ -229,6 +249,15 @@ const NavBar = () => {
             MENTOR ME
           </Typography>
           {boxOne}
+          {isMentor && (
+            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
+              <Button variant="contained" onClick={handleNotification}>
+                {pendingSessionCount === 0 && pendingSessionCount}
+                {pendingSessionCount > 0 && pendingSessionCount} pending
+                sessions
+              </Button>
+            </Box>
+          )}
           {boxTwo}
         </Toolbar>
       </Container>
