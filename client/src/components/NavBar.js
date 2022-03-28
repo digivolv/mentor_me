@@ -38,6 +38,10 @@ const NavBar = () => {
     navigate(`/users/${user_id}/sessions`);
   };
 
+  const handleMessages = () => {
+    navigate(`/messages`);
+  };
+
   const handleProfile = () => {
     navigate(`/mentors/${user_id}/admin`);
   };
@@ -141,11 +145,19 @@ const NavBar = () => {
           onClose={handleCloseUserMenu}
         >
           <MenuItem key="profile" onClick={handleProfile}>
-            <Typography textAlign="center">My Profile</Typography>
+            <Typography textAlign="center">Profile</Typography>
           </MenuItem>
 
           <MenuItem key="sessions" onClick={handleSessions}>
-            <Typography textAlign="center">My Sessions</Typography>
+            <Typography textAlign="center">Favourites</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleMessages}>
+            <Typography textAlign="center">Messages</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleSessions}>
+            <Typography textAlign="center">Sessions</Typography>
           </MenuItem>
 
           <MenuItem key="logout" onClick={handleLogout}>

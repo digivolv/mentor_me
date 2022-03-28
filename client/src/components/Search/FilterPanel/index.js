@@ -16,6 +16,8 @@ const FilterPanel = ({
     <div>
       <h3>Price Range:</h3>
       <br />
+      <br />
+      <br />
       <PriceSlider value={selectedPrice} changePrice={changePrice} />
       <br />
       <h3>Years of Experience:</h3>
@@ -26,6 +28,7 @@ const FilterPanel = ({
           changeChecked={changeExperience}
         />
       ))}
+      <br />
       <h3>Rating:</h3>
       <StarRating value={selectedRating} selectToggle={selectRating} /> & up
     </div>

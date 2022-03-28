@@ -151,7 +151,6 @@ function Search() {
       />
       <div className="content">
         <div className="filter-pane">
-          Filters:
           <FilterPanel
             selectedPrice={selectedPrice}
             changePrice={handleChangePrice}
