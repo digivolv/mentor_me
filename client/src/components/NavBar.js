@@ -13,27 +13,47 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Find A Mentor", "Be a Mentor"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-function NavBar() {
+const NavBar = () => {
+  const user_id = localStorage.getItem("userID");
+  // Displays profile picture in Nav bar circle
+  const profile_pic = localStorage.getItem("userPic");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const navigateHome = useNavigate();
-  const handleHome = (id) => {
-    navigateHome(`/`);
-  };  
+  const navigate = useNavigate();
 
-  const navigateSearch = useNavigate();
-  const handleClick = (id) => {
-    navigateSearch(`/search`);
-  };  
+  const handleHome = () => {
+    navigate(`/`);
+  };
 
-  const navigateRegister = useNavigate();
-  const handleRegister = (id) => {
-    navigateRegister(`/register`);
-  };  
+  const handleFindMentor = () => {
+    navigate(`/search`);
+  };
+
+  const handleBeMentor = () => {
+    navigate(`/mentors/new`);
+  };
+
+  const handleSessions = () => {
+    navigate(`/users/${user_id}/sessions`);
+  };
+
+  const handleMessages = () => {
+    navigate(`/messages`);
+  };
+
+  const handleProfile = () => {
+    navigate(`/mentors/${user_id}/admin`);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate(`/login`);
+  };
+
+  const handleRegister = () => {
+    navigate(`/register`);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,6 +69,104 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  let boxOne;
+  let boxTwo;
+
+  // If user is not logged in, show login + register options
+  if (!user_id) {
+    boxOne = (
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Button
+          key="findMentor"
+          onClick={handleFindMentor}
+          sx={{ my: 2, color: "white", display: "block" }}
+        >
+          Find a Mentor
+        </Button>
+      </Box>
+    );
+
+    boxTwo = (
+      <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
+        <MenuItem onClick={handleRegister}>
+          <Typography textAlign="center">REGISTER</Typography>
+        </MenuItem>
+
+        <MenuItem onClick={handleLogout}>
+          <Typography textAlign="center">LOGIN</Typography>
+        </MenuItem>
+      </Box>
+    );
+  } else {
+    // if user is logged in show ability to be a mentor
+    boxOne = (
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Button
+          key="findMentor"
+          onClick={handleFindMentor}
+          sx={{ my: 2, color: "white", display: "block" }}
+        >
+          Find a Mentor
+        </Button>
+
+        <Button
+          key="beMentor"
+          onClick={handleBeMentor}
+          sx={{ my: 2, color: "white", display: "block" }}
+        >
+          Be A Mentor
+        </Button>
+      </Box>
+    );
+    // if user is logged in show profile and logout options
+    boxTwo = (
+      <Box sx={{ flexGrow: 0 }}>
+        <Tooltip title="Open settings">
+          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            {/* <Avatar alt="M" src="/static/images/avatar/2.jpg" /> */}
+            <Avatar alt="M" src={profile_pic} />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          sx={{ mt: "45px" }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+        >
+          <MenuItem key="profile" onClick={handleProfile}>
+            <Typography textAlign="center">Profile</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleSessions}>
+            <Typography textAlign="center">Favourites</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleMessages}>
+            <Typography textAlign="center">Messages</Typography>
+          </MenuItem>
+
+          <MenuItem key="sessions" onClick={handleSessions}>
+            <Typography textAlign="center">Sessions</Typography>
+          </MenuItem>
+
+          <MenuItem key="logout" onClick={handleLogout}>
+            <Typography textAlign="center">Logout</Typography>
+          </MenuItem>
+        </Menu>
+      </Box>
+    );
+  }
 
   return (
     <AppBar position="static">
@@ -93,11 +211,13 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem key="findMentor" onClick={handleFindMentor}>
+                <Typography textAlign="center">Find a Mentor</Typography>
+              </MenuItem>
+
+              <MenuItem key="beMentor" onClick={handleBeMentor}>
+                <Typography textAlign="center">Be A Mentor</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -108,50 +228,11 @@ function NavBar() {
           >
             MENTOR ME
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleClick}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {boxOne}
+          {boxTwo}
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
 export default NavBar;

@@ -89,5 +89,11 @@ module.exports = (db) => {
     }
   });
 
+  router.get("/sessions", (req, res) => {
+    db.query(`SELECT * FROM sessions`).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
   return router;
 };
