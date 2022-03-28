@@ -5,7 +5,6 @@ import NavBar from "../NavBar";
 import List from "./List";
 import "./styles.css";
 import axios from "axios";
-import { min } from "date-fns";
 
 function Search() {
   const [allMentors, setAllMentors] = useState([]);
@@ -36,7 +35,6 @@ function Search() {
   const handleSelectRating = (event, value) =>
     !value ? null : setSelectedRating(value);
 
-  // Manipulate array so that each mentor element has the required info
   let all = [];
   const createSpecialtiesArr = (res1, res2) => {
     res1.data.forEach((element) => {
@@ -54,8 +52,6 @@ function Search() {
       let index2 = all.findIndex(
         (mentor) => mentor.user_id === review.mentor_id
       );
-      // console.log("MENTOR ID:", review.mentor_id);
-      // console.log("INDEX2:", index2);
 
       if (review.rating) {
         all[index2].ratingArr.push(review.rating);
