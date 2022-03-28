@@ -18,7 +18,6 @@ const SearchBar = ({ value, changeInput }) => {
           label="Search Technology"
         />
       </div>
-      {/* <List input={value} /> */}
     </div>
   );
 };

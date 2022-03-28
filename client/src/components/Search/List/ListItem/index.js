@@ -7,6 +7,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TechCard from "./TechCard";
+import Avatar from "@mui/material/Avatar";
 
 const Img = styled("img")({
   margin: "auto",
@@ -42,7 +43,11 @@ function ListItem(props) {
               handleClick(props.id);
             }}
           >
-            <Img alt="complex" src={props.picture} />
+            <Avatar
+              alt="mentor picture"
+              src={props.picture}
+              sx={{ width: 110, height: 110 }}
+            />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

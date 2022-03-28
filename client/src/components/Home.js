@@ -13,26 +13,31 @@ import Footer from "./Footer";
 function Home() {
   let navigate = useNavigate();
 
-  const handleClick = () => {
-    // console.log("clicked");
+  const handleFindAMentor = () => {
     navigate(`/search`);
+  };
+
+  const handleBeAMentor = () => {
+    navigate(`/mentors/new`);
   };
   return (
     <div>
       <NavBar />
-      <div class="tagLine">
-        <h1>Mentor Me</h1>
-        <span>Get unstuck quickly by talking to a coding mentor now</span>
+      <div className="tagLine">
+        <div className="catchPhrase">
+          <h1>Mentor Me</h1>
+          <span>Get unstuck quickly by talking to a coding mentor now</span>
+        </div>
         <br />
         <br />
         <ArrowDropDownCircleOutlinedIcon sx={{ fontSize: 100 }} />
       </div>
 
       <div className="navigationCard">
-        <div className="mentorCard" onClick={handleClick}>
+        <div className="mentorCard" onClick={handleFindAMentor}>
           <h1>FIND A MENTOR</h1>
         </div>
-        <div className="mentorCard" onClick={handleClick}>
+        <div className="mentorCard" onClick={handleBeAMentor}>
           <h1>BE A MENTOR</h1>
         </div>
       </div>

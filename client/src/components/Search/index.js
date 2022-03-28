@@ -18,8 +18,6 @@ function Search() {
     { id: 3, checked: true, label: "< 5 years" },
   ]);
 
-  // console.log("ALL MENTORS", allMentors);
-
   const handleChangePrice = (event, value) => {
     setSelectedPrice(value);
   };
