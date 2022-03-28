@@ -30,7 +30,7 @@ function Mentor(props) {
   const FavouriteComponent = props.favouriteComponent
   const { window, users, setUsers } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mentor, setMentor] = useState([]);
+  // const [mentor, setMentor] = useState([]);
   let { id } = useParams();
 
   const handleDrawerToggle = () => {
@@ -59,32 +59,32 @@ function Mentor(props) {
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/mentors/expertise/${id}`)
-      .then((response) => {
-        console.log("DATA:", response.data);
-        const newArr = [];
-        response.data.forEach((element) => {
-          console.log("NAME:", element.name);
-          element.specialties = [element.specialty];
-          console.log("ELEMENT:", element);
-          let index = newArr.findIndex((mentor) => mentor.name == element.name);
-          console.log("INDEX", index);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:8080/mentors/expertise/${id}`)
+  //     .then((response) => {
+  //       console.log("DATA:", response.data);
+  //       const newArr = [];
+  //       response.data.forEach((element) => {
+  //         console.log("NAME:", element.name);
+  //         element.specialties = [element.specialty];
+  //         console.log("ELEMENT:", element);
+  //         let index = newArr.findIndex((mentor) => mentor.name == element.name);
+  //         console.log("INDEX", index);
 
-          index === -1
-            ? newArr.push(element)
-            : newArr[index].specialties.push(element.specialty);
+  //         index === -1
+  //           ? newArr.push(element)
+  //           : newArr[index].specialties.push(element.specialty);
 
-          console.log("NEWARR:", newArr);
-        });
-        setMentor(newArr);
-      })
-      .catch((err) => {
-        console.log("error!");
-        console.log(err);
-      });
-  }, []);
+  //         console.log("NEWARR:", newArr);
+  //       });
+  //       setMentor(newArr);
+  //     })
+  //     .catch((err) => {
+  //       console.log("error!");
+  //       console.log(err);
+  //     });
+  // }, []);
 
   const drawer = (
     <div>
@@ -103,7 +103,7 @@ function Mentor(props) {
               src={text.picture}
                 sx={{ width: 200, height: 200 }} />
               </div >
-          <ListItem button key={text.id}>
+          <ListItem button>
             <ListItemIcon>
               </ListItemIcon>
               
@@ -113,19 +113,19 @@ function Mentor(props) {
             </ListItem>
              <ListItemText
               primary={text.city} secondary={text.country} align={'center'} />
-          <ListItem button key={text.id}>
+          <ListItem button>
             <ListItemIcon>
               {<WorkIcon />}
             </ListItemIcon>
             <ListItemText primary={text.job_title} />
           </ListItem>
-          <ListItem button key={text.id}>
+          <ListItem button>
             <ListItemIcon>
               { <AttachMoneyIcon />}
             </ListItemIcon>
             <ListItemText primary={text.price.toFixed(2)} /> per hour
             </ListItem>
-            <ListItem button key={text.id}>
+            <ListItem button>
             <ListItemIcon>
               {<PsychologyIcon />}
             </ListItemIcon>
