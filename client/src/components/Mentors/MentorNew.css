@@ -9,3 +9,8 @@ form {
 form i {
   font-size: 12px;
 }
+
+.line {
+  display: flex;
+  align-items: row;
+}

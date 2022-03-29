@@ -22,7 +22,8 @@ import NavBar from '../NavBar';
 import { Rating, Button, Grid, Paper } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { Stack } from '@mui/material';
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import "./MentorNew.css"
 
 const drawerWidth = 240;
 
@@ -30,6 +31,7 @@ function Mentor(props) {
   const FavouriteComponent = props.favouriteComponent
   const { window, users, setUsers } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [rating, setRating] = useState('')
   // const [mentor, setMentor] = useState([]);
   let { id } = useParams();
 
@@ -51,51 +53,58 @@ function Mentor(props) {
         // console.log("data!");
         setUsers(response.data);
         localStorage.setItem("mentorID", response.data[0].id)
-        // console.log(response);
+        console.log(response.data[0].id);
       })
       .catch((err) => {
         console.log("error!");
         console.log(err);
       });
+    axios
+      .get(`http://localhost:8080/mentors/avgratings/${id}`)
+      .then((response) => {
+        // console.log("data!");
+        setRating(response.data[0].avg);
+        console.log(response.data[0].avg);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+   
   }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/mentors/expertise/${id}`)
-  //     .then((response) => {
-  //       console.log("DATA:", response.data);
-  //       const newArr = [];
-  //       response.data.forEach((element) => {
-  //         console.log("NAME:", element.name);
-  //         element.specialties = [element.specialty];
-  //         console.log("ELEMENT:", element);
-  //         let index = newArr.findIndex((mentor) => mentor.name == element.name);
-  //         console.log("INDEX", index);
-
-  //         index === -1
-  //           ? newArr.push(element)
-  //           : newArr[index].specialties.push(element.specialty);
-
-  //         console.log("NEWARR:", newArr);
-  //       });
-  //       setMentor(newArr);
-  //     })
-  //     .catch((err) => {
-  //       console.log("error!");
-  //       console.log(err);
-  //     });
-  // }, []);
-
+const onSubmitForm = async (event) => {
+    event.preventDefault();
+   axios
+      .post(`http://localhost:8080/favourites`,
+        {
+          mentee_id: localStorage.userID,
+          mentor_id: localStorage.mentorID
+        })
+     .then(function (response) {
+        
+        console.log(response);
+        navigate(`/mentors/${id}/`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+};
+  
+console.log(rating)
   const drawer = (
     <div>
-      <FavouriteComponent onClick={props.handleFavouritesClick} />
+      
       <Toolbar />
       <Divider />
       <List>
         {users.map((text, index) => (
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Rating/>
+              <Rating
+                value={rating}
+                precision={0.5}
+              readOnly/>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Avatar
@@ -108,9 +117,15 @@ function Mentor(props) {
               </ListItemIcon>
               
 
-              <ListItemText primary={text.name} />
               
             </ListItem>
+            <div class="line">
+            <FavoriteIcon
+                variant="contained"
+                onClick={onSubmitForm}
+              />
+              <ListItemText primary={text.name} align={'center'}/>
+              </div>
              <ListItemText
               primary={text.city} secondary={text.country} align={'center'} />
           <ListItem button>
@@ -123,7 +138,7 @@ function Mentor(props) {
             <ListItemIcon>
               { <AttachMoneyIcon />}
             </ListItemIcon>
-            <ListItemText primary={text.price.toFixed(2)} /> per hour
+            <ListItemText primary={text.price.toFixed(2)} /> per 15 min
             </ListItem>
             <ListItem button>
             <ListItemIcon>
@@ -140,13 +155,16 @@ function Mentor(props) {
                 <Button
                 variant="contained"
                 onClick={() => { formHandleClick() }}
-              >Appt Form</Button>
+                >Appt Form</Button>
+
               </Stack>
             </div>
+                
             </div>
         ))}
       </List>
       <Divider />
+      
     </div>
   );
 
@@ -210,8 +228,36 @@ function Mentor(props) {
         </Typography>
           </>
         ))}
+        <Typography paragraph>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
+          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
+          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
+          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
+          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
+          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
+          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
+          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
+          sapien faucibus et molestie ac.
+        </Typography>
+        <Typography paragraph>
+          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
+          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
+          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
+          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
+          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
+          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
+          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
+          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
+          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
+          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
+          posuere sollicitudin aliquam ultrices sagittis orci a.
+        </Typography>
       </Box>
     </Box>
+    
   );
 }
 

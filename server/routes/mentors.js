@@ -32,6 +32,18 @@ module.exports = (db) => {
       res.json(data.rows);
     });
   });
+
+  router.get("/avgratings/:id", (req, res) => {
+    
+    const command = `
+    SELECT AVG(rating)
+    FROM sessions
+    WHERE mentor_id = $1`;
+    const values = [req.params.id];
+    db.query(command, values).then((data) => {
+      res.json(data.rows);
+    });
+  });
   //:id needs to equal the variable set to req.params
   router.put("/:id", async(req, res) => {
     const { id } = req.params;

@@ -149,7 +149,7 @@ function Session() {
             <Grid item xs={12} sm container>
               {!userData.mentor && (
                 <Grid item xs={12}>
-                  //conditional formatting if mentee completed review sessions
+              
                   <Typography variant="h3">Mentee Sessions</Typography>
                 </Grid>
               )}
@@ -175,7 +175,7 @@ function Session() {
                 })}{" "}
               {userData.mentor && (
                 <Grid item xs={12}>
-                  //conditional formatting if mentor completed review sessions
+               
                   <Typography variant="h3">Mentor Sessions</Typography>
                 </Grid>
               )}
