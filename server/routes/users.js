@@ -62,7 +62,7 @@ module.exports = (db) => {
   router.get("/:user_id/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
-      `SELECT sessions.*, users.name as mentor_name, users.picture as picture
+      `SELECT sessions.*, users.name as mentor_name, users.picture as picture, price
       FROM sessions 
       JOIN users ON users.id = sessions.mentor_id 
       JOIN mentors ON mentors.user_id = users.id
@@ -84,7 +84,8 @@ module.exports = (db) => {
       FROM sessions 
       JOIN users ON users.id = sessions.mentee_id 
       JOIN mentors ON mentors.user_id = sessions.mentor_id
-      WHERE mentor_id = $1`,
+      WHERE mentor_id = $1
+      OR mentee_id = $1`,
       [user_id]
     ).then((data) => {
       let sortedDataById = data.rows.sort(function (a, b) {
@@ -305,6 +306,7 @@ module.exports = (db) => {
       `SELECT COUNT(*)
       FROM sessions
       WHERE mentor_id = $1
+      OR mentee_id = $1
       AND mentor_confirmed IS FALSE
      `,
       [user_id]

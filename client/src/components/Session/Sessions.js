@@ -30,12 +30,12 @@ function Session() {
   let { id } = useParams();
   let navigate = useNavigate();
 
-  const [format, setFormat] = useState("completed");
   const [menteeSessions, setMenteeSessions] = useState([]);
   const [mentorSessions, setMentorSessions] = useState([]);
   const [userData, setUserData] = useState(id);
-  const [alignment, setAlignment] = useState("completed");
   const [pendingSessionCount, setPendingSessionsCount] = useState([]);
+  const [alignment, setAlignment] = useState("completed");
+  const [format, setFormat] = useState("completed");
 
   useEffect(() => {
     axios.get(`http://localhost:8080/users/${id}`).then((response) => {
@@ -69,6 +69,9 @@ function Session() {
         let count = response.data[0].count;
         setPendingSessionsCount(count);
         console.log(count, "count");
+        const initialFormat = count > 0 ? "pending" : "completed";
+
+        setAlignment(initialFormat);
       })
       .catch((err) => {
         console.log("error!");
