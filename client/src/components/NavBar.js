@@ -73,6 +73,9 @@ const NavBar = () => {
   const handleRegister = () => {
     navigate(`/register`);
   };
+  const handleFavourites = () => {
+    navigate(`/favourites`);
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -170,7 +173,7 @@ const NavBar = () => {
             <Typography textAlign="center">Profile</Typography>
           </MenuItem>
 
-          <MenuItem key="sessions" onClick={handleSessions}>
+          <MenuItem key="sessions" onClick={handleFavourites}>
             <Typography textAlign="center">Favourites</Typography>
           </MenuItem>
 

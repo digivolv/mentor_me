@@ -14,16 +14,12 @@ import MentorView from "./components/Mentors/MentorView";
 import MenteeForm from "./components/Forms/MenteeForm";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
-import AddFavourite from "./components/AddFavourite";
+import Favourites from "./components/Favourites/"
 import MentorNew from "./components/Mentors/MentorNew";
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [favourites, setFavourites] = useState([]);
-  const addFavouriteMentor = (mentor) => {
-    const newFavouriteList = [...favourites, mentor];
-    setFavourites(newFavouriteList);
-  };
+  
 
   return (
     <BrowserRouter>
@@ -46,8 +42,7 @@ function App() {
             <Mentor
               users={users}
               setUsers={setUsers}
-              favouriteComponent={AddFavourite}
-              handleFavouritesClick={addFavouriteMentor}
+              
             />
           }
         />
@@ -57,6 +52,7 @@ function App() {
         <Route path="/messages" element={<Messages />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/mentors/new" element={<MentorNew />} />
+        <Route path="/favourites" element={<Favourites />} />
       </Routes>
     </BrowserRouter>
   );

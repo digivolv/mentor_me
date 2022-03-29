@@ -1,0 +1,4 @@
+.form-and-image {
+  display: flex;
+  justify-content: row;
+}

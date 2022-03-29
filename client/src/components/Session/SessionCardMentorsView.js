@@ -99,7 +99,8 @@ const SessionCard = (props) => {
   return (
     
       
-      <Paper className="paper">
+    <Paper
+      className="paper">
         {mentor_confirmed && review && rating && format === "completed" && (
           <Grid
             container
