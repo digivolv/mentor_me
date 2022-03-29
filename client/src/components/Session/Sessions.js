@@ -149,14 +149,13 @@ function Session() {
             <Grid item xs={12} sm container>
               {!userData.mentor && (
                 <Grid item xs={12}>
-                  //conditional formatting if mentee completed review sessions
+              
                   <Typography variant="h3">Mentee Sessions</Typography>
                 </Grid>
               )}
               {!userData.mentor &&
                 menteeSessions.map((user) => {
                   return (
-                    <Grid item xs={10} padding="10px">
                       <SessionCard
                         price={user.price}
                         time={user.time}
@@ -173,19 +172,18 @@ function Session() {
                         review={user.description}
                         picture={user.picture}
                       />
-                    </Grid>
                   );
                 })}{" "}
               {userData.mentor && (
                 <Grid item xs={12}>
-                  //conditional formatting if mentor completed review sessions
+               
                   <Typography variant="h3">Mentor Sessions</Typography>
                 </Grid>
               )}
               {userData.mentor &&
                 mentorSessions.map((user) => {
                   return (
-                    <Grid item xs={10} padding="10px">
+                    // <Grid item xs={10} padding="10px">
                       <SessionCardMentorsView
                         price={user.price}
                         time={user.time}
@@ -202,7 +200,6 @@ function Session() {
                         review={user.description}
                         picture={user.picture}
                       />
-                    </Grid>
                   );
                 })}{" "}
             </Grid>

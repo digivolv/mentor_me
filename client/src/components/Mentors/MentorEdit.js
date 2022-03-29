@@ -21,6 +21,7 @@ const MentorEdit = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [mentor, setMentor] = useState([]);
+  
   let { id } = useParams();
   let navigate = useNavigate()
   
@@ -50,6 +51,7 @@ const MentorEdit = (props) => {
         console.log("error!");
         console.log(err);
       });
+    
   }, []);
 
   const onSubmitForm = async (event) => {

@@ -26,7 +26,8 @@ module.exports = (db) => {
     const { rating, message } = req.body;
     console.log(req.body);
     db.query(
-      `INSERT INTO mentor_reviews (mentee_id, mentor_id, rating, message) VALUES(${user_id}, $1, $2, $3)`,
+      `INSERT INTO mentor_reviews (mentee_id, mentor_id, rating, message) 
+      VALUES(${user_id}, $1, $2, $3)`,
       [user_id, rating, message]
     ).then((data) => {
       res.json(data.rows);

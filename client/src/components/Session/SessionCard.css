@@ -1,0 +1,10 @@
+.paper {
+  width: 75%;
+  margin-bottom: 16px;
+  border-color: #1A2027;
+}
+
+img {
+  clip-path: circle();
+  margin: auto
+}

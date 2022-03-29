@@ -6,15 +6,11 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import WorkIcon from '@mui/icons-material/Work';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
+import ListItemText from '@mui/material/ListItemText'
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -26,6 +22,7 @@ import { Rating, Button, TextField } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TechnologyCard from '../Search/List/ListItem/TechCard';
 import MentorEdit from './MentorEdit';
+import './MentorNew.css'
 
 const drawerWidth = 240;
 
@@ -33,24 +30,12 @@ function Mentor(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mentors, setMentors] = useState([]);
+  const [rating, setRating] = useState('')
   let { id } = useParams();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/mentors/${id}`)
-  //     .then((response) => {
-  //       // console.log("data!");
-  //       setUsers(response.data);
-  //       // console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log("error!");
-  //       console.log(err);
-  //     });
-  // }, []);
 
   useEffect(() => {
     axios
@@ -78,6 +63,18 @@ function Mentor(props) {
         console.log("error!");
         console.log(err);
       });
+    axios
+      .get(`http://localhost:8080/mentors/avgratings/${id}`)
+      .then((response) => {
+        // console.log("data!");
+        setRating(response.data[0].avg);
+        localStorage.setItem("rating", response.data[0])
+        console.log(response.data[0].avg);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
   }, []);
 
   const drawer = (
@@ -88,7 +85,10 @@ function Mentor(props) {
         {mentors.map((text, index) => (
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Rating/>
+              <Rating
+               value={rating}
+                precision={0.5}
+              readOnly/>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Avatar
@@ -99,10 +99,10 @@ function Mentor(props) {
           <ListItem button key={text.id}>
             <ListItemIcon>
             </ListItemIcon>
-              <ListItemText
-                primary={text.name} />
               
             </ListItem>
+              <ListItemText
+                primary={text.name} align={'center'} />
             <ListItemText
               primary={text.city} secondary={text.country} align={'center'} />
           <ListItem button key={text.id}>
