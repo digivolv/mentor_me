@@ -80,7 +80,7 @@ module.exports = (db) => {
   router.get("/:user_id/mentors/sessions/", (req, res) => {
     const { user_id } = req.params;
     db.query(
-      `SELECT sessions.*, users.name as mentee_name, users.picture as picture
+      `SELECT sessions.*, users.name as mentee_name, users.picture as picture, mentors.price
       FROM sessions 
       JOIN users ON users.id = sessions.mentee_id 
       JOIN mentors ON mentors.user_id = sessions.mentor_id

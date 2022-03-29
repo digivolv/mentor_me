@@ -24,6 +24,8 @@ function Session() {
     rating: "",
   });
 
+  const [price, setPrice] = useState(null);
+
   useEffect(() => {
     axios
       //axios url path still hardcoded
@@ -34,6 +36,19 @@ function Session() {
         console.log("data!");
         //Need first row of data only
         setState({ sessions: response.data[0] });
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+    axios
+      //axios url path still hardcoded
+      .get(`http://localhost:8080/mentors/${mentor_id}/`)
+      .then((response) => {
+        console.log("data!");
+        //Need first row of data only
+        setPrice(response.data[0].price);
         console.log(response.data);
       })
       .catch((err) => {
@@ -111,7 +126,7 @@ function Session() {
               Duration: {state.sessions.duration}
             </Typography>
             <Typography gutterBottom variant="subtitle2" component="div">
-              Cost:
+              Price: ${(price * (state.sessions.duration / 15)).toFixed(2)}
             </Typography>
           </Grid>
           {/* <h1>session_id {state.sessions.id}</h1> */}
