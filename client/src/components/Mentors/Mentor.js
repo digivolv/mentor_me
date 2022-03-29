@@ -24,14 +24,16 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import "./MentorNew.css"
+import "./Mentor.css"
 
 const drawerWidth = 240;
 
 function Mentor(props) {
   const FavouriteComponent = props.favouriteComponent
-  const { window, users, setUsers } = props;
+  const { window, users, setUsers, favourite } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [rating, setRating] = useState('')
+  const [style, setStyle] = useState("");
   // const [mentor, setMentor] = useState([]);
   let { id } = useParams();
 
@@ -74,14 +76,16 @@ function Mentor(props) {
   }, []);
 
 const onSubmitForm = async (event) => {
-    event.preventDefault();
-   axios
-      .post(`http://localhost:8080/favourites`,
-        {
-          mentee_id: localStorage.userID,
-          mentor_id: localStorage.mentorID
-        })
-     .then(function (response) {
+  event.preventDefault();
+  if (!style) {
+    axios
+       .post(`http://localhost:8080/favourites`,
+         {
+           mentee_id: localStorage.userID,
+           mentor_id: localStorage.mentorID
+         })
+    setStyle("heart-icon-red")
+    .then(function (response) {
         
         console.log(response);
         navigate(`/mentors/${id}/`);
@@ -89,6 +93,25 @@ const onSubmitForm = async (event) => {
       .catch(function (error) {
         console.log(error);
       });
+  } else {
+    axios
+      .delete(`http://localhost:8080/favourites`, {
+        data: {
+          mentee_id: localStorage.userID,
+          mentor_id: localStorage.mentorID
+        },
+      })
+    setStyle("")
+    .then(function (response) {
+        
+        console.log(response);
+        navigate(`/mentors/${id}/`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+     
 };
   
 console.log(rating)
@@ -120,7 +143,8 @@ console.log(rating)
               
             </ListItem>
             <div class="line">
-            <FavoriteIcon
+              <FavoriteIcon
+                className={style}
                 variant="contained"
                 onClick={onSubmitForm}
               />

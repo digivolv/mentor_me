@@ -10,6 +10,19 @@ module.exports = (db) => {
     });
   });
 
+  router.get("/:id", (req, res) => {
+    const { id } = req.params;
+    const command = `
+    SELECT * FROM favourites
+    JOIN mentors on mentors.id = mentor_id
+    INNER JOIN users on users.id = mentor_id
+    WHERE mentee_id = $1`;
+    const values = [id];
+    db.query(command, values).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
   router.post("/", (req, res) => {
     const {mentee_id, mentor_id} = req.body;
     
