@@ -12,7 +12,7 @@ module.exports = (db) => {
 
     db.query(queryStr, values)
       .then((data) => {
-        console.log("Added new user to database!");
+        // console.log("Added new user to database!");
       })
       .catch((err) => {
         console.log("ERROR:", err);

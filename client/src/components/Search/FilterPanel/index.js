@@ -11,14 +11,15 @@ const FilterPanel = ({
   selectedRating,
   selectRating,
 }) => {
-  // console.log("EXP LIST:", experienceList);
   return (
     <div>
+      <br />
       <h3>Price Range:</h3>
       <br />
       <br />
       <br />
       <PriceSlider value={selectedPrice} changePrice={changePrice} />
+      <br />
       <br />
       <h3>Years of Experience:</h3>
       {experienceList.map((experience) => (
@@ -29,8 +30,10 @@ const FilterPanel = ({
         />
       ))}
       <br />
-      <h3>Rating:</h3>
-      <StarRating value={selectedRating} selectToggle={selectRating} /> & up
+      <br />
+      <h3>Minimum Rating:</h3>
+      <br />
+      <StarRating value={selectedRating} selectToggle={selectRating} />
     </div>
   );
 };

@@ -67,30 +67,32 @@ function ListItem(props) {
               </Typography>
             </Grid>
             <Grid item>
-              {/* Show list of expertise */}
               <TechCard user={props.id} />
-              {/* <TechCard specialties={props.specialties} /> */}
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle1" component="div">
-              Rate: ${props.price}
+            <Typography variant="body2" component="div">
+              Rate: ${props.price}/15mins
             </Typography>
+            <br />
+
             <Button
               variant="contained"
+              size="medium"
               onClick={() => {
                 handleClick(props.id);
               }}
             >
               View Profile
             </Button>
+
             <br />
             <br />
             <Button
               variant="contained"
+              size="medium"
               onClick={() => {
                 navigate(`/messages`);
-                handleClick(props.id);
               }}
             >
               Message

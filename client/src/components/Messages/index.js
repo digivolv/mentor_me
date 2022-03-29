@@ -1,4 +1,4 @@
-import React, { user } from "react";
+import React from "react";
 import { ChatEngine } from "react-chat-engine";
 import NavBar from "../NavBar";
 

@@ -54,55 +54,6 @@ function Register() {
     navigate(`/`);
   };
 
-  /////////////// PROMISE AXIOS ALL VERSION  /////////////////
-  //   axios
-  //     .all([
-  //       axios.post("http://localhost:8080/register", data),
-  //       axios.post(
-  //         "https://api.chatengine.io/users/",
-  //         {
-  //           username: formData.get("username"),
-  //           secret: formData.get("password"),
-  //         },
-  //         { headers: headers }
-  //       ),
-  //     ])
-  //     .then(
-  //       axios.spread((...responses) => {
-  //         console.log(JSON.stringify(responses[0].data));
-  //         console.log(responses[0]);
-  //         console.log("SUCCESS!");
-  //         navigate(`/search`);
-  //       })
-  //     )
-  //     .catch((err) => {
-  //       console.log("ERROR:", err);
-  //     });
-  // };
-
-  ////////////// ASYNC AWAIT VERSION ////////////////
-
-  //   try {
-  //     await axios.all([
-  //       axios.post("http://localhost:8080/register", data),
-  //       axios.post(
-  //         "https://api.chatengine.io/users/",
-  //         {
-  //           username: formData.get("username"),
-  //           secret: formData.get("password"),
-  //         },
-  //         { headers: headers }
-  //       ),
-  //     ]);
-
-  //     navigate(`/search`);
-  //     console.log("success");
-  //   } catch (err) {
-  //     console.log("ERRORRRR:", err);
-  //   }
-  // };
-  ///////////////////////////////////////////////////
-
   return (
     <div className="registration">
       <div className="left">

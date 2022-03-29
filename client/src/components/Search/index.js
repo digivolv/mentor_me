@@ -98,11 +98,7 @@ function Search() {
 
     // Rating Filter
     if (selectedRating) {
-      updated = updated.filter(
-        // (mentor) => parseInt(mentor.price) === parseInt(selectedRating)
-
-        (mentor) => mentor.ratingAvg >= selectedRating
-      );
+      updated = updated.filter((mentor) => mentor.ratingAvg >= selectedRating);
     }
 
     // Price Filter
@@ -112,7 +108,6 @@ function Search() {
     updated = updated.filter(
       (mentor) => mentor.price <= maxPrice && mentor.price >= minPrice
     );
-    // console.log("UPDATED", updated);
     setFilteredMentors(updated);
   };
 
@@ -141,7 +136,7 @@ function Search() {
       <NavBar />
       <SearchBar
         value={searchInput}
-        changeInput={(e) => setSearchInput(e.target.value)}
+        changeInput={(e) => setSearchInput(e.target.value.toLowerCase())}
       />
       <div className="content">
         <div className="filter-pane">

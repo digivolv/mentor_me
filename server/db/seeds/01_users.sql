@@ -1,14 +1,3 @@
--- seeds/01_users.sql
--- users seeds
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Rick Sanchez', 'picklerick', 'rick.sandchez@gmail.com', 'picklerick', 1234234422, 'Toronto', 'Canada', true, 'https://static.tvtropes.org/pmwiki/pub/images/abcb6534_7913_4eb1_a7a5_62b081ebc628.png');
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Lisa Simpson', 'lisasimpson', 'lisa.simpson@gmail.com', 'lisasimpson', 1234234422, 'Springfield', 'Canada', true, 'https://openpsychometrics.org/tests/characters/test-resources/pics/S/4.jpg');
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Link Link', 'hyrule', 'link@yahoo.com', 'hyrule', 1234234422, 'Hyrule', 'Canada', true, 'https://www.zelda.com/links-awakening/assets/img/home/hero-char.png');
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Simon Belmont', 'dracula', 'simon_bel123@mail.ca', 'dracula', 1234234422, 'Transylvannia', 'Canada', false, 'https://cdn.mos.cms.futurecdn.net/JBmrUyimnDL4eUZij2iC6k-970-80.jpg.webp');
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Plus Ultra', 'plusUltra', 'all_might@academia.jp', 'plusUltra', 1234234422, 'Ultraland', 'Canada', false, 'https://m.media-amazon.com/images/M/MV5BMTVjMmE0NDMtNjE5My00YTY4LWE1NWQtYzY3OWI5NzgwZjU5XkEyXkFqcGdeQTNwaW5nZXN0._V1_QL75_UX500_CR0,0,500,281_.jpg');
--- INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Mario Mario', 'plumber79', 'mario@mushroomkindom.jp', 'plumber79', 1234234422, 'Mushroom Kingdom', 'Canada', false, 'https://mario.wiki.gallery/images/3/3e/MPSS_Mario.png');
-
--- /// NEW VERSION 
--- Mentors (10) 
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Mark Smith', 'marksmith', 'mark.smith@gmail.com', 'marksmith', 1234234422, 'Toronto', 'Canada', true, 'https://t3.ftcdn.net/jpg/02/00/90/24/360_F_200902415_G4eZ9Ok3Ypd4SZZKjc8nqJyFVp1eOD6V.jpg');
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Amber Taylor', 'amberraylor', 'amber.taylor@gmail.com', 'ambertaylor', 1234234422, 'Hamilton', 'Canada', true, 'https://t4.ftcdn.net/jpg/02/60/03/61/360_F_260036118_AUYppgsODQeTCnbu0OXGNDXB8EVzpxKq.jpg');
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Zain Sinha', 'zainsinha', 'zain.sinha@gmail.com', 'zainsinha', 1234234422, 'Ottawa', 'Canada', true, 'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80');
@@ -20,7 +9,7 @@ INSERT INTO users (name, username, email, password, phone, city, country, mentor
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('John Port', 'johnport', 'john.port@gmail.com', 'johnport', 1234234422, 'Toronto', 'Canada', true, 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Sandy Brown', 'sandybrown', 'sandy.brown@gmail.com', 'sandybrown', 1234234422, 'Toronto', 'Canada', true, 'https://t3.ftcdn.net/jpg/02/58/89/62/360_F_258896226_zVd0SsGv0ncRK7b6yZXmflz3Ekn2XT7M.jpg');
 
--- // Menteees (5) 
+
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Simon Clark', 'simonclark', 'simon.clark@gmail.com', 'simonclark', 1234234422, 'Toronto', 'Canada', false, 'https://us.123rf.com/450wm/dglimages/dglimages1807/dglimages180700174/105059079-front-view-of-a-young-male-adult-looking-and-smiling-at-the-camera-while-he-gets-a-portrait-taken-.jpg?ver=6');
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Angela Hall', 'Angela Hall', 'angela.hall@gmail.com', 'angelahall', 1234234422, 'Toronto', 'Canada', false, 'https://media.istockphoto.com/photos/headshot-portrait-of-happy-mixed-race-african-girl-wearing-glasses-picture-id1144287292?b=1&k=20&m=1144287292&s=170667a&w=0&h=fvNKa6QuUa--cNv-oUXaHUBx8deD9iWgegvn76CtG_M=');
 INSERT INTO users (name, username, email, password, phone, city, country, mentor, picture) VALUES ('Andrew Baker', 'andrewbaker', 'andrew.baker@gmail.com', 'andrewbaker', 1234234422, 'Toronto', 'Canada', false, 'https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg');

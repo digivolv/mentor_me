@@ -42,10 +42,7 @@ function MentorNew() {
 
     axios
       .post("http://localhost:8080/mentors/new", data)
-      .then((response) => {
-        // console.log("RESPONSE:", response);
-        console.log("Added user to mentor table!");
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log("ERROR:", err);
       });
