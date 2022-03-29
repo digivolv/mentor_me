@@ -7,6 +7,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TechCard from "./TechCard";
+import Avatar from "@mui/material/Avatar";
 
 const Img = styled("img")({
   margin: "auto",
@@ -42,7 +43,11 @@ function ListItem(props) {
               handleClick(props.id);
             }}
           >
-            <Img alt="complex" src={props.picture} />
+            <Avatar
+              alt="mentor picture"
+              src={props.picture}
+              sx={{ width: 110, height: 110 }}
+            />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
@@ -62,30 +67,32 @@ function ListItem(props) {
               </Typography>
             </Grid>
             <Grid item>
-              {/* Show list of expertise */}
               <TechCard user={props.id} />
-              {/* <TechCard specialties={props.specialties} /> */}
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle1" component="div">
-              Rate: ${props.price}
+            <Typography variant="body2" component="div">
+              Rate: ${props.price}/15mins
             </Typography>
+            <br />
+
             <Button
               variant="contained"
+              size="medium"
               onClick={() => {
                 handleClick(props.id);
               }}
             >
               View Profile
             </Button>
+
             <br />
             <br />
             <Button
               variant="contained"
+              size="medium"
               onClick={() => {
                 navigate(`/messages`);
-                handleClick(props.id);
               }}
             >
               Message

@@ -90,7 +90,6 @@ const NavBar = () => {
   let boxTwo;
 
   // If user is not logged in, show login + register options
-
   <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
     <MenuItem onClick={handleRegister}>
       <Typography textAlign="center">REGISTER</Typography>

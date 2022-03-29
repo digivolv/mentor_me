@@ -42,10 +42,7 @@ function MentorNew() {
 
     axios
       .post("http://localhost:8080/mentors/new", data)
-      .then((response) => {
-        // console.log("RESPONSE:", response);
-        console.log("Added user to mentor table!");
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log("ERROR:", err);
       });
@@ -54,10 +51,14 @@ function MentorNew() {
   };
 
   return (
-    <div>
+    <div className="newMentor">
       <NavBar />
       <div className="becomeMentor">
         <h1>Sign Up to be a Mentor</h1>
+        <i>
+          Are you interested in being a mentor? Let us know more about yourself
+          by filling out this application.
+        </i>
         <form id="becomeMentorForm" onSubmit={handleSubmit}>
           Job Title: <input type="text" name="jobTitle" />
           Years of Experience: <input type="number" name="experience" />

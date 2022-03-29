@@ -1,13 +1,11 @@
-let express = require("express");
-let path = require("path");
-let cookieParser = require("cookie-parser");
-let logger = require("morgan");
-require("dotenv").config();
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const cors = require("cors");
+require("dotenv").config();
 
 let app = express();
-
-// const { PORT, ENVIORONMENT } = process.env;
 
 const db = require("./configs/db.config");
 

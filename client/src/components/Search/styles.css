@@ -1,6 +1,7 @@
 .content {
   flex: 1;
   display: flex;
+  margin: 0 140px;
 }
 
 .filter-pane {
@@ -11,6 +12,5 @@
 
 .list-pane {
   flex: 1;
-  padding: 1rem;
   margin-right: 20px;
 }

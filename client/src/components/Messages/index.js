@@ -1,4 +1,4 @@
-import React, { user } from "react";
+import React from "react";
 import { ChatEngine } from "react-chat-engine";
 import NavBar from "../NavBar";
 
@@ -11,6 +11,7 @@ function Messages() {
         userName={localStorage.getItem("username")}
         userSecret={localStorage.getItem("password")}
         projectID={process.env.REACT_APP_CHAT_PROJECT_ID}
+        offset={-4}
       />
     </div>
   );

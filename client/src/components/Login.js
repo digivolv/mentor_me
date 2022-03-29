@@ -1,4 +1,3 @@
-// NOTE - This file needs work
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -26,7 +25,7 @@ function Login() {
     axios
       .post(`http://localhost:8080/login`, loginData)
       .then((res) => {
-        console.log("RESPONSE:", res.data);
+        // console.log("RESPONSE:", res.data);
         localStorage.setItem("userID", res.data[0].id);
         localStorage.setItem("isMentor", res.data[0].mentor);
         localStorage.setItem("userPic", res.data[0].picture);

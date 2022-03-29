@@ -4,9 +4,9 @@ import Slider from "@mui/material/Slider";
 
 function PriceSlider({ value, changePrice }) {
   return (
-    <Box sx={{ width: 300 }}>
+    <Box sx={{ width: 250 }}>
       <Slider
-        getAriaLabel={() => "Temperature range"}
+        getAriaLabel={() => "Price Range"}
         value={value}
         onChange={changePrice}
         valueLabelDisplay="on"

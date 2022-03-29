@@ -45,7 +45,7 @@ module.exports = (db) => {
     });
   });
   //:id needs to equal the variable set to req.params
-  router.put("/:id", async(req, res) => {
+  router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { job_title, price, years_of_experience } = req.body;
     console.log(req.body);
@@ -61,7 +61,7 @@ module.exports = (db) => {
     });
   });
 
-  // RK - Route to add user in mentor table, update users table, and expertise table
+  // Route to add user in mentor table, update users table, and expertise table
   router.post("/new", (req, res) => {
     const { user_id, job_title, years_of_experience, price, specialties } =
       req.body;
