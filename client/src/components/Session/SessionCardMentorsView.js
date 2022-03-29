@@ -15,6 +15,7 @@ import moment from "moment";
 
 const SessionCard = (props) => {
   const {
+    price,
     time,
     mentor_confirmed,
     format,
@@ -137,7 +138,9 @@ const SessionCard = (props) => {
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
-
+              <Typography gutterBottom variant="subtitle1" component="div">
+                Price: ${(price * (duration / 15)).toFixed(2)}
+              </Typography>
               <Grid item>
                 <Typography gutterBottom variant="subtitle1" component="div">
                   Review: {review}
@@ -197,7 +200,9 @@ const SessionCard = (props) => {
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
-
+              <Typography gutterBottom variant="subtitle1" component="div">
+                Price: ${(price * (duration / 15)).toFixed(2)}
+              </Typography>
               <Grid item>
                 <Typography gutterBottom variant="subtitle1" component="div">
                   Review: {review}
@@ -250,7 +255,9 @@ const SessionCard = (props) => {
               <Typography gutterBottom variant="subtitle1" component="div">
                 {`Duration: ${duration}`}
               </Typography>
-
+              <Typography gutterBottom variant="subtitle1" component="div">
+                Price: ${(price * (duration / 15)).toFixed(2)}
+              </Typography>
               <Grid item>
                 <Typography gutterBottom variant="subtitle1" component="div">
                   Review: {review}

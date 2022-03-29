@@ -158,6 +158,7 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCard
+                        price={user.price}
                         time={user.time}
                         mentor_confirmed={user.mentor_confirmed}
                         format={format}
@@ -186,6 +187,7 @@ function Session() {
                   return (
                     <Grid item xs={10} padding="10px">
                       <SessionCardMentorsView
+                        price={user.price}
                         time={user.time}
                         mentor_confirmed={user.mentor_confirmed}
                         format={format}
