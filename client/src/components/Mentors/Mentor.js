@@ -55,6 +55,7 @@ function Mentor(props) {
         // console.log("data!");
         setUsers(response.data);
         localStorage.setItem("mentorID", response.data[0].id)
+        localStorage.setItem("mentorName", response.data[0].name)
         console.log(response.data[0].id);
       })
       .catch((err) => {
