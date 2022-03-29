@@ -38,6 +38,12 @@
   text-align: center;
   padding: 30px;
   color: #6d7178;
+
+  background-image: url("https://static.vecteezy.com/system/resources/previews/002/119/782/original/laptop-and-hands-on-the-keyboard-the-concept-of-youtuber-or-programmer-workflow-for-website-coding-and-html-programming-of-web-application-flat-cartoon-design-style-modern-illustration-vector.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 20%;
+  background-position: 90% 85%;
 }
 
 .about p {

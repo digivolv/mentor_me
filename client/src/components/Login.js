@@ -4,10 +4,6 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import "./register.css";
 
-/// TESTING START ///
-
-/// TESTING END /////
-
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +25,7 @@ function Login() {
     axios
       .post(`http://localhost:8080/login`, loginData)
       .then((res) => {
-        console.log("RESPONSE:", res.data);
+        // console.log("RESPONSE:", res.data);
         localStorage.setItem("userID", res.data[0].id);
         localStorage.setItem("isMentor", res.data[0].mentor);
         localStorage.setItem("userPic", res.data[0].picture);
