@@ -135,7 +135,7 @@ const SessionCard = (props) => {
                 {`Time: ${moment(time).format("LTS")}`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Duration: ${duration}`}
+                {`Duration: ${duration} minutes`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 Price: ${(price * (duration / 15)).toFixed(2)}
@@ -197,7 +197,7 @@ const SessionCard = (props) => {
                 {`Time: ${moment(time).format("LTS")}`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Duration: ${duration}`}
+                {`Duration: ${duration} minutes`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 Price: ${(price * (duration / 15)).toFixed(2)}
@@ -252,7 +252,7 @@ const SessionCard = (props) => {
                 {`Time: ${moment(time).format("LTS")}`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {`Duration: ${duration}`}
+                {`Duration: ${duration} minutes`}
               </Typography>
               <Typography gutterBottom variant="subtitle1" component="div">
                 Price: ${(price * (duration / 15)).toFixed(2)}
