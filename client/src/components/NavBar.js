@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
   const user_id = localStorage.getItem("userID");
@@ -26,13 +26,21 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const [pendingSessionCount, setPendingSessionsCount] = React.useState([]);
-
+  const [userData, setUserData] = useState(user_id);
+  const [menteePendingSessionCount, setMenteePendingSessionsCount] = useState(
+    []
+  );
   const isMentor = localStorage.getItem("isMentor");
   const handleNotification = () => {
     navigate(`/users/${user_id}/sessions`);
   };
 
   useEffect(() => {
+    axios.get(`http://localhost:8080/users/${user_id}`).then((response) => {
+      console.log("data!");
+      setUserData(response.data[0]);
+      console.log(response.data[0]);
+    });
     axios
       .get(`http://localhost:8080/users/${user_id}/mentor_confirmed/`)
       .then((response) => {
@@ -41,6 +49,18 @@ const NavBar = () => {
         let count = response.data[0].count;
         setPendingSessionsCount(count);
         console.log(count, "count");
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+    axios
+      .get(`http://localhost:8080/users/${user_id}/mentee_confirmed/`)
+      .then((response) => {
+        console.log("data!");
+        //Loop through session data to see if there are any unconfirmed mentor sessions with corresponding userID
+        let menteeCount = response.data[0].count;
+        setMenteePendingSessionsCount(menteeCount);
       })
       .catch((err) => {
         console.log("error!");
@@ -254,9 +274,10 @@ const NavBar = () => {
           {isMentor && (
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
               <Button variant="contained" onClick={handleNotification}>
-                {pendingSessionCount === 0 && pendingSessionCount}
-                {pendingSessionCount > 0 && pendingSessionCount} pending
-                sessions
+                {userData.mentor === true
+                  ? pendingSessionCount
+                  : menteePendingSessionCount}{" "}
+                pending sessions
               </Button>
             </Box>
           )}

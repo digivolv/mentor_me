@@ -34,6 +34,9 @@ function Session() {
   const [mentorSessions, setMentorSessions] = useState([]);
   const [userData, setUserData] = useState(id);
   const [pendingSessionCount, setPendingSessionsCount] = useState([]);
+  const [menteePendingSessionCount, setMenteePendingSessionsCount] = useState(
+    []
+  );
   const [alignment, setAlignment] = useState("completed");
   const [format, setFormat] = useState("completed");
 
@@ -69,9 +72,21 @@ function Session() {
         let count = response.data[0].count;
         setPendingSessionsCount(count);
         console.log(count, "count");
-        const initialFormat = count > 0 ? "pending" : "completed";
+        // const initialFormat = count > 0 ? "pending" : "completed";
 
-        setAlignment(initialFormat);
+        // setAlignment(initialFormat);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
+    axios
+      .get(`http://localhost:8080/users/${id}/mentee_confirmed/`)
+      .then((response) => {
+        console.log("data!");
+        //Loop through session data to see if there are any unconfirmed mentor sessions with corresponding userID
+        let menteeCount = response.data[0].count;
+        setMenteePendingSessionsCount(menteeCount);
       })
       .catch((err) => {
         console.log("error!");
@@ -123,7 +138,10 @@ function Session() {
             <ToggleButton value="completed">Completed</ToggleButton>
             <ToggleButton value="upcoming">Upcoming</ToggleButton>
             <ToggleButton value="pending">
-              Pending ({pendingSessionCount})
+              Pending{" "}
+              {userData.mentor === true
+                ? pendingSessionCount
+                : menteePendingSessionCount}
             </ToggleButton>
           </ToggleButtonGroup>
           {/* <ToggleButtonGroup
@@ -152,34 +170,32 @@ function Session() {
             <Grid item xs={12} sm container>
               {!userData.mentor && (
                 <Grid item xs={12}>
-              
                   <Typography variant="h3">Mentee Sessions</Typography>
                 </Grid>
               )}
               {!userData.mentor &&
                 menteeSessions.map((user) => {
                   return (
-                      <SessionCard
-                        price={user.price}
-                        time={user.time}
-                        mentor_confirmed={user.mentor_confirmed}
-                        format={format}
-                        session_id={user.id}
-                        mentor_id={user.mentor_id}
-                        mentee_id={user.mentee_id}
-                        mentee_name={user.mentee_name}
-                        mentor_name={user.mentor_name}
-                        date={user.date}
-                        duration={user.duration}
-                        rating={user.rating}
-                        review={user.description}
-                        picture={user.picture}
-                      />
+                    <SessionCard
+                      price={user.price}
+                      time={user.time}
+                      mentor_confirmed={user.mentor_confirmed}
+                      format={format}
+                      session_id={user.id}
+                      mentor_id={user.mentor_id}
+                      mentee_id={user.mentee_id}
+                      mentee_name={user.mentee_name}
+                      mentor_name={user.mentor_name}
+                      date={user.date}
+                      duration={user.duration}
+                      rating={user.rating}
+                      review={user.description}
+                      picture={user.picture}
+                    />
                   );
                 })}{" "}
               {userData.mentor && (
                 <Grid item xs={12}>
-               
                   <Typography variant="h3">Mentor Sessions</Typography>
                 </Grid>
               )}
@@ -187,22 +203,22 @@ function Session() {
                 mentorSessions.map((user) => {
                   return (
                     // <Grid item xs={10} padding="10px">
-                      <SessionCardMentorsView
-                        price={user.price}
-                        time={user.time}
-                        mentor_confirmed={user.mentor_confirmed}
-                        format={format}
-                        session_id={user.id}
-                        mentor_id={user.mentor_id}
-                        mentee_id={user.mentee_id}
-                        mentee_name={user.mentee_name}
-                        mentor_name={user.mentor_name}
-                        date={user.date}
-                        duration={user.duration}
-                        rating={user.rating}
-                        review={user.description}
-                        picture={user.picture}
-                      />
+                    <SessionCardMentorsView
+                      price={user.price}
+                      time={user.time}
+                      mentor_confirmed={user.mentor_confirmed}
+                      format={format}
+                      session_id={user.id}
+                      mentor_id={user.mentor_id}
+                      mentee_id={user.mentee_id}
+                      mentee_name={user.mentee_name}
+                      mentor_name={user.mentor_name}
+                      date={user.date}
+                      duration={user.duration}
+                      rating={user.rating}
+                      review={user.description}
+                      picture={user.picture}
+                    />
                   );
                 })}{" "}
             </Grid>
