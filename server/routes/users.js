@@ -304,7 +304,21 @@ module.exports = (db) => {
       `SELECT COUNT(*)
       FROM sessions
       WHERE mentor_id = $1
-      OR mentee_id = $1
+      AND mentor_confirmed IS FALSE
+     `,
+      [user_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
+  //COUNT of all sessions where mentee_confirmed
+  router.get("/:user_id/mentee_confirmed", (req, res) => {
+    const { user_id } = req.params;
+    db.query(
+      `SELECT COUNT(*)
+      FROM sessions
+      WHERE mentee_id = $1
       AND mentor_confirmed IS FALSE
      `,
       [user_id]
