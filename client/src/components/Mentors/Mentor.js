@@ -29,11 +29,13 @@ import "./Mentor.css"
 const drawerWidth = 240;
 
 function Mentor(props) {
-  const FavouriteComponent = props.favouriteComponent
-  const { window, users, setUsers, favourite } = props;
+
+  const { window, users, setUsers } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [rating, setRating] = useState('')
   const [style, setStyle] = useState("");
+  const [favourites, setFavourites] = useState([])
+  
   // const [mentor, setMentor] = useState([]);
   let { id } = useParams();
 
@@ -49,6 +51,29 @@ function Mentor(props) {
     navigate(`/users/${localStorage.userID}/form`);
   }
   useEffect(() => {
+    axios
+      .get(`http://localhost:8080/favourites`)
+      .then((response) => {
+        // console.log("data!");
+        setFavourites(response.data);
+        //we want to check that if mentor id from get request equals the id from params, the style of heart will be set to red
+        const mentorid = response.data.find((item) => {
+          return item.mentor_id === parseInt(id)
+        })
+        const menteeid = response.data.find((item) => {
+          return item.mentee_id === localStorage.userID
+        })
+        if (mentorid && menteeid) {
+          setStyle("heart-icon-red")
+        } else {
+          setStyle("")
+        }
+        console.log(response.data, id);
+      })
+      .catch((err) => {
+        console.log("error!");
+        console.log(err);
+      });
     axios
       .get(`http://localhost:8080/mentors/${id}`)
       .then((response) => {
@@ -96,7 +121,7 @@ const onSubmitForm = async (event) => {
       });
   } else {
     axios
-      .delete(`http://localhost:8080/favourites`, {
+      .delete(`http://localhost:8080/favourites/${localStorage.userID}/${localStorage.mentorID}`, {
         data: {
           mentee_id: localStorage.userID,
           mentor_id: localStorage.mentorID

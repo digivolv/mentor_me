@@ -69,9 +69,9 @@ function Session() {
         let count = response.data[0].count;
         setPendingSessionsCount(count);
         console.log(count, "count");
-        const initialFormat = count > 0 ? "pending" : "completed";
+        // const initialFormat = count > 0 ? "pending" : "completed";
 
-        setAlignment(initialFormat);
+        // setAlignment(initialFormat);
       })
       .catch((err) => {
         console.log("error!");
