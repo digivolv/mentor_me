@@ -10,6 +10,17 @@ module.exports = (db) => {
     });
   });
 
+  router.delete("/:mentee_id/:mentor_id", (req, res) => {
+    const {mentee_id, mentor_id} = req.params;
+    db.query(
+      `DELETE FROM favourites
+        WHERE mentee_id = $1
+        AND mentor_id = $2`, [mentee_id, mentor_id]
+    ).then((data) => {
+      res.json(data.rows);
+    });
+  });
+
   router.get("/:id", (req, res) => {
     const { id } = req.params;
     const command = `
