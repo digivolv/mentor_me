@@ -2,7 +2,7 @@
 
 Mentor Me is a web app designed to connect users with mentors who can assist with coding-related questions. Users have the ability to either find a mentor or be a mentor themselves. Mentors can offer their services based on the technologies that they specialize in. Mentees have the ability to search for mentors, favourite mentors, chat with a mentor, and book sessions/appointments.
 
-My teammates for this project include Jaeyoung Kim (https://github.com/jaeykimmy) and Edwin Ly (https://github.com/digivolv)
+My teammates for this project include Jaeyoung Kim (https://github.com/jaeykimmy) and Rosemary Ku (https://github.com/rosemaryku)
 
 ## Tech Stack
 
