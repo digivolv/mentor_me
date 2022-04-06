@@ -134,10 +134,12 @@ function MenteeForm() {
             // setMentorId={setMentorId}
             // getFormName={(formName) => setFormName(formName)}
           /> */}
-          <DropDownDuration duration={duration} setDuration={setDuration} />
-          <DatePicker date={date} setDate={setDate} />
-
-          <TimePicker time={time} setTime={setTime} />
+              <DropDownDuration duration={duration} setDuration={setDuration} />
+              <br></br>
+              <DatePicker date={date} setDate={setDate} />
+              <br></br>
+              <TimePicker time={time} setTime={setTime} />
+              <br></br>
           <Button type="submit" variant="contained">
             Submit
           </Button>
