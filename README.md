@@ -6,7 +6,7 @@ My teammates for this project include Jaeyoung Kim (https://github.com/jaeykimmy
 
 ## Tech Stack
 
-- React.js
+- React
 - Node
 - Express
 - PostgreSQL
