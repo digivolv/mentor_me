@@ -65,9 +65,7 @@ function Mentor(props) {
         })
         if (mentorid && menteeid) {
           setStyle("heart-icon-red")
-        } else {
-          setStyle("")
-        }
+        } 
         console.log(response.data, id);
       })
       .catch((err) => {

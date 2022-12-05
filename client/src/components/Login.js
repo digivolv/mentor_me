@@ -29,8 +29,12 @@ function Login() {
         localStorage.setItem("userID", res.data[0].id);
         localStorage.setItem("isMentor", res.data[0].mentor);
         localStorage.setItem("userPic", res.data[0].picture);
+        navigate(`/`);
+        setError("");
       })
-      .catch((error) => console.log("ERROR:", error));
+      .catch(() => {
+        setError("Error, wrong username or password.");
+      });
 
     // Post request to chat engine to set user
     const authObject = {
@@ -50,7 +54,7 @@ function Login() {
         navigate(`/`);
         setError("");
       })
-      .catch((error) => {
+      .catch(() => {
         setError("Error, wrong username or password.");
       });
   };

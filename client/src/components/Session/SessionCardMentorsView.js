@@ -275,7 +275,8 @@ const SessionCard = (props) => {
               </Typography>
               <Button onClick={onClickConfirmSession} variant="contained">
                 Confirm Session
-              </Button>
+            </Button>
+            <br></br>
               <Button onClick={onClickDeleteSession} variant="contained">
                 Delete Session
               </Button>

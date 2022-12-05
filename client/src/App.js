@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import MentorView
 import Home from "./components/Home";
@@ -14,12 +14,11 @@ import MentorView from "./components/Mentors/MentorView";
 import MenteeForm from "./components/Forms/MenteeForm";
 import Messages from "./components/Messages";
 import Calendar from "./components/Calendar";
-import Favourites from "./components/Favourites/"
+import Favourites from "./components/Favourites/";
 import MentorNew from "./components/Mentors/MentorNew";
 
 function App() {
   const [users, setUsers] = useState([]);
-  
 
   return (
     <BrowserRouter>
@@ -38,13 +37,7 @@ function App() {
 
         <Route
           path="/mentors/:id"
-          element={
-            <Mentor
-              users={users}
-              setUsers={setUsers}
-              
-            />
-          }
+          element={<Mentor users={users} setUsers={setUsers} />}
         />
 
         <Route path="/mentors" element={<Mentors />} />

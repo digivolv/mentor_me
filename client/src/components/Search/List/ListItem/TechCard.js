@@ -20,7 +20,7 @@ function TechCard(props) {
     <div>
       {expertise.map((el) => {
         return (
-          props.user == el.user_id && (
+          props.user === el.user_id && (
             <span className="tech-card">{el.specialty}</span>
           )
         );

@@ -20,6 +20,8 @@ export default function Favourites() {
       <h1>Favourites</h1>
       {favourites.map((favourite) => {
         return (
+          <>
+          <br></br>
           <FavouriteMentor
             mentor_name={favourite.name}
             picture={favourite.picture}
@@ -28,6 +30,8 @@ export default function Favourites() {
             city={favourite.city}
             mentor_id={favourite.mentor_id}
               />
+            <br></br>
+            </>
         )
       })}
       </>
